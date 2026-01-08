@@ -1,0 +1,567 @@
+<!-- Logo -->
+    <a href="index.html" class="logo">re:aryan</a>
+
+    <!-- Navigation Sidebar -->
+    <nav class="nav-sidebar">
+        <a href="projects.html" class="nav-btn">Selected Work</a>
+        <a href="resume.html" class="nav-btn highlight">Resume</a>
+        <a href="future.html" class="nav-btn">On Future/Space</a>
+        <a href="bookshelf.html" class="nav-btn">Bookshelf</a>
+        <a href="index.html#contact" class="nav-btn">Get in Touch</a>
+    </nav><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume - Aryan Bhardwaj</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+
+
+        /* Logo & Navigation - Transparent on scroll */
+        .logo {
+            position: fixed;
+            left: 2rem;
+            top: 2rem;
+            z-index: 1000;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #ffffff;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            opacity: 0.7;
+        }
+
+        .logo.scrolled {
+            opacity: 0.1;
+        }
+
+        /* Navigation */
+        .nav-sidebar {
+            position: fixed;
+            right: 2rem;
+            top: 2rem;
+            z-index: 1000;
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .nav-sidebar.scrolled {
+            opacity: 0.1;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            padding: 0.75rem 1.5rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-btn:hover {
+            color: #cccccc;
+        }
+
+        .nav-btn.highlight {
+            border: 2px solid #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.75rem 1.5rem;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        /* Download Button */
+        .download-btn {
+            display: inline-block;
+            background: transparent;
+            border: 2px solid #ffffff;
+            color: #ffffff;
+            padding: 1rem 2rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .download-btn:hover {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        .download-section {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        /* Header */
+        .resume-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #333333;
+        }
+
+        .resume-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .contact-info {
+            font-size: 1.1rem;
+            color: #cccccc;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-info a {
+            color: #cccccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: #ffffff;
+        }
+
+        /* Section Styles */
+        .resume-section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            width: 3rem;
+            height: 2px;
+            background: #ffffff;
+        }
+
+        /* Experience & Education Items */
+        .experience-item, .education-item {
+            margin-bottom: 3rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid #333333;
+            position: relative;
+        }
+
+        .experience-item::before, .education-item::before {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: 0;
+            width: 8px;
+            height: 8px;
+            background: #ffffff;
+            border-radius: 50%;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .job-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .job-date {
+            font-size: 1rem;
+            color: #888888;
+            font-weight: 400;
+        }
+
+        .company-location {
+            font-size: 1.1rem;
+            color: #cccccc;
+            margin-bottom: 1rem;
+        }
+
+        .job-description {
+            list-style: none;
+        }
+
+        .job-description li {
+            color: #cccccc;
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .job-description li::before {
+            content: '★';
+            position: absolute;
+            left: 0;
+            color: #666666;
+        }
+
+        /* Projects */
+        .project-item {
+            margin-bottom: 2.5rem;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .project-date {
+            font-size: 1rem;
+            color: #888888;
+        }
+
+        .project-tech {
+            font-size: 0.9rem;
+            color: #999999;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .project-description {
+            list-style: none;
+        }
+
+        .project-description li {
+            color: #cccccc;
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .project-description li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #666666;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border: 1px solid #333333;
+        }
+
+        .skill-category-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .skill-list {
+            color: #cccccc;
+            line-height: 1.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .nav-sidebar {
+                right: 1rem;
+                gap: 1rem;
+            }
+
+            .nav-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-sidebar {
+                flex-direction: column;
+                gap: 0.5rem;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .logo {
+                left: 1rem;
+                font-size: 1.2rem;
+            }
+
+            .container {
+                padding: 6rem 1rem 2rem;
+            }
+
+            .resume-title {
+                font-size: 2.5rem;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .job-header, .project-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Download Button Top -->
+        <div class="download-section">
+            <a href="assets/Aryan_Bhardwaj_Resume.pdf" class="download-btn" target="_blank">
+                ↓ Download PDF Resume
+            </a>
+        </div>
+
+
+
+        <!-- Professional Experience -->
+        <section class="resume-section">
+            <h2 class="section-title">Professional Experience</h2>
+            
+            <div class="experience-item">
+                <div class="job-header">
+                    <div class="job-title">Data and Growth Consultant</div>
+                    <div class="job-date">Mar. 2025– Present</div>
+                </div>
+                <div class="company-location">The Tao of Tea | Portland, OR</div>
+                <ul class="job-description">
+                    <li>Led market development initiatives and campaigns for Tao, driving brand growth and audience engagement.</li>
+                    <li>Streamlined business processes and led data initiatives using Python and SQL, improving accuracy and enabling more informed decision-making across operations.</li>
+                    <li>Worked directly with the CEO on high-priority strategic projects, including business operations optimization market performance analysis.</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="job-header">
+                    <div class="job-title">Chief of Staff</div>
+                    <div class="job-date">Jan. 2025– May 2025</div>
+                </div>
+                <div class="company-location">Stealth Startup | Remote</div>
+                <ul class="job-description">
+                    <li>Aligned projects with company goals by collaborating with founders and teams, improving team efficiency by 21%.</li>
+                    <li>Optimized workflows using SaaS tools, no-code platforms, and GenAI, launching the company website in 2 weeks.</li>
+                    <li>Built a SaaS hiring tool, cutting time-to-hire by 40% and boosting candidate quality by 28%.</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="job-header">
+                    <div class="job-title">Data Science Intern</div>
+                    <div class="job-date">Dec. 2024– Mar. 2025</div>
+                </div>
+                <div class="company-location">TRUTRIP USA | Remote</div>
+                <ul class="job-description">
+                    <li>Built data pipelines and governance frameworks for U.S. expansion, enabling scalable analytics initiatives.</li>
+                    <li>Influenced a 15% customer retention increase by presenting market trend analysis to leadership.</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="job-header">
+                    <div class="job-title">Graduate Research Assistant</div>
+                    <div class="job-date">May 2023– May 2024</div>
+                </div>
+                <div class="company-location">Willamette University | Salem, OR</div>
+                <ul class="job-description">
+                    <li>Identified a 20% rise in renewable energy adoption from CSR/ESG reports, shaping sustainability policies.</li>
+                    <li>Assessed ESG impact on corporate reputation, co-authoring data-backed research recommendations.</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="job-header">
+                    <div class="job-title">Consultant</div>
+                    <div class="job-date">Jan. 2023– May 2023</div>
+                </div>
+                <div class="company-location">Joie Energy | Salem, OR</div>
+                <ul class="job-description">
+                    <li>Improved decision-making by analyzing consumer/market data, uncovering inefficiencies in pricing strategy.</li>
+                    <li>Aligned data solutions with business goals through cross-functional team collaboration.</li>
+                    <li>Conducted in-depth analysis to uncover trends, leading to the identification of 2 new business opportunities.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Education -->
+        <section class="resume-section">
+            <h2 class="section-title">Education</h2>
+            
+            <div class="education-item">
+                <div class="job-header">
+                    <div class="job-title">Master of Science in Data Science</div>
+                </div>
+                <div class="company-location">Willamette University</div>
+            </div>
+
+            <div class="education-item">
+                <div class="job-header">
+                    <div class="job-title">Master of Business Administration</div>
+                </div>
+                <div class="company-location">Willamette University</div>
+            </div>
+
+            <div class="education-item">
+                <div class="job-header">
+                    <div class="job-title">Bachelor of Arts (Honors)</div>
+                </div>
+                <div class="company-location">Doon University</div>
+            </div>
+        </section>
+
+
+
+        <!-- Skills -->
+        <section class="resume-section">
+            <h2 class="section-title">Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3 class="skill-category-title">Programming</h3>
+                    <div class="skill-list">Python, R, SQL (Postgres)</div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3 class="skill-category-title">Tools</h3>
+                    <div class="skill-list">Git, Docker, GCP, VS Code, Cursor, Postgres, Jupyter Notebook, Excel, Tableau, Hugging Face, Google Colab</div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3 class="skill-category-title">Libraries</h3>
+                    <div class="skill-list">Pandas, Polars, NumPy, Matplotlib, Scikit-learn, Seaborn, TensorFlow, Keras, PyTorch</div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3 class="skill-category-title">Techniques</h3>
+                    <div class="skill-list">Machine Learning, Deep Learning, NLP, Predictive Analytics, Statistical Analysis, Data Visualization</div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3 class="skill-category-title">Professional Skills</h3>
+                    <div class="skill-list">Cross-Functional Collaboration, Stakeholder Management, Problem-Solving, Business Strategy, Reporting</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Download Button Bottom -->
+        <div class="download-section">
+            <a href="assets/Aryan_Bhardwaj_Resume.pdf" class="download-btn" target="_blank">
+                ↓ Download PDF Resume
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Header transparency on scroll - Fixed
+        window.addEventListener('scroll', function() {
+            const logo = document.querySelector('.logo');
+            const nav = document.querySelector('.nav-sidebar');
+            const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollY > 100) {
+                logo.classList.add('scrolled');
+                nav.classList.add('scrolled');
+            } else {
+                logo.classList.remove('scrolled');
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

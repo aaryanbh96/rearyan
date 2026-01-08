@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookshelf - Aryan Bhardwaj</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Video Background - Fixed */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            transform: translate(-50%, -50%);
+            object-fit: contain; /* Changed from cover to contain to maintain aspect ratio */
+        }
+
+        /* Fallback for browsers that don't support object-fit */
+        @supports not (object-fit: contain) {
+            .video-background video {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        /* Home Button with Fade Effect */
+        .home-button {
+            position: fixed;
+            top: 50px;
+            left: 50px;
+            z-index: 1000;
+            color: white;
+            font-size: 30px;
+            font-weight: 700;
+            text-decoration: none;
+            font-family: 'Space Grotesk', sans-serif;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .home-button.faded {
+            opacity: 0.2;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #333;
+            padding-bottom: 0.5rem;
+        }
+
+        .item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 3px solid #666;
+            transition: all 0.3s ease;
+        }
+
+        .item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .item-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-author {
+            color: #ccc;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .item-year {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .item a {
+            color: #64c8ff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .item a:hover {
+            color: #ffffff;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 6rem 1rem 2rem;
+            }
+            
+            .content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .home-button {
+                top: 30px;
+                left: 30px;
+                font-size: 24px;
+            }
+        }
+
+        /* Additional mobile video fixes */
+        @media (max-width: 768px) {
+            .video-background video {
+                width: 100%;
+                height: 100%;
+                object-fit: contain; /* Ensure consistent behavior on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+    // Function to load header and footer
+    async function loadComponents() {
+        try {
+            // Load header
+            const headerResponse = await fetch('header.html');
+            const headerHTML = await headerResponse.text();
+            document.getElementById('header-placeholder').innerHTML = headerHTML;
+            
+            // Load footer
+            const footerResponse = await fetch('footer.html');
+            const footerHTML = await footerResponse.text();
+            document.getElementById('footer-placeholder').innerHTML = footerHTML;
+        } catch (error) {
+            console.error('Error loading components:', error);
+        }
+    }
+
+    // Function to handle scroll fade effect
+    function handleScrollFade() {
+        const homeButton = document.querySelector('.home-button');
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > 100) {
+            homeButton.classList.add('faded');
+        } else {
+            homeButton.classList.remove('faded');
+        }
+    }
+
+    // Load components and setup when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        loadComponents();
+        
+        // Ensure video plays
+        const video = document.querySelector('.video-background video');
+        if (video) {
+            video.play().catch(e => console.log('Video autoplay failed:', e));
+        }
+
+        // Add scroll event listener for fade effect
+        window.addEventListener('scroll', handleScrollFade);
+    });
+    </script>
+
+    <!-- Header -->
+    <div id="header-placeholder"></div>
+
+    <!-- Home Button -->
+    <a href="index.html" class="home-button">re:aryan</a>
+
+    <!-- Video Background -->
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="assets/videos/background_lib.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="video-overlay"></div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1 class="page-title">Bookshelf</h1>
+        
+        <div class="content">
+            <!-- Papers Section -->
+            <div class="papers-section">
+                <h2 class="section-title">Papers</h2>
+                
+                <div class="item">
+                    <div class="item-title"><a href="https://arxiv.org/abs/1706.03762" target="_blank">Attention Is All You Need</a></div>
+                    <div class="item-author">Vaswani, A., et al.</div>
+                    <div class="item-year">2017</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title"><a href="https://arxiv.org/abs/1512.03385" target="_blank">Deep Residual Learning for Image Recognition</a></div>
+                    <div class="item-author">He, K., et al.</div>
+                    <div class="item-year">2016</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title"><a href="https://arxiv.org/abs/1406.2661" target="_blank">Generative Adversarial Networks</a></div>
+                    <div class="item-author">Goodfellow, I., et al.</div>
+                    <div class="item-year">2014</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title"><a href="https://arxiv.org/abs/1810.04805" target="_blank">BERT: Pre-training of Deep Bidirectional Transformers</a></div>
+                    <div class="item-author">Devlin, J., et al.</div>
+                    <div class="item-year">2018</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title"><a href="https://arxiv.org/abs/2005.14165" target="_blank">Language Models are Few-Shot Learners</a></div>
+                    <div class="item-author">Brown, T., et al.</div>
+                    <div class="item-year">2020</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title"><a href="https://arxiv.org/abs/1603.02754" target="_blank">XGBoost: A Scalable Tree Boosting System</a></div>
+                    <div class="item-author">Chen, T., & Guestrin, C.</div>
+                    <div class="item-year">2016</div>
+                </div>
+            </div>
+
+            <!-- Books Section -->
+            <div class="books-section">
+                <h2 class="section-title">Books</h2>
+                
+                <div class="item">
+                    <div class="item-title">Hands-On Machine Learning</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">The Elements of Statistical Learning</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">Deep Learning</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">Designing Data-Intensive Applications</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">The Lean Startup</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">Thinking, Fast and Slow</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">The Innovator's Dilemma</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">Python for Data Analysis</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

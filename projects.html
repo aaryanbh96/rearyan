@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selected Work - Aryan Bhardwaj</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Video Background - Fixed */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            transform: translate(-50%, -50%);
+            object-fit: contain;
+        }
+
+        /* Fallback for browsers that don't support object-fit */
+        @supports not (object-fit: contain) {
+            .video-background video {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        /* Home Button with Fade Effect */
+        .home-button {
+            position: fixed;
+            top: 50px;
+            left: 50px;
+            z-index: 1000;
+            color: white;
+            font-size: 30px;
+            font-weight: 700;
+            text-decoration: none;
+            font-family: 'Space Grotesk', sans-serif;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .home-button.faded {
+            opacity: 0.2;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+        }
+
+        .wip-message {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #ccc;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-left: 3px solid #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 6rem 1rem 2rem;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .home-button {
+                top: 30px;
+                left: 30px;
+                font-size: 24px;
+            }
+
+            .wip-message {
+                font-size: 1.2rem;
+                padding: 1.5rem;
+            }
+        }
+
+        /* Additional mobile video fixes */
+        @media (max-width: 768px) {
+            .video-background video {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+    // Function to load header and footer
+    async function loadComponents() {
+        try {
+            // Load header
+            const headerResponse = await fetch('header.html');
+            const headerHTML = await headerResponse.text();
+            document.getElementById('header-placeholder').innerHTML = headerHTML;
+            
+            // Load footer
+            const footerResponse = await fetch('footer.html');
+            const footerHTML = await footerResponse.text();
+            document.getElementById('footer-placeholder').innerHTML = footerHTML;
+        } catch (error) {
+            console.error('Error loading components:', error);
+        }
+    }
+
+    // Function to handle scroll fade effect
+    function handleScrollFade() {
+        const homeButton = document.querySelector('.home-button');
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > 100) {
+            homeButton.classList.add('faded');
+        } else {
+            homeButton.classList.remove('faded');
+        }
+    }
+
+    // Load components and setup when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        loadComponents();
+        
+        // Ensure video plays
+        const video = document.querySelector('.video-background video');
+        if (video) {
+            video.play().catch(e => console.log('Video autoplay failed:', e));
+        }
+
+        // Add scroll event listener for fade effect
+        window.addEventListener('scroll', handleScrollFade);
+    });
+    </script>
+
+    <!-- Header -->
+    <div id="header-placeholder"></div>
+
+    <!-- Home Button -->
+    <a href="index.html" class="home-button">re:aryan</a>
+
+    <!-- Video Background -->
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="assets/videos/work_in_progress.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="video-overlay"></div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1 class="page-title">Selected Work</h1>
+        <div class="wip-message">Work in Progress</div>
+    </div>
+</body>
+</html>

@@ -196,6 +196,41 @@
     }
 
     </style>
+    <style>
+        /* ═══ UNIFIED MOBILE PATCH (applies last, wins cascade) ═══ */
+        video, .video-overlay, .hero-video {
+            pointer-events: none !important;
+            -webkit-touch-callout: none !important;
+            -webkit-user-select: none !important;
+            user-select: none !important;
+        }
+        @media (max-width: 768px) {
+            .nav-sidebar {
+                position: fixed !important; top: auto !important;
+                bottom: 0.75rem !important; left: 0.75rem !important; right: 0.75rem !important;
+                transform: none !important;
+                display: flex !important; flex-direction: row !important; flex-wrap: wrap !important;
+                justify-content: center !important; align-items: center !important; gap: 0.25rem !important;
+                background: rgba(10,10,10,0.92) !important;
+                backdrop-filter: blur(10px) !important; -webkit-backdrop-filter: blur(10px) !important;
+                padding: 0.45rem 0.5rem !important;
+                border: 1px solid #2a2a2a !important; border-radius: 6px !important;
+                z-index: 1000 !important;
+            }
+            .nav-btn {
+                padding: 0.35rem 0.55rem !important; font-size: 0.72rem !important;
+                border: none !important; background: transparent !important;
+                white-space: nowrap !important; margin: 0 !important;
+            }
+            .logo { left: 1rem !important; top: 1rem !important; font-size: 1.1rem !important; }
+            body { padding-bottom: 5.5rem !important; }
+            .container { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+            .page-title { font-size: 2.2rem !important; }
+            .section-title { font-size: 1.6rem !important; }
+            .shelf-intro { font-size: 0.95rem !important; }
+        }
+    </style>
+
 
         <!-- Logo -->
     <a href="index.html" class="logo">re:aryan</a>

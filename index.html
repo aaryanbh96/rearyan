@@ -9,6 +9,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
     
+<script>
+        // Pre-paint intro skip: runs before first render, no flash
+        if (sessionStorage.getItem('introPlayed') === 'true' || location.hash) {
+            document.documentElement.classList.add('skip-intro');
+        }
+    </script>
+    <style>
+        .skip-intro .loading-screen { display: none !important; }
+        .skip-intro .main-content { opacity: 1 !important; transition: none !important; }
+    </style>
     <style>
         /* CSS Reset & Base Styles */
         * {
@@ -38,7 +48,7 @@
             height: 100vh;
             background: #000000;
             z-index: 9999;
-            display: flex;
+            display: flex; /* RE-ENABLED */
             align-items: center;
             justify-content: center;
             font-family: 'JetBrains Mono', monospace;
@@ -51,8 +61,8 @@
         }
 
         .colon {
-            opacity: 0;
-            animation: blink 0.2s infinite;
+            opacity: 1;
+            animation: blink 0.15s infinite;
         }
 
         @keyframes blink {
@@ -61,8 +71,8 @@
         }
 
         .main-content {
-            opacity: 0;
-            transition: opacity 0.8s ease-in-out;
+            opacity: 0; /* Hidden initially */
+            transition: opacity 0.5s ease-in-out;
         }
 
         .main-content.visible {
@@ -281,6 +291,52 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+
+        /* Flagship case study card */
+        .project-card.flagship {
+            grid-column: 1 / -1;
+            border: 1px solid rgba(255,255,255,0.25);
+        }
+
+        .flagship-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            opacity: 0.6;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .pipeline {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            margin: 1.25rem 0 0.5rem 0;
+            opacity: 0.85;
+        }
+
+        .pipeline span.step {
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 0.35rem 0.7rem;
+            border-radius: 2px;
+            white-space: nowrap;
+        }
+
+        .pipeline span.arrow { opacity: 0.45; }
+
+        .research-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            opacity: 0.5;
+            margin: 3rem 0 1rem 0;
+            grid-column: 1 / -1;
         }
 
         .about-text {
@@ -574,7 +630,7 @@
         <nav class="nav-sidebar">
             <a href="projects.html" class="nav-btn">Selected Work</a>
             <a href="resume.html" class="nav-btn">Resume</a>
-            <a href="future.html" class="nav-btn">On Future/Space</a>
+            <a href="future.html" class="nav-btn">Thoughts</a>
             <a href="bookshelf.html" class="nav-btn">Bookshelf</a>
             <a href="#contact" class="nav-btn highlight">Get in Touch</a>
         </nav>
@@ -589,7 +645,7 @@
             <div class="container">
                 <h1 class="hero-title">Aryan Bhardwaj</h1>
                 <p class="hero-description">
-                    Data-driven systems thinker + strategic operator with an MBA and MS in Data Science, blending business insight and technical acumen. Passionate about solving complex problems at the intersection of strategy, analytics, and innovation.
+                    Operator who builds. I work across operations, data, and strategy — running a manufacturer’s revenue channels, shipping the software that automates its warehouse, and working the founder’s special projects. MBA + MS Data Science.
                 </p>
             </div>
         </section>
@@ -599,22 +655,30 @@
             <div class="container">
                 <h2 class="section-title">Selected Work</h2>
                 <div class="projects-grid">
-                    <div class="project-card" onclick="window.location.href='projects.html#project1'">
-                        <div class="project-image">
-                            <img src="assets/images/projects/ddia.png" alt="Neural Network Optimizer" onerror="this.parentElement.innerHTML='[Project Image]'">
+                    <div class="project-card flagship" onclick="window.location.href='projects.html'">
+                        <div class="flagship-tag">Flagship · Case Study</div>
+                        <h3 class="project-title">The Tao of Tea Operations Suite</h3>
+                        <p class="project-description">
+                            Automating a warehouse, end to end. I joined a specialty tea manufacturer and found an order-to-ship workflow running on manual effort — POs retyped by hand, cartons packed by guesswork, labels written one at a time. Nobody asked me to fix it. I built the production systems that now run it daily: PO parsing, demand planning, carton optimization, case labeling, packing slips. Used every day by non-technical warehouse staff. Built with Rust, TypeScript, React, Tauri, and Python.
+                        </p>
+                        <div class="pipeline">
+                            <span class="step">PO</span><span class="arrow">→</span><span class="step">Parse</span><span class="arrow">→</span><span class="step">Plan</span><span class="arrow">→</span><span class="step">Pick</span><span class="arrow">→</span><span class="step">Pack</span><span class="arrow">→</span><span class="step">Label</span><span class="arrow">→</span><span class="step">Ship</span>
                         </div>
+                        <p class="project-description" style="margin-top:0.75rem; opacity:0.7;">Read the full case study →</p>
+                    </div>
+
+                    <div class="research-label">Research</div>
+
+                    <div class="project-card" onclick="window.location.href='projects.html#project1'">
                         <h3 class="project-title">Deepfake Detection via Image Analysis</h3>
                         <p class="project-description">
-                            The objective of this project is to create an advanced deepfake detection system leveraging sophisticated image analysis techniques. By examining video frames, the system seeks to detect subtle visual artifacts indicative of deepfakes.
+                            CNN-based detection of visual artifacts in video frames — 82% accuracy across 6,000+ preprocessed frames. TensorFlow, OpenCV.
                         </p>
                     </div>
                     <div class="project-card" onclick="window.location.href='projects.html#project2'">
-                        <div class="project-image">
-                            <img src="assets/images/projects/smm.png" alt="Social Media Sentiment" onerror="this.parentElement.innerHTML='[Project Image]'">
-                        </div>
-                        <h3 class="project-title">Predictive Analytics for Stock Market Using Social Media Sentiment</h3>
+                        <h3 class="project-title">Stock Prediction via Social Sentiment</h3>
                         <p class="project-description">
-                            Analyzing the relationship between social media sentiment and stock price movements to see if public perception can predict market trends.
+                            Forecasting price movements from social media sentiment — ML + NLP over market and social data. Python, R, Postgres.
                         </p>
                     </div>
                 </div>
@@ -630,16 +694,9 @@
                         <img src="assets/images/about/your-photo.png" alt="Aryan Bhardwaj" onerror="this.parentElement.innerHTML='[Add Your Photo]'">
                     </div>
                     <div class="about-text">
-                        <p>
-                            I’m a strategic operator with a unique combination of business acumen from my MBA and analytical depth from my MS in Data Science. My background spans Chief of Staff role, founder-facing work, and consulting—always focused on turning ideas into results and getting things done. I work best where strategy, data, and execution meet.
-                        </p>
-                        <p>
-                            Currently, I work as a Data and Growth Consultant where I streamline business processes, lead data initiatives, and execute special projects that drive growth. My approach blends first principles thinking, systems thinking, and a hands-on operating style. My priorities right now are to have a steep learning curve, work across functions, own initiatives, and contribute to strategy—ideally as close to the heart of the company as possible, alongside founders.
-                        </p>
-                        <p>
-                            I’m fascinated by history, civilizations, and how decisions shape the course of events. Outside work, I enjoy reading, gaming, and immersing myself in rich storytelling—shout out to Red Dead Redemption 2 and Halo. One day, I hope to be a founder or a member of a founding team.
-                        </p>
-                        <a href="#contact" class="cta-btn">Get in Touch</a>
+                        <p>I’m not a software developer by training — I’m an operator who sees businesses as systems. At The Tao of Tea that means working every layer at once: running revenue channels (Faire from zero to Top Shop status, eight consecutive months, zero late shipments; price increases secured on Amazon and iHerb), building the data and software layer (forecasting, demand planning, and the production systems that automate our warehouse), and partnering with the founder on strategy — expansion, liquidation, compliance, whatever the quarter demands. When a QuickBooks migration had been stuck for eleven years, I did it in a week without disrupting operations.</p>
+                        <p>My approach: see the whole system, find the broken loop, build the fix, get it adopted. MBA for the business judgment, MS in Data Science for the analytical depth, AI-assisted development for the build speed — and a system dynamics habit of looking for feedback loops everywhere. Before this: Chief of Staff at an early-stage startup, and five years of human-judgment work evaluating search quality for ML systems.</p>
+                        <p>I’m fascinated by history, civilizations, and how decisions shape events. Outside work: reading, chess, and rich storytelling — shout out to Red Dead Redemption 2 and Halo. One day, I hope to build something of my own.</p>
                     </div>
                 </div>
             </div>
@@ -691,7 +748,7 @@
                         <a href="https://github.com/aaryanbh96" class="social-icon" target="_blank" rel="noopener noreferrer">
                             <img src="assets/images/icons/github.png" alt="GitHub">
                         </a>
-                        <a href="mailto:ab@rearyan.com" class="social-icon">
+                        <a href="/cdn-cgi/l/email-protection#0d6c6f4d7f686c7f746c63236e6260" class="social-icon">
                             <img src="assets/images/icons/email.png" alt="Email">
                         </a>
                         <a href="https://x.com/aryanb_or" class="social-icon" target="_blank" rel="noopener noreferrer">
@@ -718,93 +775,134 @@
         }
 
         function skipIntro() {
+            console.log('Skipping intro');
             const loadingScreen = document.getElementById('loadingScreen');
             const mainContent = document.getElementById('mainContent');
             
-            loadingScreen.style.display = 'none';
-            mainContent.classList.add('visible');
+            if (loadingScreen) {
+                loadingScreen.style.display = 'none';
+            }
+            if (mainContent) {
+                mainContent.classList.add('visible');
+            }
         }
 
-        // Loading Animation
-        let currentPhase = 0;
+        // Loading Animation - FIXED
+        let currentPhase = -1; // Start at -1 so first nextPhase() goes to 0
         const phases = [
-            { duration: 500, action: 'showColon' },
-            { duration: 600, action: 'typeAryan' },
-            { duration: 50, action: 'merge' },
-            { duration: 1500, action: 'flicker' },
-            { duration: 300, action: 'fadeToSite' }
+            { action: 'showColon' },
+            { action: 'typeAryan' },
+            { action: 'merge' },
+            { action: 'flicker' },
+            { action: 'fadeToSite' }
         ];
 
         function showColon() {
-            document.getElementById('colon').style.animation = 'blink 0.2s infinite';
+            console.log('PHASE 1: showColon started');
+            const colon = document.getElementById('colon');
+            if (!colon) { 
+                console.error('Colon element not found!');
+                nextPhase(); 
+                return; 
+            }
+            
+            // Colon is already blinking, just wait then stop it and proceed
             setTimeout(() => {
-                document.getElementById('colon').style.opacity = '1';
-                document.getElementById('colon').style.animation = 'none';
+                console.log('PHASE 1: Stopping blink, moving to next phase');
+                colon.style.opacity = '1';
+                colon.style.animation = 'none';
                 nextPhase();
-            }, 500);
+            }, 150);
         }
 
         function typeAryan() {
+            console.log('PHASE 2: typeAryan started');
             const aryanText = document.getElementById('aryanText');
+            if (!aryanText) { 
+                console.error('aryanText element not found!');
+                nextPhase(); 
+                return; 
+            }
+            
             const text = 'aryan';
             let i = 0;
             
             const typeInterval = setInterval(() => {
                 aryanText.textContent += text[i];
+                console.log('PHASE 2: Typed letter', text[i], '- now showing:', aryanText.textContent);
                 i++;
                 if (i >= text.length) {
                     clearInterval(typeInterval);
-                    setTimeout(nextPhase, 100);
+                    console.log('PHASE 2: Finished typing, moving to next phase');
+                    setTimeout(nextPhase, 30);
                 }
-            }, 100);
+            }, 45);
         }
 
         function merge() {
+            console.log('PHASE 3: merge started');
             const reText = document.getElementById('reText');
             const colon = document.getElementById('colon');
             const aryanText = document.getElementById('aryanText');
             
-            // Merge all text together without colon at the end
-            reText.textContent = 'rearyan';
-            colon.style.display = 'none';
-            aryanText.textContent = '';
+            if (reText) reText.textContent = 'rearyan';
+            if (colon) colon.style.display = 'none';
+            if (aryanText) aryanText.textContent = '';
             
-            setTimeout(nextPhase, 50);
+            console.log('PHASE 3: Merged to rearyan, moving to next phase');
+            setTimeout(nextPhase, 30);
         }
 
         function flicker() {
+            console.log('PHASE 4: flicker started');
             const terminalText = document.querySelector('.terminal-text');
+            if (!terminalText) { 
+                console.error('terminalText element not found!');
+                nextPhase(); 
+                return; 
+            }
+            
             let flickerCount = 0;
-            const maxFlickers = 8;
+            const maxFlickers = 4;
             
             const flickerInterval = setInterval(() => {
                 terminalText.style.opacity = Math.random() > 0.3 ? '1' : '0.3';
                 flickerCount++;
+                console.log('PHASE 4: Flicker', flickerCount, 'of', maxFlickers);
                 
                 if (flickerCount >= maxFlickers) {
                     clearInterval(flickerInterval);
                     terminalText.style.opacity = '1';
-                    setTimeout(nextPhase, 500);
+                    console.log('PHASE 4: Finished flickering, moving to next phase');
+                    setTimeout(nextPhase, 150);
                 }
-            }, 150);
+            }, 70);
         }
 
         function fadeToSite() {
+            console.log('PHASE 5: fadeToSite started');
             const loadingScreen = document.getElementById('loadingScreen');
             const mainContent = document.getElementById('mainContent');
             
-            loadingScreen.style.opacity = '0';
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
+            if (loadingScreen) {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    console.log('PHASE 5: Animation complete!');
+                }, 350);
+            }
+            if (mainContent) {
                 mainContent.classList.add('visible');
-                markIntroAsPlayed(); // Mark intro as completed
-            }, 800);
+            }
         }
 
         function nextPhase() {
             currentPhase++;
+            console.log('====== MOVING TO PHASE', currentPhase, '======');
+            
             if (currentPhase < phases.length) {
                 const phase = phases[currentPhase];
+                console.log('Executing:', phase.action);
                 switch(phase.action) {
                     case 'showColon':
                         showColon();
@@ -822,20 +920,50 @@
                         fadeToSite();
                         break;
                 }
+            } else {
+                console.log('All phases complete!');
             }
         }
 
         // Start the loading animation
         window.addEventListener('load', () => {
-            // Check if intro has already been played in this session
-            if (hasIntroPlayed()) {
+            console.log('Page loaded');
+
+            // Skip intro entirely if already seen this session
+            if (hasIntroPlayed() || location.hash || document.documentElement.classList.contains('skip-intro')) {
                 skipIntro();
                 return;
             }
-            
+            markIntroAsPlayed();
+
+            // Auto-skip after 3 seconds as failsafe
+            const failsafe = setTimeout(() => {
+                console.log('Failsafe triggered - skipping animation');
+                skipIntro();
+            }, 3000);
+
+            // Start animation
             setTimeout(() => {
                 nextPhase();
             }, 100);
+        });
+        
+        // Click/touch/key anywhere to skip
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadingScreen = document.getElementById('loadingScreen');
+            if (loadingScreen) {
+                loadingScreen.style.cursor = 'pointer';
+                loadingScreen.title = 'Click to skip';
+                
+                const skip = () => {
+                    console.log('User manually skipped');
+                    skipIntro();
+                };
+                
+                loadingScreen.onclick = skip;
+                loadingScreen.ontouchstart = skip;
+                document.onkeydown = skip;
+            }
         });
 
         // Form submission handling
@@ -896,8 +1024,7 @@
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
                     target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+                        behavior: 'smooth',                        block: 'start'
                     });
                 }
             });

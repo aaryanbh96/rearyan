@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thoughts - Aryan Bhardwaj</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .coming-soon {
+            font-size: 2rem;
+            font-weight: 400;
+            color: #cccccc;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Responsive Design */
+        /* Tablets */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 7rem 1.5rem 3rem;
+            }
+
+            .page-title {
+                font-size: 3.5rem;
+            }
+
+            .coming-soon {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Mobile Landscape and Small Tablets */
+        @media (max-width: 768px) {
+            .container {
+                padding: 5rem 1rem 2rem;
+            }
+            
+            .page-title {
+                font-size: 2.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .coming-soon {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Small Mobile Phones */
+        @media (max-width: 480px) {
+            .container {
+                padding: 4.5rem 0.75rem 1.5rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .coming-soon {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Very Small Screens */
+        @media (max-width: 360px) {
+            .page-title {
+                font-size: 1.7rem;
+            }
+
+            .coming-soon {
+                font-size: 1.1rem;
+            }
+        }
+    
+    /* Logo & Navigation */
+    .logo {
+        position: fixed;
+        left: 2rem;
+        top: 2rem;
+        z-index: 1000;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: #ffffff;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .logo:hover {
+        opacity: 0.7;
+    }
+
+    .logo.scrolled {
+        opacity: 0.1;
+    }
+
+    .nav-sidebar {
+        position: fixed;
+        right: 2rem;
+        top: 2rem;
+        z-index: 1000;
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+
+    .nav-sidebar.scrolled {
+        opacity: 0.1;
+    }
+
+    .nav-btn {
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        padding: 0.75rem 1.5rem;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 400;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+        letter-spacing: 0.05em;
+    }
+
+    .nav-btn:visited,
+    .nav-btn:link,
+    .nav-btn:active {
+        color: #ffffff;
+    }
+
+    .nav-btn:hover {
+        color: #cccccc;
+    }
+
+    .nav-btn.highlight {
+        border: 2px solid #ffffff;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-btn.highlight:visited,
+    .nav-btn.highlight:link,
+    .nav-btn.highlight:active {
+        color: #ffffff;
+    }
+
+    </style>
+
+        <!-- Logo -->
+    <a href="index.html" class="logo">re:aryan</a>
+
+    <!-- Navigation -->
+    <nav class="nav-sidebar">
+        <a href="projects.html" class="nav-btn">Selected Work</a>
+        <a href="resume.html" class="nav-btn">Resume</a>
+        <a href="future.html" class="nav-btn highlight">Thoughts</a>
+        <a href="bookshelf.html" class="nav-btn">Bookshelf</a>
+        <a href="index.html#contact" class="nav-btn">Get in Touch</a>
+    </nav>
+
+
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1 class="page-title">Thoughts</h1>
+        <p class="coming-soon">Coming Soon</p>
+    </div>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+</body>
+</html>

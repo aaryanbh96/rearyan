@@ -50,7 +50,7 @@
             width: 100%;
             height: 100%;
             transform: translate(-50%, -50%);
-            object-fit: contain; /* Changed from cover to contain to maintain aspect ratio */
+            object-fit: contain;
         }
 
         /* Fallback for browsers that don't support object-fit */
@@ -69,25 +69,6 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.6);
             z-index: -1;
-        }
-
-        /* Home Button with Fade Effect */
-        .home-button {
-            position: fixed;
-            top: 50px;
-            left: 50px;
-            z-index: 1000;
-            color: white;
-            font-size: 30px;
-            font-weight: 700;
-            text-decoration: none;
-            font-family: 'Space Grotesk', sans-serif;
-            opacity: 1;
-            transition: opacity 0.3s ease;
-        }
-
-        .home-button.faded {
-            opacity: 0.2;
         }
 
         /* Main Container */
@@ -160,9 +141,30 @@
             color: #ffffff;
         }
 
+        /* Responsive Design */
+        /* Tablets */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 7rem 1.5rem 3rem;
+            }
+
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .content {
+                gap: 3rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Mobile Landscape and Small Tablets */
         @media (max-width: 768px) {
             .container {
-                padding: 6rem 1rem 2rem;
+                padding: 5rem 1rem 2rem;
             }
             
             .content {
@@ -172,12 +174,82 @@
             
             .page-title {
                 font-size: 2rem;
+                margin-bottom: 2rem;
             }
 
-            .home-button {
-                top: 30px;
-                left: 30px;
-                font-size: 24px;
+            .section-title {
+                font-size: 1.6rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .item {
+                padding: 0.85rem;
+            }
+
+            .item-title {
+                font-size: 1.1rem;
+            }
+
+            .item-author {
+                font-size: 0.95rem;
+            }
+
+            .item-year {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Small Mobile Phones */
+        @media (max-width: 480px) {
+            .container {
+                padding: 4.5rem 0.75rem 1.5rem;
+            }
+
+            .page-title {
+                font-size: 1.6rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.4rem;
+                margin-bottom: 1.25rem;
+                padding-bottom: 0.4rem;
+            }
+
+            .content {
+                gap: 1.5rem;
+            }
+
+            .item {
+                padding: 0.75rem;
+                margin-bottom: 1rem;
+            }
+
+            .item-title {
+                font-size: 1rem;
+            }
+
+            .item-author {
+                font-size: 0.9rem;
+            }
+
+            .item-year {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Very Small Screens */
+        @media (max-width: 360px) {
+            .page-title {
+                font-size: 1.4rem;
+            }
+
+            .section-title {
+                font-size: 1.2rem;
+            }
+
+            .item-title {
+                font-size: 0.95rem;
             }
         }
 
@@ -186,62 +258,115 @@
             .video-background video {
                 width: 100%;
                 height: 100%;
-                object-fit: contain; /* Ensure consistent behavior on mobile */
+                object-fit: contain;
             }
         }
+    
+    /* Logo & Navigation */
+    .logo {
+        position: fixed;
+        left: 2rem;
+        top: 2rem;
+        z-index: 1000;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: #ffffff;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .logo:hover {
+        opacity: 0.7;
+    }
+
+    .logo.scrolled {
+        opacity: 0.1;
+    }
+
+    .nav-sidebar {
+        position: fixed;
+        right: 2rem;
+        top: 2rem;
+        z-index: 1000;
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+
+    .nav-sidebar.scrolled {
+        opacity: 0.1;
+    }
+
+    .nav-btn {
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        padding: 0.75rem 1.5rem;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 400;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+        letter-spacing: 0.05em;
+    }
+
+    .nav-btn:visited,
+    .nav-btn:link,
+    .nav-btn:active {
+        color: #ffffff;
+    }
+
+    .nav-btn:hover {
+        color: #cccccc;
+    }
+
+    .nav-btn.highlight {
+        border: 2px solid #ffffff;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-btn.highlight:visited,
+    .nav-btn.highlight:link,
+    .nav-btn.highlight:active {
+        color: #ffffff;
+    }
+
+    
+        .shelf-intro {
+            font-size: 1rem;
+            opacity: 0.7;
+            margin: -1rem 0 2.5rem 0;
+            max-width: 640px;
+            line-height: 1.7;
+        }
+        .item-note {
+            font-size: 0.85rem;
+            opacity: 0.55;
+            font-style: italic;
+            margin-top: 0.2rem;
+        }
     </style>
-</head>
-<body>
-    <script>
-    // Function to load header and footer
-    async function loadComponents() {
-        try {
-            // Load header
-            const headerResponse = await fetch('header.html');
-            const headerHTML = await headerResponse.text();
-            document.getElementById('header-placeholder').innerHTML = headerHTML;
-            
-            // Load footer
-            const footerResponse = await fetch('footer.html');
-            const footerHTML = await footerResponse.text();
-            document.getElementById('footer-placeholder').innerHTML = footerHTML;
-        } catch (error) {
-            console.error('Error loading components:', error);
-        }
-    }
 
-    // Function to handle scroll fade effect
-    function handleScrollFade() {
-        const homeButton = document.querySelector('.home-button');
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
-        if (scrollTop > 100) {
-            homeButton.classList.add('faded');
-        } else {
-            homeButton.classList.remove('faded');
-        }
-    }
+        <!-- Logo -->
+    <a href="index.html" class="logo">re:aryan</a>
 
-    // Load components and setup when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-        loadComponents();
-        
-        // Ensure video plays
-        const video = document.querySelector('.video-background video');
-        if (video) {
-            video.play().catch(e => console.log('Video autoplay failed:', e));
-        }
+    <!-- Navigation -->
+    <nav class="nav-sidebar">
+        <a href="projects.html" class="nav-btn">Selected Work</a>
+        <a href="resume.html" class="nav-btn">Resume</a>
+        <a href="future.html" class="nav-btn">Thoughts</a>
+        <a href="bookshelf.html" class="nav-btn highlight">Bookshelf</a>
+        <a href="index.html#contact" class="nav-btn">Get in Touch</a>
+    </nav>
 
-        // Add scroll event listener for fade effect
-        window.addEventListener('scroll', handleScrollFade);
-    });
-    </script>
 
-    <!-- Header -->
-    <div id="header-placeholder"></div>
-
-    <!-- Home Button -->
-    <a href="index.html" class="home-button">re:aryan</a>
 
     <!-- Video Background -->
     <div class="video-background">
@@ -256,84 +381,145 @@
         <h1 class="page-title">Bookshelf</h1>
         
         <div class="content">
+            <p class="shelf-intro">Not a canon — a fingerprint. Systems, decisions, operations, chess, emergence, and a little tea. The annotations are why each one’s here.</p>
+
             <!-- Papers Section -->
             <div class="papers-section">
                 <h2 class="section-title">Papers</h2>
-                
+
+                <div class="item">
+                    <div class="item-title">Industrial Dynamics: A Major Breakthrough for Decision Makers</div>
+                    <div class="item-author">Forrester, J.W.</div>
+                    <div class="item-year">1958</div>
+                    <div class="item-note">Where system dynamics began. Everything I believe about feedback loops traces here.</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">The Bullwhip Effect in Supply Chains</div>
+                    <div class="item-author">Lee, H., Padmanabhan, V., & Whang, S.</div>
+                    <div class="item-year">1997</div>
+                    <div class="item-note">I watch this happen from inside a warehouse. The paper that explains my day job.</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">Ironies of Automation</div>
+                    <div class="item-author">Bainbridge, L.</div>
+                    <div class="item-year">1983</div>
+                    <div class="item-note">The more you automate, the more the human matters. I build automation for a living — this one keeps me honest.</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">A Behavioral Model of Rational Choice</div>
+                    <div class="item-author">Simon, H.A.</div>
+                    <div class="item-year">1955</div>
+                    <div class="item-note">Bounded rationality. People satisfice — systems should be designed for the people we are.</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">Perception in Chess</div>
+                    <div class="item-author">Chase, W.G., & Simon, H.A.</div>
+                    <div class="item-year">1973</div>
+                    <div class="item-note">Why masters see the board differently. I’m studying my own games trying to catch this happening.</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title"><a href="https://arxiv.org/abs/2006.01855" target="_blank">Aligning Superhuman AI with Human Behavior: Chess as a Model System</a></div>
+                    <div class="item-author">McIlroy-Young, R., et al.</div>
+                    <div class="item-year">2020</div>
+                    <div class="item-note">Maia — engines that predict human moves instead of best moves. Chess as a lab for human-AI interaction.</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title"><a href="https://arxiv.org/abs/2304.03442" target="_blank">Generative Agents: Interactive Simulacra of Human Behavior</a></div>
+                    <div class="item-author">Park, J.S., et al.</div>
+                    <div class="item-year">2023</div>
+                    <div class="item-note">25 LLM agents in a sim town spontaneously threw a party. Emergence is having a moment.</div>
+                </div>
+
                 <div class="item">
                     <div class="item-title"><a href="https://arxiv.org/abs/1706.03762" target="_blank">Attention Is All You Need</a></div>
                     <div class="item-author">Vaswani, A., et al.</div>
                     <div class="item-year">2017</div>
+                    <div class="item-note">The one everyone lists. Kept because it earned it.</div>
                 </div>
 
-                <div class="item">
-                    <div class="item-title"><a href="https://arxiv.org/abs/1512.03385" target="_blank">Deep Residual Learning for Image Recognition</a></div>
-                    <div class="item-author">He, K., et al.</div>
-                    <div class="item-year">2016</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title"><a href="https://arxiv.org/abs/1406.2661" target="_blank">Generative Adversarial Networks</a></div>
-                    <div class="item-author">Goodfellow, I., et al.</div>
-                    <div class="item-year">2014</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title"><a href="https://arxiv.org/abs/1810.04805" target="_blank">BERT: Pre-training of Deep Bidirectional Transformers</a></div>
-                    <div class="item-author">Devlin, J., et al.</div>
-                    <div class="item-year">2018</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title"><a href="https://arxiv.org/abs/2005.14165" target="_blank">Language Models are Few-Shot Learners</a></div>
-                    <div class="item-author">Brown, T., et al.</div>
-                    <div class="item-year">2020</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title"><a href="https://arxiv.org/abs/1603.02754" target="_blank">XGBoost: A Scalable Tree Boosting System</a></div>
-                    <div class="item-author">Chen, T., & Guestrin, C.</div>
-                    <div class="item-year">2016</div>
-                </div>
             </div>
 
             <!-- Books Section -->
             <div class="books-section">
                 <h2 class="section-title">Books</h2>
-                
+
                 <div class="item">
-                    <div class="item-title">Hands-On Machine Learning</div>
+                    <div class="item-title">Thinking in Systems</div>
+                    <div class="item-author">Donella Meadows</div>
+                    <div class="item-note">The book I hand people when they ask what ‘systems thinking’ means.</div>
                 </div>
 
                 <div class="item">
-                    <div class="item-title">The Elements of Statistical Learning</div>
+                    <div class="item-title">Business Dynamics</div>
+                    <div class="item-author">John Sterman</div>
+                    <div class="item-note">The system dynamics bible. The class that rewired how I see organizations traces to this.</div>
                 </div>
 
                 <div class="item">
-                    <div class="item-title">Deep Learning</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title">Designing Data-Intensive Applications</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title">The Lean Startup</div>
+                    <div class="item-title">The Goal</div>
+                    <div class="item-author">Eliyahu Goldratt</div>
+                    <div class="item-note">Operations as a novel. I think about constraints and bottlenecks every working day — this is why.</div>
                 </div>
 
                 <div class="item">
                     <div class="item-title">Thinking, Fast and Slow</div>
+                    <div class="item-author">Daniel Kahneman</div>
+                    <div class="item-note">Still the foundation under everything I read about decisions.</div>
                 </div>
 
                 <div class="item">
-                    <div class="item-title">The Innovator's Dilemma</div>
+                    <div class="item-title">Sources of Power</div>
+                    <div class="item-author">Gary Klein</div>
+                    <div class="item-note">How people actually decide under pressure — the field-study counterweight to Kahneman’s lab.</div>
                 </div>
 
                 <div class="item">
-                    <div class="item-title">Python for Data Analysis</div>
+                    <div class="item-title">Micromotives and Macrobehavior</div>
+                    <div class="item-author">Thomas Schelling</div>
+                    <div class="item-note">Small individual choices, huge collective consequences. Emergence before it had a hashtag.</div>
                 </div>
+
+                <div class="item">
+                    <div class="item-title">Shoe Dog</div>
+                    <div class="item-author">Phil Knight</div>
+                    <div class="item-note">A Portland operator story. Building something real is mostly chaos held together by stubbornness.</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">The Mom Test</div>
+                    <div class="item-author">Rob Fitzpatrick</div>
+                    <div class="item-note">How to talk to customers without them lying to you. Re-reading as I interview other small wholesalers.</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">The Hard Thing About Hard Things</div>
+                    <div class="item-author">Ben Horowitz</div>
+                    <div class="item-note">For the founder ambition. No recipes, just scar tissue.</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">The Lessons of History</div>
+                    <div class="item-author">Will & Ariel Durant</div>
+                    <div class="item-note">A hundred pages distilling civilizations. I’m fascinated by how decisions compound across centuries.</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">The Book of Tea</div>
+                    <div class="item-author">Kakuzō Okakura</div>
+                    <div class="item-note">I work at a tea company. This one’s required — and it turned out to be a philosophy book in disguise.</div>
+                </div>
+
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
 </body>
 </html>

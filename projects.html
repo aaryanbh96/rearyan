@@ -455,25 +455,44 @@
                 <p>End-to-end analysis of a specialty manufacturer's wholesale channel — turning raw order exports into bundle, re-engagement, and merchandising decisions.</p>
                 <p><strong>Methods:</strong> basket/co-occurrence analysis, RFM retailer segmentation, cohort retention, Pareto concentration, and scenario modeling. The headline finding — a product trio appearing in 43% of orders — became a bundle strategy.</p>
                 <div class="cta-row">
-                    <a class="cta-btn" href="https://rearyan.com/faire-analysis.html" target="_blank">View the Analysis →</a>
+                    <a class="cta-btn" href="faire-analysis.html" target="_blank">View the Analysis →</a>
                     <a class="cta-btn" href="https://github.com/aaryanbh96/faire-wholesale-analytics.git" target="_blank">Code on GitHub →</a>
                 </div>
             </div>
         </div>
 
         <div class="research-section">
-            <h2>Research Projects</h2>
+            <h2>Catalog &amp; Inventory</h2>
+            <div class="system-block">
+                <h2 class="system-title">Tao Catalog &amp; Inventory System</h2>
+                <div class="system-stack">Rust · axum · PostgreSQL · Tauri</div>
+                <p><strong>The problem:</strong> A shared spreadsheet tracked every product and had become load-bearing and fragile — one bad paste could silently corrupt inventory for everyone, with no record of who changed what.</p>
+                <p><strong>What I built:</strong> A cloud inventory system replacing it. A Rust/axum API is the single gatekeeper to the database — nothing writes directly. PostgreSQL constraints enforce integrity at the storage layer rather than trusting the caller, and a Tauri desktop app gives non-technical staff a familiar interface over all of it.</p>
+                <div class="cta-row">
+                    <a class="cta-btn" href="tao-catalog.html">Read the case study →</a>
+                </div>
+            </div>
+        </div>
 
-            <div class="system-block" id="project1">
-                <h2 class="system-title">Deepfake Detection via Image Analysis</h2>
-                <div class="system-stack">Python · TensorFlow · OpenCV</div>
-                <p>CNN-based detection of subtle visual artifacts in video frames — 82% accuracy across 6,000+ preprocessed frames.</p>
+        <div class="research-section">
+            <h2>Side Projects</h2>
+
+            <div class="system-block">
+                <h2 class="system-title">World Cup 2026 Predictor</h2>
+                <div class="system-stack">Elo ratings · Monte Carlo · Brier scoring</div>
+                <p>Self-updating tournament forecaster: Elo ratings with momentum, 20,000-run Monte Carlo simulation, predictions frozen server-side and publicly scored with Brier calibration — fully automated, zero human touch.</p>
+                <div class="cta-row">
+                    <a class="cta-btn" href="https://wc2026.rearyan.com" target="_blank">wc2026.rearyan.com →</a>
+                </div>
             </div>
 
-            <div class="system-block" id="project2">
-                <h2 class="system-title">Stock Prediction via Social Media Sentiment</h2>
-                <div class="system-stack">Python · R · Postgres · NLP</div>
-                <p>Forecasting stock price movements by integrating financial market data with social media sentiment analysis.</p>
+            <div class="system-block">
+                <h2 class="system-title">Your Slice of π</h2>
+                <div class="system-stack">Chess engine · 3D rendering</div>
+                <p>Enter your birthday and pi plays an entire chess game starting from where your number lives in its digits — drawn as a one-of-a-kind 3D light sculpture. It was always there; you just looked it up.</p>
+                <div class="cta-row">
+                    <a class="cta-btn" href="https://pi.rearyan.com" target="_blank">pi.rearyan.com →</a>
+                </div>
             </div>
         </div>
     </div>

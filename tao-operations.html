@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Automating a Warehouse, End to End — re:aryan</title>
+<meta name="description" content="Flagship case study: the production systems running order fulfillment at The Tao of Tea, Portland.">
+<link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/images/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="brand.css">
+<style>
+  .head{padding:22vh 1.75rem 5vh}
+  .head-inner{max-width:var(--w-wide);margin:0 auto}
+  .head h1{
+    font-family:var(--serif);font-style:italic;font-weight:300;
+    font-size:clamp(2.3rem,5vw,3.8rem);line-height:1.1;
+    letter-spacing:-.01em;color:var(--ink);margin:1.4rem 0 1.6rem;
+  }
+  .head .meta{font-size:.625rem;letter-spacing:.24em;color:var(--muted);text-transform:uppercase}
+
+  .opening{padding:3vh 1.75rem 6vh}
+  .opening .prose p{font-size:1.14rem}
+
+  .flow{padding:5vh 1.75rem 9vh}
+  .flow-inner{max-width:var(--w-wide);margin:0 auto}
+  .flow-inner>.marker{margin-bottom:2.6rem}
+  .pl-wrap{position:relative}
+  #pipeline{width:100%;height:240px;display:block}
+  .pl-toc a{position:absolute;transform:translateX(-50%);
+    font-size:.5625rem;letter-spacing:.2em;color:var(--muted);
+    text-transform:uppercase;text-decoration:none;white-space:nowrap;
+    transition:color .25s}
+  .pl-toc a:hover,.pl-toc a:focus-visible{color:var(--ink)}
+  .pl-toc a.left{transform:none}
+  .pl-toc a.endcap{transform:translateX(-85%)}
+
+  .systems{padding:4vh 1.75rem 4vh}
+  .systems-inner{max-width:var(--w-wide);margin:0 auto}
+  .systems-inner>.marker{margin-bottom:1rem}
+  .marker.mk2{margin:5rem 0 1rem}
+  .sys{border-top:1px solid var(--hairline);padding:4.5rem 0}
+  .sys-head{display:flex;align-items:baseline;gap:1.4rem;margin-bottom:1rem;flex-wrap:wrap}
+  .sys-id{font-size:.6875rem;letter-spacing:.24em;color:var(--muted)}
+  .sys-name{font-family:var(--mono);font-weight:500;font-size:clamp(1rem,1.9vw,1.3rem);
+    letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+  .sys-stack{font-size:.5625rem;letter-spacing:.22em;color:var(--muted);
+    text-transform:uppercase;margin-bottom:2.4rem}
+  .sys-rows{display:grid;grid-template-columns:7.5rem minmax(0,38rem);
+    row-gap:1.3rem;column-gap:2rem}
+  .sys-rows dt{font-size:.625rem;letter-spacing:.26em;color:var(--muted);
+    text-transform:uppercase;padding-top:.45em}
+  .sys-rows dd{font-family:var(--serif);font-weight:300;font-size:1.08rem;
+    line-height:1.7;color:#B9B6AE}
+  .sys.flagship{padding:6rem 0}
+  .sys.flagship .sys-name{font-size:clamp(1.2rem,2.4vw,1.6rem)}
+  .sys.flagship .sys-rows{grid-template-columns:7.5rem minmax(0,44rem)}
+
+  .endnav{padding:10vh 1.75rem 14vh}
+  .endnav-inner{max-width:var(--w-wide);margin:0 auto;display:flex;
+    justify-content:space-between;gap:2rem;flex-wrap:wrap}
+
+  @media (max-width:900px){
+    .pl-toc{display:none}
+    #pipeline{height:96px}
+  }
+  @media (max-width:640px){
+    .head{padding-top:16vh}
+    .sys-rows,.sys.flagship .sys-rows{grid-template-columns:1fr;row-gap:.4rem}
+    .sys-rows dt{padding-top:1rem}
+  }
+</style>
+</head>
+<body>
+
+<nav class="site">
+  <a class="brand" href="index.html">re<span>:</span>aryan</a>
+  <div class="links">
+    <a href="work.html" aria-current="true">Work</a><a href="resume.html">Resume</a><a href="future.html">Thoughts</a><a href="bookshelf.html">Bookshelf</a><a href="index.html#convergence">Contact</a>
+  </div>
+</nav>
+
+<header class="head">
+  <div class="head-inner">
+    <div class="ch-no">01 / Operations — Flagship Case Study</div>
+    <h1>Automating a warehouse, end to end.</h1>
+    <div class="meta">The Tao of Tea · Portland, OR · 2025 — Present</div>
+  </div>
+</header>
+
+<section class="opening">
+  <div class="prose">
+    <p>When I joined The Tao of Tea — a specialty tea manufacturer and
+    wholesaler in Portland — order fulfillment ran the way it does at most small
+    manufacturers: manually. Purchase orders arrived as PDFs in a dozen formats.
+    Staff retyped them into spreadsheets, hand-calculated what to pick, guessed
+    at how to pack cartons, and wrote labels one at a time. Every step worked —
+    and every step leaked time, invited errors, and depended on one person's
+    memory.</p>
+    <p>Nobody asked me to fix it. I just couldn't stop seeing it as one system
+    with five broken links. So I built the systems that now run it daily — used
+    by non-technical warehouse staff, fully offline, designed to outlast me.</p>
+  </div>
+</section>
+
+<div class="flow">
+  <div class="flow-inner">
+    <div class="marker">The Operating Flow</div>
+    <div class="pl-wrap">
+      <canvas id="pipeline" aria-hidden="true"></canvas>
+      <nav class="pl-toc" id="plToc" aria-label="Systems">
+        <a href="#sys4" id="t4" class="left">SYS.04 / Receiving — Incoming Labels</a>
+        <a href="#sys1" id="t1">PO Aggregator</a>
+        <a href="#sys2" id="t2">PO Processing &amp; Carton Optimization</a>
+        <a href="#sys3" id="t3">Case Label Printer</a>
+        <a href="#sys5" id="t5" class="endcap">Packing Slip Generator</a>
+        <a href="#sys6" id="t6">SYS.06 — Catalog &amp; Inventory / Master Data</a>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<section class="systems">
+  <div class="systems-inner">
+    <div class="marker">The Systems</div>
+
+    <article class="sys" id="sys1">
+      <div class="sys-head">
+        <span class="sys-id">SYS.01 / Demand</span>
+        <span class="sys-name">PO Aggregator</span>
+      </div>
+      <div class="sys-stack">Rust</div>
+      <dl class="sys-rows">
+        <dt>Problem</dt>
+        <dd>Orders arrived from Amazon, iHerb, and wholesale channels in
+        completely different formats. Understanding total demand — how much of
+        each tea to produce — meant manually consolidating everything: a slow,
+        error-prone ritual.</dd>
+        <dt>Built</dt>
+        <dd>A tool that ingests purchase orders across channels and aggregates
+        them into a single demand picture, so production planning starts from
+        one reliable number instead of five spreadsheets.</dd>
+      </dl>
+    </article>
+
+    <article class="sys flagship" id="sys2">
+      <div class="sys-head">
+        <span class="sys-id">SYS.02 / Fulfillment</span>
+        <span class="sys-name">PO Processing &amp; Carton Optimization</span>
+      </div>
+      <div class="sys-stack">Tauri · React · TypeScript · Rust</div>
+      <dl class="sys-rows">
+        <dt>Problem</dt>
+        <dd>Every retailer formats POs differently — and turning a PO into
+        warehouse action meant manually working out what to pick, which retailer
+        SKU maps to which internal product (the same tea exists as a tin, a
+        pound bag, and an Amazon "Pack of 2"), and how to pack cases into
+        cartons without exceeding weight limits.</dd>
+        <dt>Built</dt>
+        <dd>A fully offline desktop app with rule-based PDF parsers tuned to
+        each retailer's layout, plus a standardized Excel intake for everyone
+        else. It cross-references every line against an editable product master
+        database — resolving SKUs, Amazon pack variants, and case specs — then
+        runs a constrained packing algorithm that maximizes carton utilization
+        under a strict weight ceiling. Output: a print-ready pick list and a
+        carton-by-carton packing map.</dd>
+        <dt>Principle</dt>
+        <dd>Nothing hardcoded. The product master is an Excel file staff can
+        edit — new products, new pack variants, zero code changes.</dd>
+      </dl>
+    </article>
+
+    <article class="sys has-note" id="sys3">
+      <div class="sys-head">
+        <span class="sys-id">SYS.03 / Labeling</span>
+        <span class="sys-name">Product Case Label Printer</span>
+      </div>
+      <div class="sys-stack">Python</div>
+      <dl class="sys-rows">
+        <dt>Problem</dt>
+        <dd>Cases were labeled by hand — and a mislabeled case means the wrong
+        product shipping to a customer, the most expensive error a wholesaler
+        can make.</dd>
+        <dt>Built</dt>
+        <dd>A label-printing application generating accurate, standardized case
+        labels directly from product data.</dd>
+        <dt>Impact</dt>
+        <dd>Wrong shipments reduced to near zero.<span class="m-note"
+        aria-hidden="true"><span class="m-line"></span>EXCEPTIONS&nbsp;→&nbsp;~0</span></dd>
+      </dl>
+    </article>
+
+    <article class="sys" id="sys4">
+      <div class="sys-head">
+        <span class="sys-id">SYS.04 / Receiving</span>
+        <span class="sys-name">Incoming Shipment Label Generator</span>
+      </div>
+      <div class="sys-stack">Tauri · Rust · React · Deployed to warehouse thermal printers</div>
+      <dl class="sys-rows">
+        <dt>Problem</dt>
+        <dd>Receiving inventory meant hand-writing labels for incoming shipments
+        — slow, inconsistent, unscalable.</dd>
+        <dt>Built</dt>
+        <dd>A desktop application deployed directly to the warehouse's thermal
+        printers, generating standardized incoming-shipment labels on demand —
+        used by floor staff daily.</dd>
+      </dl>
+    </article>
+
+    <article class="sys" id="sys5">
+      <div class="sys-head">
+        <span class="sys-id">SYS.05 / Documentation</span>
+        <span class="sys-name">Packing Slip Generator</span>
+      </div>
+      <div class="sys-stack">Python</div>
+      <dl class="sys-rows">
+        <dt>Problem</dt>
+        <dd>Every outgoing order needed a packing slip assembled manually from
+        order data — repetitive, time-consuming, inconsistent.</dd>
+        <dt>Built</dt>
+        <dd>A tool that generates complete, accurate packing slips
+        automatically. Manual iHerb order processing: eliminated.</dd>
+      </dl>
+    </article>
+
+    <div class="marker mk2">The Backbone</div>
+
+    <article class="sys" id="sys6">
+      <div class="sys-head">
+        <span class="sys-id">SYS.06 / Master Data</span>
+        <span class="sys-name">Tao Catalog &amp; Inventory System</span>
+      </div>
+      <div class="sys-stack">Rust · axum · PostgreSQL · Tauri</div>
+      <dl class="sys-rows">
+        <dt>Problem</dt>
+        <dd>A shared spreadsheet tracked every product and had become
+        load-bearing and fragile — one bad paste could silently corrupt
+        inventory for everyone, with no record of who changed what.</dd>
+        <dt>Built</dt>
+        <dd>A cloud inventory system replacing it. A Rust/axum API is the
+        single gatekeeper to the database — nothing writes directly. PostgreSQL
+        constraints enforce integrity at the storage layer rather than trusting
+        the caller, and a Tauri desktop app gives non-technical staff a familiar
+        interface over all of it.</dd>
+      </dl>
+      <a class="cta" style="margin-top:2.2rem" href="tao-catalog.html">Read the case study →</a>
+    </article>
+
+  </div>
+</section>
+
+<div class="endnav">
+  <div class="endnav-inner">
+    <a class="cta" href="work.html">← All work</a>
+    <a class="cta" href="faire-analysis.html">Next / Commerce — Faire →</a>
+  </div>
+</div>
+
+<footer class="site">
+  <div class="footer-links">
+    <a href="https://github.com/aaryanbh96" target="_blank" rel="noopener">Github</a><span class="sep">·</span>
+    <a href="https://www.linkedin.com/in/aaryanb/" target="_blank" rel="noopener">LinkedIn</a><span class="sep">·</span>
+    <a href="https://x.com/aryanb_or" target="_blank" rel="noopener">X</a><span class="sep">·</span>
+    <a href="mailto:ab@rearyan.com">Email</a>
+  </div>
+  <div class="colophon">© 2026 · Aryan Bhardwaj · Portland, OR</div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canvas=document.getElementById('pipeline');
+  const ctx=canvas.getContext('2d');
+  const INK='231,228,221',AMB='214,154,60';
+  const STAGES=['PO','PARSE','PLAN','PICK','PACK','LABEL','SHIP'];
+  let W=0,H=0,DPR=1,xs=[],y=0,flash=new Array(7).fill(0);
+  const $=id=>document.getElementById(id);
+  const toc=$('plToc');
+  const links={t1:$('t1'),t2:$('t2'),t3:$('t3'),t4:$('t4'),t5:$('t5'),t6:$('t6')};
+
+  function resize(){
+    DPR=Math.min(devicePixelRatio||1,2);
+    W=canvas.clientWidth*DPR;H=canvas.clientHeight*DPR;
+    canvas.width=W;canvas.height=H;
+    xs=STAGES.map((_,i)=>W*(0.05+0.9*i/6));
+    const full=H>=150*DPR;
+    y=full?H*0.40:H*0.42;
+    if(toc){
+      toc.style.display=full?'':'none';
+      if(full){
+        const u=DPR,below=(y+58*u)/DPR;
+        links.t1.style.left=(xs[0]/DPR)+'px';links.t1.style.top=below+'px';
+        links.t2.style.left=(((xs[1]+xs[4])/2)/DPR)+'px';links.t2.style.top=below+'px';
+        links.t3.style.left=(xs[5]/DPR)+'px';links.t3.style.top=below+'px';
+        links.t5.style.left=(xs[6]/DPR)+'px';links.t5.style.top=below+'px';
+        // receiving joins from above: inbound, outside the outbound spine
+        links.t4.style.left=(xs[0]/DPR)+'px';
+        links.t4.style.top=((y-74*u)/DPR)+'px';
+        links.t6.style.left=(((xs[0]+xs[6])/2)/DPR)+'px';
+        links.t6.style.top=((y+96*u)/DPR)+'px';
+      }
+    }
+  }
+  function draw(phase){
+    ctx.clearRect(0,0,W,H);
+    const u=DPR;
+    ctx.strokeStyle=`rgba(${INK},0.16)`;
+    ctx.lineWidth=1*u;
+    ctx.beginPath();ctx.moveTo(xs[0],y);ctx.lineTo(xs[6],y);ctx.stroke();
+    ctx.textAlign='center';
+    for(let i=0;i<7;i++){
+      const s=3.2*u;
+      ctx.strokeStyle=`rgba(${INK},0.7)`;
+      ctx.strokeRect(xs[i]-s,y-s,s*2,s*2);
+      if(flash[i]>0){
+        const fs=(4+8*(1-flash[i]))*u;
+        ctx.strokeStyle=`rgba(${AMB},${0.5*flash[i]})`;
+        ctx.strokeRect(xs[i]-fs,y-fs,fs*2,fs*2);
+      }
+      ctx.font=`500 ${10.5*u}px "JetBrains Mono",monospace`;
+      ctx.fillStyle=`rgba(${INK},0.8)`;
+      ctx.fillText(STAGES[i],xs[i],y+22*u);
+    }
+    // coverage map: which software owns which part of the flow
+    if(H>=150*u){
+      ctx.strokeStyle=`rgba(${INK},0.18)`;
+      ctx.lineWidth=1*u;
+      // PO → aggregator
+      ctx.beginPath();ctx.moveTo(xs[0],y+30*u);ctx.lineTo(xs[0],y+50*u);ctx.stroke();
+      // PARSE..PACK → one application legitimately spans four stages
+      const jx=(xs[1]+xs[4])/2,jy=y+42*u;
+      ctx.beginPath();
+      for(let i=1;i<=4;i++){ctx.moveTo(xs[i],y+30*u);ctx.lineTo(xs[i],jy);}
+      ctx.moveTo(xs[1],jy);ctx.lineTo(xs[4],jy);
+      ctx.moveTo(jx,jy);ctx.lineTo(jx,y+50*u);
+      ctx.stroke();
+      // LABEL → case labels; SHIP → packing slips travel with the shipment
+      ctx.beginPath();ctx.moveTo(xs[5],y+30*u);ctx.lineTo(xs[5],y+50*u);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(xs[6],y+30*u);ctx.lineTo(xs[6],y+50*u);ctx.stroke();
+      // receiving: dashed inbound line from above
+      ctx.setLineDash([2*u,5*u]);
+      ctx.beginPath();ctx.moveTo(xs[0],y-58*u);ctx.lineTo(xs[0],y-10*u);ctx.stroke();
+      // the backbone: every system stands on the catalog
+      ctx.beginPath();
+      ctx.moveTo(xs[0],y+78*u);ctx.lineTo(xs[6],y+78*u);
+      for(const tx of [xs[0],jx,xs[5],xs[6]]){
+        ctx.moveTo(tx,y+66*u);ctx.lineTo(tx,y+78*u);
+      }
+      ctx.moveTo((xs[0]+xs[6])/2,y+78*u);ctx.lineTo((xs[0]+xs[6])/2,y+90*u);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    if(phase!=null){
+      const x=xs[0]+(xs[6]-xs[0])*phase;
+      ctx.beginPath();ctx.arc(x,y,2.4*u,0,7);
+      ctx.fillStyle=`rgba(${AMB},0.95)`;ctx.fill();
+      ctx.beginPath();ctx.arc(x,y,5.5*u,0,7);
+      ctx.fillStyle=`rgba(${AMB},0.10)`;ctx.fill();
+    }
+  }
+  let prevStage=-1;
+  function loop(now){
+    const t=(now%11000)/11000;
+    let phase=null;
+    if(t>0.08&&t<0.88){
+      const e=(t-0.08)/0.8;
+      phase=e*e*(3-2*e);
+      const st=Math.min(6,Math.floor(phase*6+0.02));
+      if(st!==prevStage&&Math.abs(phase*6-st)<0.05){prevStage=st;flash[st]=1;}
+    }else prevStage=-1;
+    for(let i=0;i<7;i++)flash[i]=Math.max(0,flash[i]-0.016);
+    draw(phase);
+    requestAnimationFrame(loop);
+  }
+  addEventListener('resize',()=>{resize();if(reduce)draw(null);});
+  resize();
+  if(reduce)draw(null);
+  else requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

@@ -1,794 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume - Aryan Bhardwaj</title>
-    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <style>
-        /* CSS Reset & Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-            background-color: #000000;
-            color: #ffffff;
-            line-height: 1.6;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Logo & Navigation - Transparent on scroll */
-        .logo {
-            position: fixed;
-            left: 2rem;
-            top: 2rem;
-            z-index: 1000;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.5rem;
-            font-weight: 500;
-            color: #ffffff;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .logo:hover {
-            opacity: 0.7;
-        }
-
-        .logo.scrolled {
-            opacity: 0.1;
-        }
-
-        /* Navigation */
-        .nav-sidebar {
-            position: fixed;
-            right: 2rem;
-            top: 2rem;
-            z-index: 1000;
-            display: flex;
-            flex-direction: row;
-            gap: 2rem;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .nav-sidebar.scrolled {
-            opacity: 0.1;
-        }
-
-        .nav-btn {
-            background: transparent;
-            border: none;
-            color: #ffffff;
-            padding: 0.75rem 1.5rem;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 400;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: block;
-            text-align: center;
-            letter-spacing: 0.05em;
-        }
-
-        .nav-btn:hover {
-            color: #cccccc;
-        }
-
-        .nav-btn.highlight {
-            border: 2px solid #ffffff;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 0.75rem 1.5rem;
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 8rem 2rem 4rem;
-        }
-
-        /* Download Button */
-        .download-btn {
-            display: inline-block;
-            background: transparent;
-            border: 2px solid #ffffff;
-            color: #ffffff;
-            padding: 1rem 2rem;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1rem;
-            font-weight: 500;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .download-btn:hover {
-            background: #ffffff;
-            color: #000000;
-        }
-
-        .download-section {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        /* Header */
-        .resume-header {
-            text-align: center;
-            margin-bottom: 4rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid #333333;
-        }
-
-        .resume-title {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
-        }
-
-        .contact-info {
-            font-size: 1.1rem;
-            color: #cccccc;
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .contact-info a {
-            color: #cccccc;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .contact-info a:hover {
-            color: #ffffff;
-        }
-
-        /* Section Styles */
-        .resume-section {
-            margin-bottom: 4rem;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            color: #ffffff;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -0.5rem;
-            left: 0;
-            width: 3rem;
-            height: 2px;
-            background: #ffffff;
-        }
-
-        /* Experience & Education Items */
-        .experience-item, .education-item {
-            margin-bottom: 3rem;
-            padding-left: 1.5rem;
-            border-left: 2px solid #333333;
-            position: relative;
-        }
-
-        .experience-item::before, .education-item::before {
-            content: '';
-            position: absolute;
-            left: -5px;
-            top: 0;
-            width: 8px;
-            height: 8px;
-            background: #ffffff;
-            border-radius: 50%;
-        }
-
-        .job-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .job-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #ffffff;
-        }
-
-        .job-date {
-            font-size: 1rem;
-            color: #999999;
-            font-weight: 400;
-        }
-
-        .company-location {
-            font-size: 1.1rem;
-            color: #cccccc;
-            margin-bottom: 1rem;
-        }
-
-        .job-description {
-            list-style-position: inside;
-            color: #cccccc;
-        }
-
-        .job-description li {
-            margin-bottom: 0.5rem;
-            padding-left: 1rem;
-        }
-
-        /* Projects */
-        .project-item {
-            margin-bottom: 3rem;
-            padding-left: 1.5rem;
-            border-left: 2px solid #333333;
-            position: relative;
-        }
-
-        .project-item::before {
-            content: '';
-            position: absolute;
-            left: -5px;
-            top: 0;
-            width: 8px;
-            height: 8px;
-            background: #ffffff;
-            border-radius: 50%;
-        }
-
-        .project-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .project-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #ffffff;
-        }
-
-        .project-tech {
-            font-size: 0.9rem;
-            color: #999999;
-        }
-
-        .project-description {
-            color: #cccccc;
-            margin-bottom: 1rem;
-        }
-
-        .project-link {
-            color: #64c8ff;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .project-link:hover {
-            color: #ffffff;
-        }
-
-        /* Skills */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .skill-category {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1.5rem;
-            border-left: 3px solid #666666;
-        }
-
-        .skill-category-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: #ffffff;
-        }
-
-        .skill-list {
-            color: #cccccc;
-            line-height: 1.8;
-        }
-
-        /* Responsive Design */
-        /* Tablets */
-        @media (max-width: 1024px) {
-            .nav-sidebar {
-                right: 1rem;
-                gap: 1rem;
-            }
-
-            .nav-btn {
-                padding: 0.5rem 1rem;
-                font-size: 0.85rem;
-            }
-
-            .logo {
-                left: 1rem;
-                font-size: 1.3rem;
-            }
-
-            .container {
-                padding: 7rem 1.5rem 3rem;
-            }
-
-            .resume-title {
-                font-size: 3rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .skills-grid {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            }
-        }
-
-        /* Mobile Landscape and Small Tablets */
-        @media (max-width: 768px) {
-            .nav-sidebar {
-                flex-direction: column;
-                gap: 0.5rem;
-                top: 50%;
-                transform: translateY(-50%);
-                right: 0.5rem;
-            }
-
-            .nav-btn {
-                padding: 0.5rem 1rem;
-                font-size: 0.75rem;
-                white-space: nowrap;
-            }
-
-            .logo {
-                left: 0.75rem;
-                top: 1.5rem;
-                font-size: 1.1rem;
-            }
-
-            .container {
-                padding: 5rem 1rem 2rem;
-            }
-
-            .download-section {
-                margin-bottom: 2rem;
-            }
-
-            .download-btn {
-                padding: 0.75rem 1.5rem;
-                font-size: 0.9rem;
-                width: 100%;
-                max-width: 300px;
-            }
-
-            .resume-title {
-                font-size: 2.2rem;
-            }
-
-            .section-title {
-                font-size: 1.8rem;
-            }
-
-            .contact-info {
-                flex-direction: column;
-                gap: 0.5rem;
-                font-size: 1rem;
-            }
-
-            .job-header, .project-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.25rem;
-            }
-
-            .job-title, .project-title {
-                font-size: 1.3rem;
-            }
-
-            .job-date {
-                font-size: 0.9rem;
-            }
-
-            .company-location {
-                font-size: 1rem;
-            }
-
-            .job-description {
-                font-size: 0.95rem;
-            }
-
-            .skills-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .skill-category {
-                padding: 1.25rem;
-            }
-
-            .skill-category-title {
-                font-size: 1.1rem;
-            }
-
-            .skill-list {
-                font-size: 0.95rem;
-            }
-        }
-
-        /* Small Mobile Phones */
-        @media (max-width: 480px) {
-            .nav-sidebar {
-                right: 0.25rem;
-                gap: 0.35rem;
-            }
-
-            .nav-btn {
-                padding: 0.4rem 0.75rem;
-                font-size: 0.7rem;
-            }
-
-            .nav-btn.highlight {
-                padding: 0.4rem 0.75rem;
-            }
-
-            .logo {
-                left: 0.5rem;
-                top: 1rem;
-                font-size: 1rem;
-            }
-
-            .container {
-                padding: 4.5rem 0.75rem 1.5rem;
-            }
-
-            .resume-title {
-                font-size: 1.8rem;
-            }
-
-            .section-title {
-                font-size: 1.5rem;
-            }
-
-            .section-title::after {
-                width: 2rem;
-            }
-
-            .download-btn {
-                font-size: 0.85rem;
-                padding: 0.65rem 1.25rem;
-            }
-
-            .experience-item, .education-item, .project-item {
-                padding-left: 1rem;
-            }
-
-            .job-title, .project-title {
-                font-size: 1.15rem;
-            }
-
-            .skill-category {
-                padding: 1rem;
-            }
-        }
-
-        /* Very Small Screens */
-        @media (max-width: 360px) {
-            .logo {
-                font-size: 0.9rem;
-            }
-
-            .nav-btn {
-                font-size: 0.65rem;
-                padding: 0.35rem 0.6rem;
-            }
-
-            .resume-title {
-                font-size: 1.6rem;
-            }
-
-            .section-title {
-                font-size: 1.3rem;
-            }
-        }
-    </style>
-
-    <style>
-        /* ═══ UNIFIED MOBILE PATCH (applies last, wins cascade) ═══ */
-
-        /* Background media: never interactive, never long-pressable */
-        video, .video-overlay, .hero-video {
-            pointer-events: none !important;
-            -webkit-touch-callout: none !important;
-            -webkit-user-select: none !important;
-            user-select: none !important;
-        }
-
-        @media (max-width: 768px) {
-            /* Bottom nav pill — wraps to 2 rows, never overflows */
-            .nav-sidebar {
-                position: fixed !important;
-                top: auto !important;
-                bottom: 0.75rem !important;
-                left: 0.75rem !important;
-                right: 0.75rem !important;
-                transform: none !important;
-                display: flex !important;
-                flex-direction: row !important;
-                flex-wrap: wrap !important;
-                justify-content: center !important;
-                align-items: center !important;
-                gap: 0.25rem !important;
-                background: rgba(10,10,10,0.92) !important;
-                backdrop-filter: blur(10px) !important;
-                -webkit-backdrop-filter: blur(10px) !important;
-                padding: 0.45rem 0.5rem !important;
-                border: 1px solid #2a2a2a !important;
-                border-radius: 6px !important;
-                z-index: 1000 !important;
-            }
-
-            .nav-btn {
-                padding: 0.35rem 0.55rem !important;
-                font-size: 0.72rem !important;
-                border: none !important;
-                background: transparent !important;
-                white-space: nowrap !important;
-                margin: 0 !important;
-            }
-
-            .logo {
-                left: 1rem !important;
-                top: 1rem !important;
-                font-size: 1.1rem !important;
-            }
-
-            /* Breathing room so the pill never covers final content */
-            body { padding-bottom: 5.5rem !important; }
-
-            /* Typography & layout scale-down */
-            .hero { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
-            .hero-title { font-size: clamp(2.4rem, 11vw, 4rem) !important; }
-            .hero-description { font-size: 1.05rem !important; }
-            .container { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
-            .section-title { font-size: 2rem !important; margin-bottom: 2.5rem !important; }
-            .page-title { font-size: 2.2rem !important; }
-            .projects-grid { grid-template-columns: 1fr !important; gap: 1.75rem !important; }
-            .pipeline { font-size: 0.66rem !important; gap: 0.3rem !important; }
-            .pipeline span.step { padding: 0.25rem 0.4rem !important; }
-            .system-title { font-size: 1.25rem !important; }
-            .about-image { height: 300px !important; }
-            .contact-form { max-height: none !important; padding: 1.25rem !important; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Resume — Aryan Bhardwaj</title>
+<meta name="description" content="Aryan Bhardwaj — resume. Operations, data, and production software. Portland, OR.">
+<link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/images/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="brand.css">
+<style>
+  .head{padding:20vh 1.75rem 6vh}
+  .head-inner{max-width:44rem;margin:0 auto;display:flex;
+    justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap}
+  .head .lede{font-family:var(--serif);font-weight:300;font-size:1.05rem;
+    line-height:1.65;color:#B9B6AE;max-width:30rem;margin-top:1.1rem}
+  .head h1{font-family:var(--serif);font-style:italic;font-weight:300;
+    font-size:clamp(2.2rem,4.6vw,3.2rem);color:var(--ink);margin-top:1.2rem}
+  .wrap{max-width:44rem;margin:0 auto;padding:0 1.75rem 14vh}
+  .sec{margin-bottom:5.5rem}
+  .sec>.marker{margin-bottom:2.6rem}
+
+  /* the one system touch: a vertical line connecting the roles */
+  .timeline{border-left:1px solid var(--hairline);padding-left:2rem}
+  .role{position:relative;padding-bottom:3.4rem}
+  .role:last-child{padding-bottom:0}
+  .role::before{content:"";position:absolute;left:calc(-2rem - 3.5px);top:.42em;
+    width:6px;height:6px;border:1px solid var(--muted);background:var(--bg)}
+  .role h3{font-family:var(--mono);font-weight:500;font-size:.9rem;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
+  .role .rmeta{font-size:.625rem;letter-spacing:.18em;color:var(--muted);
+    text-transform:uppercase;margin:.5rem 0 1.3rem}
+  .role ul{list-style:none}
+  .role li{font-family:var(--serif);font-weight:300;font-size:1rem;
+    line-height:1.7;color:#B9B6AE;padding-left:1.2rem;position:relative;
+    margin-bottom:.75rem}
+  .role li::before{content:"—";position:absolute;left:0;color:var(--faint)}
+  .role li strong{font-weight:400;color:var(--ink)}
+
+  .edu-row,.proj-row{border-top:1px solid var(--hairline);padding:1.4rem 0;
+    display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1.5rem;align-items:baseline}
+  .edu-row .t,.proj-row .t{font-family:var(--mono);font-weight:500;font-size:.8rem;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
+  .edu-row .s,.proj-row .s{font-size:.625rem;letter-spacing:.16em;
+    color:var(--muted);text-transform:uppercase;margin-top:.4rem}
+  .edu-row .y{font-size:.625rem;letter-spacing:.16em;color:var(--muted)}
+  .proj-row p{font-family:var(--serif);font-weight:300;font-size:.95rem;
+    line-height:1.65;color:#A9A6A0;margin-top:.7rem}
+  .proj-row .lnk{font-size:.625rem;letter-spacing:.16em;white-space:nowrap}
+  .proj-row .lnk a{color:var(--muted);text-decoration:none;transition:color .25s}
+  .proj-row .lnk a:hover{color:var(--amber)}
+
+  .skills dt{font-size:.625rem;letter-spacing:.26em;color:var(--muted);
+    text-transform:uppercase;margin-top:1.4rem}
+  .skills dd{font-family:var(--serif);font-weight:300;font-size:.98rem;
+    line-height:1.65;color:#B9B6AE;margin-top:.45rem}
+
+  @media (max-width:640px){
+    .head{padding-top:15vh}
+    .timeline{padding-left:1.3rem}
+    .role::before{left:calc(-1.3rem - 3.5px)}
+    .edu-row,.proj-row{grid-template-columns:1fr}
+  }
+</style>
 </head>
 <body>
-    <!-- Logo -->
-    <a href="index.html" class="logo">re:aryan</a>
 
-    <!-- Navigation Sidebar -->
-    <nav class="nav-sidebar">
-        <a href="projects.html" class="nav-btn">Selected Work</a>
-        <a href="resume.html" class="nav-btn highlight">Resume</a>
-        <a href="future.html" class="nav-btn">Thoughts</a>
-        <a href="bookshelf.html" class="nav-btn">Bookshelf</a>
-        <a href="index.html#contact" class="nav-btn">Get in Touch</a>
-    </nav>
+<nav class="site">
+  <a class="brand" href="index.html">re<span>:</span>aryan</a>
+  <div class="links">
+    <a href="work.html">Work</a><a href="resume.html" aria-current="page">Resume</a><a href="future.html">Thoughts</a><a href="bookshelf.html">Bookshelf</a><a href="index.html#convergence">Contact</a>
+  </div>
+</nav>
 
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Download Button Top -->
-        <div class="download-section">
-            <a href="assets/Aryan_Bhardwaj_Resume.pdf" class="download-btn" target="_blank">
-                ↓ Download PDF Resume
-            </a>
-        </div>
-
-        <!-- Professional Experience -->
-        <section class="resume-section">
-            <h2 class="section-title">Professional Experience</h2>
-            
-            <div class="experience-item">
-                <div class="job-header">
-                    <div class="job-title">Data &amp; Growth Consultant</div>
-                    <div class="job-date">Mar. 2025 – Present</div>
-                </div>
-                <div class="company-location">The Tao of Tea — specialty tea manufacturer &amp; wholesaler | Portland, OR</div>
-                <ul class="job-description">
-                    <li><strong>Cut PO processing from ~40 minutes to under 2 minutes</strong> by designing and deploying 5 production applications (Rust, TypeScript, React, Tauri, Python) using AI-assisted development (Claude Code, Cursor) — PO parsing, demand planning, constrained carton-packing optimization, case labeling, packing slips. Self-initiated, in daily use by non-technical warehouse staff.</li>
-                    <li><strong>Launched and scaled the Faire wholesale channel from zero</strong> to 33 retail accounts across 11+ states in 9 months, 4×-ing monthly run rate in the second half; earned and held Top Shop status every month since launch (9 of 9), with zero late shipments.</li>
-                    <li>Built the supporting analytics in Python — basket/co-occurrence analysis, RFM segmentation, and cohort retention — and acted on the insights (a product trio in 43% of orders became a bundle strategy).</li>
-                    <li><strong>Secured price increases across Amazon Vendor Central and iHerb</strong>, managing both retailer relationships; onboarded TJ Maxx as new account; own key-account promotion forecasting.</li>
-                    <li><strong>Completed a QuickBooks migration stalled for 11 years in one week</strong>, with zero disruption to operations.</li>
-                    <li>Drafted FDA FSMA/FSVP compliance documentation and SOPs; lead concurrent special projects with the founder — facility expansion, warehouse liquidation and equipment auctioning, website migration.</li>
-                </ul>
-            </div>
-
-            <div class="experience-item">
-                <div class="job-header">
-                    <div class="job-title">Chief of Staff (Contract)</div>
-                    <div class="job-date">Jan. 2025 – May 2025</div>
-                </div>
-                <div class="company-location">Stealth Startup | Remote</div>
-                <ul class="job-description">
-                    <li>Built an internal SaaS hiring tool with no-code platforms and GenAI, cutting time-to-hire ~40%; launched the company website in 2 weeks. (pre-seed, 5-person team.) </li>
-                </ul>
-            </div>
-
-            <div class="experience-item">
-                <div class="job-header">
-                    <div class="job-title">Data Science Intern</div>
-                    <div class="job-date">Dec. 2024 – Mar. 2025</div>
-                </div>
-                <div class="company-location">TruTrip | Remote</div>
-                <ul class="job-description">
-                    <li>Built data pipelines and governance frameworks for U.S. market expansion; presented market trend analysis to leadership, informing retention strategy.</li>
-                </ul>
-            </div>
-
-            <div class="experience-item">
-                <div class="job-header">
-                    <div class="job-title">Search Quality Evaluator (Contract)</div>
-                    <div class="job-date">2017 – 2022</div>
-                </div>
-                <div class="company-location">Appen | Remote</div>
-                <ul class="job-description">
-                    <li>Evaluated search results for relevance and quality against rigorous rater guidelines for a major technology client (under NDA) across web, image, and local verticals; maintained quality thresholds through 5 years of continuous renewals — early human-in-the-loop evaluation for large-scale ML systems.</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- Education -->
-        <section class="resume-section">
-            <h2 class="section-title">Education</h2>
-            
-            <div class="education-item">
-                <div class="job-header">
-                    <div class="job-title">Master of Science in Data Science</div>
-                    <div class="job-date">2023 – 2024</div>
-                </div>
-                <div class="company-location">Willamette University | Salem, OR</div>
-            </div>
-
-            <div class="education-item">
-                <div class="job-header">
-                    <div class="job-title">Master of Business Administration</div>
-                    <div class="job-date">2022 – 2024</div>
-                </div>
-                <div class="company-location">Willamette University | Salem, OR</div>
-            </div>
-
-            <div class="education-item">
-                <div class="job-header">
-                    <div class="job-title">Bachelor of Arts (Honors) in German</div>
-                    <div class="job-date">2014 – 2017</div>
-                </div>
-                <div class="company-location">Doon University | Dehradun, India</div>
-            </div>
-        </section>
-
-        <!-- Skills -->
-        <section class="resume-section">
-            <h2 class="section-title">Skills</h2>
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3 class="skill-category-title">Build Stack</h3>
-                    <div class="skill-list">Rust, TypeScript, React, Tauri, Python, SQL (Postgres) — AI-assisted development (Claude, Cursor)</div>
-                </div>
-                
-                <div class="skill-category">
-                    <h3 class="skill-category-title">Data</h3>
-                    <div class="skill-list">Pandas, Polars, NumPy, Scikit-learn, R, RFM/cohort segmentation, statistical analysis, demand forecasting, Plotly, Seaborn, Tableau</div>
-                </div>
-                
-                <div class="skill-category">
-                    <h3 class="skill-category-title">Operations</h3>
-                    <div class="skill-list">Amazon Vendor Central, Faire, iHerb, QuickBooks, FDA FSMA/FSVP, channel P&amp;L, vendor negotiation</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Projects -->
-        <section class="resume-section">
-            <h2 class="section-title">Selected Projects</h2>
-
-            <div class="project-item">
-                <div class="project-header">
-                    <div class="project-title">The Tao of Tea Operations Suite</div>
-                    <div class="project-tech">Rust · axum · PostgreSQL · TypeScript · React · Tauri · Python</div>
-                </div>
-                <div class="project-description">End-to-end warehouse automation: PO Aggregator, PO Processing &amp; Carton Optimization (weight-ceiling bin packing), Case Label Printer, Incoming Shipment Label Generator (deployed to thermal printers), Packing Slip Generator. Includes a cloud catalog &amp; inventory system replacing a fragile shared spreadsheet — a Rust/axum API as the single database gatekeeper, PostgreSQL enforcing integrity at the storage layer, and a Tauri desktop app for non-technical staff.</div>
-                <a class="project-link" href="https://github.com/aaryanbh96" target="_blank">github.com/aaryanbh96 →</a>
-            </div>
-
-            <div class="project-item">
-                <div class="project-header">
-                    <div class="project-title">Faire Wholesale Channel Analytics</div>
-                    <div class="project-tech">Python · Pandas · Plotly · Seaborn</div>
-                </div>
-                <div class="project-description">End-to-end wholesale channel analysis — basket/co-occurrence analysis, RFM retailer segmentation, cohort retention, and Pareto concentration — surfacing a product trio in 43% of orders that drove a bundle strategy.</div>
-                <a class="project-link" href="faire-analysis.html" target="_blank">rearyan.com/faire-analysis.html →</a>
-            </div>
-
-            <div class="project-item">
-                <div class="project-header">
-                    <div class="project-title">Side Projects</div>
-                    <div class="project-tech">Elo · Monte Carlo · Chess engine · 3D rendering</div>
-                </div>
-                <div class="project-description">A self-updating World Cup 2026 forecaster (Elo with momentum, 20,000-run Monte Carlo, predictions frozen server-side and publicly scored with Brier calibration) and Your Slice of π, which plays a chess game out of the digits of pi starting at your birthday and renders it as a 3D light sculpture.</div>
-                <a class="project-link" href="https://wc2026.rearyan.com" target="_blank">wc2026.rearyan.com →</a>
-                <span class="project-tech"> · </span>
-                <a class="project-link" href="https://pi.rearyan.com" target="_blank">pi.rearyan.com →</a>
-            </div>
-        </section>
-
-        <!-- Download Button Bottom -->
-        <div class="download-section">
-            <a href="assets/Aryan_Bhardwaj_Resume.pdf" class="download-btn" target="_blank">
-                ↓ Download PDF Resume
-            </a>
-        </div>
+<header class="head">
+  <div class="head-inner">
+    <div>
+      <div class="ch-no">Dossier</div>
+      <h1>Resume</h1>
+      <p class="lede">Operator who builds. MBA + MS Data Science. Runs revenue
+      channels (Faire, Amazon, iHerb, TJ Maxx) and shipped 6 production
+      applications automating operations at a specialty manufacturer.</p>
     </div>
+    <a class="cta" href="assets/Aryan_Bhardwaj_Resume.pdf" download>↓ Download PDF</a>
+  </div>
+</header>
 
-    <script>
-        // Header transparency on scroll - Fixed
-        window.addEventListener('scroll', function() {
-            const logo = document.querySelector('.logo');
-            const nav = document.querySelector('.nav-sidebar');
-            const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-            
-            if (scrollY > 100) {
-                logo.classList.add('scrolled');
-                nav.classList.add('scrolled');
-            } else {
-                logo.classList.remove('scrolled');
-                nav.classList.remove('scrolled');
-            }
-        });
+<div class="wrap">
 
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
+  <section class="sec">
+    <div class="marker">Professional Experience</div>
+    <div class="timeline">
+
+      <div class="role">
+        <h3>Data &amp; Growth Consultant</h3>
+        <div class="rmeta">The Tao of Tea — Specialty Tea Manufacturer &amp; Wholesaler · Portland, OR · Mar 2025 — Present</div>
+        <ul>
+          <li>Launched and scaled the Faire wholesale channel from
+          <strong>zero to 35 retail accounts</strong> across 11+ states,
+          4×-ing monthly run rate; <strong>Top Shop status every month since
+          launch</strong>, zero late shipments.</li>
+          <li>Built the supporting analytics in Python — basket analysis, RFM
+          segmentation, cohort retention — and acted on them (a product trio in
+          43% of orders became a bundle strategy).</li>
+          <li>Secured <strong>price increases across Amazon Vendor Central and
+          iHerb</strong>, managing both retailer relationships; onboarded TJ
+          Maxx as a new account; own key-account promotion forecasting.</li>
+          <li>Designed and deployed <strong>6 production applications</strong>
+          using AI-assisted development (Claude Code, Cursor) with Rust,
+          TypeScript, React, Tauri, and Python automating operations: PO
+          parsing, demand planning, carton-packing optimization, case labeling,
+          packing slips, and catalog/inventory management. Cut PO processing
+          from <strong>40 minutes to under 2</strong>; self-initiated, in daily
+          use by non-technical staff.</li>
+          <li>Completed a QuickBooks migration <strong>stalled for 11 years in
+          two weeks</strong>, with zero disruption to operations.</li>
+          <li>Drafted FDA FSMA/FSVP compliance documentation and SOPs; managed
+          concurrent cross-functional projects end-to-end — facility expansion,
+          warehouse liquidation, a vendor-run website migration, and an
+          email-platform migration (Mailchimp → Brevo) cutting costs 88%
+          (~$5K/yr).</li>
+        </ul>
+      </div>
+
+      <div class="role">
+        <h3>Chief of Staff (Contract)</h3>
+        <div class="rmeta">Stealth Startup · Remote · Jan 2025 — May 2025</div>
+        <ul>
+          <li>Built an internal SaaS hiring tool with no-code platforms and
+          GenAI, cutting time-to-hire ~40%; launched the company website in
+          2 weeks. (Pre-seed, 5-person team.)</li>
+        </ul>
+      </div>
+
+      <div class="role">
+        <h3>Data Science Intern</h3>
+        <div class="rmeta">TruTrip · Remote · Dec 2024 — Mar 2025</div>
+        <ul>
+          <li>Built data pipelines and governance frameworks for U.S. market
+          expansion; presented market trend analysis to leadership, informing
+          retention strategy.</li>
+        </ul>
+      </div>
+
+      <div class="role">
+        <h3>Search Quality Evaluator (Contract)</h3>
+        <div class="rmeta">Appen · Remote · 2017 — 2022</div>
+        <ul>
+          <li>Evaluated search results for relevance and quality for a major
+          technology client (under NDA); 5 years of continuous renewals — early
+          human-in-the-loop evaluation for large-scale ML systems.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="marker">Education</div>
+    <div class="edu-row">
+      <div><div class="t">Master of Science in Data Science</div>
+      <div class="s">Willamette University · Salem, OR</div></div>
+      <div class="y">Aug 2023 — Aug 2024</div>
+    </div>
+    <div class="edu-row">
+      <div><div class="t">Master of Business Administration</div>
+      <div class="s">Willamette University · Salem, OR</div></div>
+      <div class="y">Aug 2022 — May 2024</div>
+    </div>
+    <div class="edu-row">
+      <div><div class="t">Bachelor of Arts (Honors) in German</div>
+      <div class="s">Doon University · Dehradun, India</div></div>
+      <div class="y">Jul 2014 — Jul 2017</div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="marker">Skills</div>
+    <dl class="skills">
+      <dt>Build Stack</dt>
+      <dd>Rust, TypeScript, React, Tauri, Python, SQL (Postgres), Git, Docker,
+      GCP — AI-assisted development (Claude Code, Cursor)</dd>
+      <dt>Data</dt>
+      <dd>Pandas, Polars, NumPy, Scikit-learn, statistical analysis, R,
+      RFM/cohort segmentation, demand forecasting, Plotly, Seaborn, Matplotlib,
+      Tableau</dd>
+      <dt>Operations</dt>
+      <dd>Amazon Vendor Central, Faire, iHerb, QuickBooks, Excel (advanced),
+      FDA FSMA/FSVP, channel P&amp;L, vendor negotiation, project
+      management</dd>
+    </dl>
+  </section>
+
+  <section class="sec">
+    <div class="marker">Selected Projects</div>
+    <div class="proj-row">
+      <div>
+        <div class="t">The Tao of Tea Operations Suite</div>
+        <div class="s">Rust · axum · PostgreSQL · TypeScript · React · Tauri · Python</div>
+        <p>End-to-end operations automation: PO Aggregator, PO Processing
+        &amp; Carton Optimization (weight-ceiling bin packing), Case &amp;
+        Shipment Label Printers, Packing Slip Generator, and a cloud Catalog
+        &amp; Inventory System (Rust/axum API, PostgreSQL, Tauri desktop
+        app).</p>
+      </div>
+      <div class="lnk"><a href="tao-operations.html">Case study →</a></div>
+    </div>
+    <div class="proj-row">
+      <div>
+        <div class="t">Faire Wholesale Channel Analytics</div>
+        <div class="s">Python · Pandas · Plotly · Seaborn</div>
+        <p>End-to-end wholesale channel analysis — basket/co-occurrence
+        analysis, RFM retailer segmentation, cohort retention, and Pareto
+        concentration — surfacing a product trio in 43% of orders that drove a
+        bundle strategy.</p>
+      </div>
+      <div class="lnk"><a href="faire-analysis.html">Analysis →</a></div>
+    </div>
+    <div class="proj-row">
+      <div>
+        <div class="t">Side Projects</div>
+        <div class="s">Elo · Monte Carlo · Chess Engine · 3D Rendering</div>
+        <p>A self-grading World Cup forecaster (Elo + 20,000-run Monte Carlo,
+        server-frozen predictions, Brier-scored, fully automated) and
+        generative art where π's digits play chess from your birthday's spot in
+        π, rendered as a 3D light sculpture (Three.js).</p>
+      </div>
+      <div class="lnk"><a href="https://wc2026.rearyan.com" target="_blank" rel="noopener">wc2026 ↗</a><br>
+      <a href="https://pi.rearyan.com" target="_blank" rel="noopener">pi ↗</a></div>
+    </div>
+  </section>
+
+  <a class="cta" href="assets/Aryan_Bhardwaj_Resume.pdf" download>↓ Download PDF</a>
+</div>
+
+<footer class="site">
+  <div class="footer-links">
+    <a href="https://github.com/aaryanbh96" target="_blank" rel="noopener">Github</a><span class="sep">·</span>
+    <a href="https://www.linkedin.com/in/aaryanb/" target="_blank" rel="noopener">LinkedIn</a><span class="sep">·</span>
+    <a href="https://x.com/aryanb_or" target="_blank" rel="noopener">X</a><span class="sep">·</span>
+    <a href="mailto:ab@rearyan.com">Email</a>
+  </div>
+  <div class="colophon">© 2026 · Aryan Bhardwaj · Portland, OR</div>
+</footer>
+
 </body>
 </html>

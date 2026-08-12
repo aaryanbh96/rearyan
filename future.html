@@ -1,258 +1,404 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thoughts - Aryan Bhardwaj</title>
-    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <style>
-        /* CSS Reset & Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Thoughts — re:aryan</title>
+<meta name="description" content="Thoughts — coming soon.">
+<link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/images/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="brand.css">
+<style>
+  .stage{position:relative;height:124svh;overflow:hidden}
+  #owl{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .copy{position:absolute;z-index:2;left:1.75rem;top:20vh;max-width:24rem}
+  .copy h1{font-family:var(--serif);font-style:italic;font-weight:300;
+    font-size:clamp(2rem,4.2vw,3rem);color:var(--ink);margin:1.3rem 0 1.5rem}
+  .copy .soon{font-size:.625rem;letter-spacing:.3em;color:var(--muted);
+    text-transform:uppercase}
+  @media (min-width:900px){.copy{left:8vw;top:24vh}}
+  @media (max-width:640px){.copy{top:12vh}}
+</style>
+</head>
+<body>
+
+<nav class="site">
+  <a class="brand" href="index.html">re<span>:</span>aryan</a>
+  <div class="links">
+    <a href="work.html">Work</a><a href="resume.html">Resume</a><a href="future.html" aria-current="page">Thoughts</a><a href="bookshelf.html">Bookshelf</a><a href="index.html#convergence">Contact</a>
+  </div>
+</nav>
+
+<div class="stage">
+  <canvas id="owl" aria-hidden="true"></canvas>
+  <div class="copy">
+    <div class="ch-no">Thoughts</div>
+    <h1>Still thinking.</h1>
+    <div class="soon">Coming soon</div>
+  </div>
+</div>
+
+<footer class="site">
+  <div class="footer-links">
+    <a href="https://github.com/aaryanbh96" target="_blank" rel="noopener">Github</a><span class="sep">·</span>
+    <a href="https://www.linkedin.com/in/aaryanb/" target="_blank" rel="noopener">LinkedIn</a><span class="sep">·</span>
+    <a href="https://x.com/aryanb_or" target="_blank" rel="noopener">X</a><span class="sep">·</span>
+    <a href="mailto:ab@rearyan.com">Email</a>
+  </div>
+  <div class="colophon">© 2026 · Aryan Bhardwaj · Portland, OR</div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canvas=document.getElementById('owl');
+  const ctx=canvas.getContext('2d');
+  const INK='231,228,221',AMB='214,154,60';
+  const TAU=Math.PI*2;
+  const clamp=(v,a,b)=>v<a?a:v>b?b:v;
+  const smooth=t=>{t=clamp(t,0,1);return t*t*(3-2*t)};
+  function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;
+    let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;
+    return((t^t>>>14)>>>0)/4294967296;}}
+
+  let W=0,H=0,DPR=1,layers=[],eyes=[],ambPts=[];
+  let sweep=null,nextSweep=0,drift=null,nextDrift=0,born=0;
+
+  function offscreen(){
+    const c=document.createElement('canvas');
+    c.width=W;c.height=H;
+    return [c,c.getContext('2d')];
+  }
+  function brokenArc(g,x,y,rx,ry,rot,a0,a1,gaps,rnd){
+    // draw an arc a0→a1 with `gaps` missing sections
+    const cuts=[a0];
+    for(let i=0;i<gaps;i++){
+      const c1=a0+(a1-a0)*rnd(),len=(a1-a0)*(0.02+rnd()*0.06);
+      cuts.push(c1,Math.min(c1+len,a1));
+    }
+    cuts.push(a1);cuts.sort((p,q)=>p-q);
+    for(let i=0;i<cuts.length-1;i+=2){
+      if(cuts[i+1]-cuts[i]<0.02)continue;
+      g.beginPath();
+      g.ellipse(x,y,rx,ry,rot,cuts[i],cuts[i+1]);
+      g.stroke();
+    }
+  }
+
+  function build(){
+    DPR=Math.min(devicePixelRatio||1,1.75);
+    W=canvas.clientWidth*DPR;H=canvas.clientHeight*DPR;
+    canvas.width=W;canvas.height=H;
+    const u=DPR,vw=canvas.clientWidth,mob=vw<760;
+    const rnd=mulberry32(271828);
+    const j=a=>(rnd()-0.5)*a;
+
+    const cx=(mob?0.52:0.60)*W;
+    const cy=(mob?0.50:0.44)*H;
+    const R=(mob?vw*0.46:Math.min(vw,canvas.clientHeight)*0.34)*u;
+    const exo=0.42*R,eyo=-0.06*R,re=0.30*R;
+    eyes=[{x:cx-exo,y:cy+eyo},{x:cx+exo,y:cy+eyo}];
+    ambPts=[];
+
+    layers=[];
+    /* ── LAYER 0 · construction field ── */
+    {
+      const [c,g]=offscreen();
+      g.lineWidth=1*u;
+      g.fillStyle=`rgba(${INK},0.10)`;
+      for(let i=0;i<(mob?14:24);i++){
+        g.globalAlpha=0.3+rnd()*0.7;
+        g.fillRect(rnd()*W,rnd()*H,(0.6+rnd()*0.8)*u,(0.6+rnd()*0.8)*u);
+      }
+      g.globalAlpha=1;
+      // margin coordinate ticks
+      g.strokeStyle=`rgba(${INK},0.06)`;
+      for(let i=0;i<6;i++){
+        const x=W*(0.06+rnd()*0.88),y=H*(0.06+rnd()*0.88);
+        g.beginPath();g.moveTo(x-4*u,y);g.lineTo(x+4*u,y);
+        g.moveTo(x,y-4*u);g.lineTo(x,y+4*u);g.stroke();
+      }
+      // two construction lines reaching into empty space
+      g.strokeStyle=`rgba(${INK},0.05)`;
+      g.beginPath();
+      g.moveTo(eyes[1].x+re*1.2,eyes[1].y-re*0.6);
+      g.lineTo(eyes[1].x+re*1.2+W*0.16,eyes[1].y-re*0.6-H*0.14);
+      g.stroke();
+      g.beginPath();
+      g.moveTo(cx-R*1.1,cy+R*1.2);
+      g.lineTo(cx-R*1.1-W*0.10,cy+R*1.2+H*0.06);
+      g.stroke();
+      // small incomplete diagrams: partial circles + an unconnected node
+      for(let i=0;i<3;i++){
+        const x=W*(0.08+rnd()*0.84),y=H*(0.08+rnd()*0.84),r=(8+rnd()*18)*u;
+        if(Math.hypot(x-cx,y-cy)<R*1.5){i--;continue;}
+        g.strokeStyle=`rgba(${INK},0.08)`;
+        brokenArc(g,x,y,r,r,0,rnd()*TAU,rnd()*TAU+2.2+rnd(),1,rnd);
+        if(rnd()>0.4){
+          g.fillStyle=`rgba(${INK},0.18)`;
+          g.fillRect(x+r*1.6,y-r*0.4,2*u,2*u);
         }
-
-        html {
-            scroll-behavior: smooth;
-            height: 100%;
-        }
-
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-            background-color: #000000;
-            color: #ffffff;
-            line-height: 1.6;
-            overflow-x: hidden;
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 8rem 2rem 4rem;
-            position: relative;
-            z-index: 1;
-            text-align: center;
-        }
-
-        .page-title {
-            font-size: 4rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            letter-spacing: -0.02em;
-        }
-
-        .coming-soon {
-            font-size: 2rem;
-            font-weight: 400;
-            color: #cccccc;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-        }
-
-        /* Responsive Design */
-        /* Tablets */
-        @media (max-width: 1024px) {
-            .container {
-                padding: 7rem 1.5rem 3rem;
-            }
-
-            .page-title {
-                font-size: 3.5rem;
-            }
-
-            .coming-soon {
-                font-size: 1.8rem;
-            }
-        }
-
-        /* Mobile Landscape and Small Tablets */
-        @media (max-width: 768px) {
-            .container {
-                padding: 5rem 1rem 2rem;
-            }
-            
-            .page-title {
-                font-size: 2.5rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .coming-soon {
-                font-size: 1.5rem;
-            }
-        }
-
-        /* Small Mobile Phones */
-        @media (max-width: 480px) {
-            .container {
-                padding: 4.5rem 0.75rem 1.5rem;
-            }
-
-            .page-title {
-                font-size: 2rem;
-                margin-bottom: 1.25rem;
-            }
-
-            .coming-soon {
-                font-size: 1.25rem;
-            }
-        }
-
-        /* Very Small Screens */
-        @media (max-width: 360px) {
-            .page-title {
-                font-size: 1.7rem;
-            }
-
-            .coming-soon {
-                font-size: 1.1rem;
-            }
-        }
-    
-    /* Logo & Navigation */
-    .logo {
-        position: fixed;
-        left: 2rem;
-        top: 2rem;
-        z-index: 1000;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 1.5rem;
-        font-weight: 500;
-        color: #ffffff;
-        text-decoration: none;
-        cursor: pointer;
-        transition: all 0.3s ease;
+      }
+      // an unfinished polyline, lower-left
+      g.strokeStyle=`rgba(${INK},0.06)`;
+      g.beginPath();
+      let x=W*0.08,y=H*0.82;
+      g.moveTo(x,y);
+      for(let i=0;i<4;i++){x+=W*0.03*(0.5+rnd());y-=H*0.02*(rnd()-0.3);g.lineTo(x,y);}
+      g.stroke();
+      layers.push({c,t0:3.4,dur:2.6});
     }
 
-    .logo:hover {
-        opacity: 0.7;
-    }
-
-    .logo.scrolled {
-        opacity: 0.1;
-    }
-
-    .nav-sidebar {
-        position: fixed;
-        right: 2rem;
-        top: 2rem;
-        z-index: 1000;
-        display: flex;
-        flex-direction: row;
-        gap: 2rem;
-        align-items: center;
-        transition: all 0.3s ease;
-    }
-
-    .nav-sidebar.scrolled {
-        opacity: 0.1;
-    }
-
-    .nav-btn {
-        background: transparent;
-        border: none;
-        color: #ffffff;
-        padding: 0.75rem 1.5rem;
-        font-family: 'Space Grotesk', sans-serif;
-        font-size: 0.9rem;
-        font-weight: 400;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        display: block;
-        text-align: center;
-        letter-spacing: 0.05em;
-    }
-
-    .nav-btn:visited,
-    .nav-btn:link,
-    .nav-btn:active {
-        color: #ffffff;
-    }
-
-    .nav-btn:hover {
-        color: #cccccc;
-    }
-
-    .nav-btn.highlight {
-        border: 2px solid #ffffff;
-        background: rgba(255, 255, 255, 0.1);
-    }
-
-    .nav-btn.highlight:visited,
-    .nav-btn.highlight:link,
-    .nav-btn.highlight:active {
-        color: #ffffff;
-    }
-
-    </style>
-    <style>
-        /* ═══ UNIFIED MOBILE PATCH (applies last, wins cascade) ═══ */
-        video, .video-overlay, .hero-video {
-            pointer-events: none !important;
-            -webkit-touch-callout: none !important;
-            -webkit-user-select: none !important;
-            user-select: none !important;
-        }
-        @media (max-width: 768px) {
-            .nav-sidebar {
-                position: fixed !important; top: auto !important;
-                bottom: 0.75rem !important; left: 0.75rem !important; right: 0.75rem !important;
-                transform: none !important;
-                display: flex !important; flex-direction: row !important; flex-wrap: wrap !important;
-                justify-content: center !important; align-items: center !important; gap: 0.25rem !important;
-                background: rgba(10,10,10,0.92) !important;
-                backdrop-filter: blur(10px) !important; -webkit-backdrop-filter: blur(10px) !important;
-                padding: 0.45rem 0.5rem !important;
-                border: 1px solid #2a2a2a !important; border-radius: 6px !important;
-                z-index: 1000 !important;
+    /* ── LAYER 1 · silhouette: head arcs + wing line fields ── */
+    {
+      const [c,g]=offscreen();
+      g.lineWidth=1*u;
+      // head dome: overlapping arc family
+      for(let i=0;i<(mob?4:6);i++){
+        const rr=R*(0.92+i*0.055+j(0.02));
+        g.strokeStyle=`rgba(${INK},${0.07+rnd()*0.05})`;
+        brokenArc(g,cx,cy+R*0.06,rr,rr*0.96,j(0.1),
+          Math.PI*1.02+j(0.2),Math.PI*1.98+j(0.2),2,rnd);
+      }
+      // ear tufts: incomplete angular pairs
+      for(const s of [-1,1]){
+        g.strokeStyle=`rgba(${INK},0.14)`;
+        g.beginPath();
+        g.moveTo(cx+s*R*0.62,cy-R*0.72);
+        g.lineTo(cx+s*R*0.82,cy-R*1.05);
+        g.stroke();
+        g.strokeStyle=`rgba(${INK},0.08)`;
+        g.beginPath();
+        g.moveTo(cx+s*R*0.48,cy-R*0.80);
+        g.lineTo(cx+s*R*0.66,cy-R*1.0);
+        g.stroke();
+      }
+      // wings: incomplete contour fields vanishing past the edges
+      const nW=mob?7:13;
+      for(const s of [-1,1]){
+        for(let i=0;i<nW;i++){
+          const f=i/(nW-1);
+          const x0=cx+s*R*(0.72+f*0.25),y0=cy+R*(0.05+f*0.28+j(0.05));
+          const x1=cx+s*(R*1.6+f*W*0.24),y1=y0+R*(0.9+f*0.9);
+          const mx1=x0+(x1-x0)*0.4+s*R*0.14,my1=y0+(y1-y0)*0.25;
+          g.strokeStyle=`rgba(${INK},${0.045+rnd()*0.045})`;
+          // broken into 2 strokes with a gap
+          const gap=0.45+rnd()*0.2;
+          g.beginPath();
+          for(let t=0;t<=gap-0.06;t+=0.05){
+            const xt=(1-t)*(1-t)*x0+2*(1-t)*t*mx1+t*t*x1;
+            const yt=(1-t)*(1-t)*y0+2*(1-t)*t*my1+t*t*y1;
+            t===0?g.moveTo(xt,yt):g.lineTo(xt,yt);
+          }
+          g.stroke();
+          if(rnd()>0.25){
+            g.beginPath();
+            for(let t=gap+0.05;t<=1;t+=0.05){
+              const xt=(1-t)*(1-t)*x0+2*(1-t)*t*mx1+t*t*x1;
+              const yt=(1-t)*(1-t)*y0+2*(1-t)*t*my1+t*t*y1;
+              t<=gap+0.1?g.moveTo(xt,yt):g.lineTo(xt,yt);
             }
-            .nav-btn {
-                padding: 0.35rem 0.55rem !important; font-size: 0.72rem !important;
-                border: none !important; background: transparent !important;
-                white-space: nowrap !important; margin: 0 !important;
-            }
-            .logo { left: 1rem !important; top: 1rem !important; font-size: 1.1rem !important; }
-            body { padding-bottom: 5.5rem !important; }
-            .container { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
-            .page-title { font-size: 2.2rem !important; }
-            .section-title { font-size: 1.6rem !important; }
-            .shelf-intro { font-size: 0.95rem !important; }
+            g.stroke();
+          }
         }
-    </style>
+      }
+      layers.push({c,t0:2.2,dur:2.4});
+    }
 
+    /* ── LAYER 2 · facial disc + the two instruments ── */
+    {
+      const [c,g]=offscreen();
+      g.lineWidth=1*u;
+      // facial disc: interrupted concentric ellipses, open at the bottom
+      for(let i=0;i<4;i++){
+        const rr=R*(0.82+i*0.13);
+        g.strokeStyle=`rgba(${INK},${0.10+i*0.01})`;
+        brokenArc(g,cx,cy,rr,rr*0.9,0,
+          Math.PI*(0.86-j(0.04)),Math.PI*(2.14+j(0.04)),2+i,rnd);
+      }
+      // disc radial observation marks
+      g.strokeStyle=`rgba(${INK},0.10)`;
+      for(let i=0;i<(mob?10:16);i++){
+        const a=Math.PI*(0.9+1.2*rnd());
+        const r1=R*0.80,r2=R*0.86;
+        g.beginPath();
+        g.moveTo(cx+Math.cos(a)*r1,cy+Math.sin(a)*r1*0.9);
+        g.lineTo(cx+Math.cos(a)*r2,cy+Math.sin(a)*r2*0.9);
+        g.stroke();
+      }
+      // the eyes: instruments
+      for(const [ei,e] of eyes.entries()){
+        // concentric incomplete rings
+        for(const [ri,f] of [[0,0.5],[1,0.74],[2,1.0]]){
+          g.strokeStyle=`rgba(${INK},${0.28-ri*0.06})`;
+          brokenArc(g,e.x,e.y,re*f,re*f,0,rnd()*TAU,rnd()*TAU+TAU*0.8,2,rnd);
+        }
+        // inner partial ring around the dark center
+        g.strokeStyle=`rgba(${INK},0.34)`;
+        brokenArc(g,e.x,e.y,re*0.20,re*0.20,0,rnd()*TAU,rnd()*TAU+4.4,1,rnd);
+        // fine radial ticks, several missing
+        g.strokeStyle=`rgba(${INK},0.16)`;
+        for(let i=0;i<24;i++){
+          if(rnd()<0.2)continue;
+          const a=i/24*TAU;
+          g.beginPath();
+          g.moveTo(e.x+Math.cos(a)*re*0.86,e.y+Math.sin(a)*re*0.86);
+          g.lineTo(e.x+Math.cos(a)*re*0.94,e.y+Math.sin(a)*re*0.94);
+          g.stroke();
+        }
+        // broken measurement arcs outside the instrument
+        g.strokeStyle=`rgba(${INK},0.09)`;
+        brokenArc(g,e.x,e.y,re*1.18,re*1.18,0,
+          rnd()*TAU,rnd()*TAU+1.6,1,rnd);
+        brokenArc(g,e.x,e.y,re*1.32,re*1.32,0,
+          rnd()*TAU,rnd()*TAU+0.9,0,rnd);
+        // amber registration: a point and one thin partial ring
+        const aa=rnd()*TAU;
+        const px2=e.x+Math.cos(aa)*re*0.5,py2=e.y+Math.sin(aa)*re*0.5;
+        ambPts.push({x:px2,y:py2,base:0.55,ei});
+        g.strokeStyle=`rgba(${AMB},0.4)`;
+        brokenArc(g,e.x,e.y,re*0.26,re*0.26,0,aa-0.5,aa+0.2,0,rnd);
+      }
+      // beak: four precise converging lines, unfilled
+      const by=cy+R*0.16,tip=cy+R*0.46;
+      g.strokeStyle=`rgba(${INK},0.30)`;
+      for(const [sx,sy] of [[-0.12,0],[0.12,0],[-0.05,-0.06],[0.05,-0.06]]){
+        g.beginPath();
+        g.moveTo(cx+sx*R,by+sy*R);
+        g.lineTo(cx+j(0.006)*R,tip);
+        g.stroke();
+      }
+      layers.push({c,t0:1.0,dur:1.6});
+    }
 
-        <!-- Logo -->
-    <a href="index.html" class="logo">re:aryan</a>
+    /* ── LAYER 3 · chest: bundled traces dissolving downward ── */
+    {
+      const [c,g]=offscreen();
+      g.lineWidth=1*u;
+      const n=mob?9:15;
+      for(let i=0;i<n;i++){
+        const f=(i/(n-1)-0.5)*2;
+        const x0=cx+f*R*0.5+j(R*0.03),y0=cy+R*(0.55+Math.abs(f)*0.12);
+        const len=R*(0.9+rnd()*0.9);
+        const drift2=f*R*0.35+j(R*0.1);
+        // upper, clearer
+        g.strokeStyle=`rgba(${INK},0.10)`;
+        g.beginPath();
+        g.moveTo(x0,y0);
+        g.quadraticCurveTo(x0+drift2*0.4,y0+len*0.45,x0+drift2*0.7,y0+len*0.62);
+        g.stroke();
+        // lower, dissolving
+        if(rnd()>0.2){
+          g.strokeStyle=`rgba(${INK},0.04)`;
+          g.beginPath();
+          g.moveTo(x0+drift2*0.7,y0+len*0.68);
+          g.quadraticCurveTo(x0+drift2*0.9,y0+len*0.85,x0+drift2,y0+len);
+          g.stroke();
+        }
+        // occasional fork
+        if(rnd()>0.6){
+          g.strokeStyle=`rgba(${INK},0.06)`;
+          g.beginPath();
+          g.moveTo(x0+drift2*0.4,y0+len*0.4);
+          g.lineTo(x0+drift2*0.4+j(R*0.2),y0+len*(0.55+rnd()*0.15));
+          g.stroke();
+        }
+      }
+      // nested contour families suggesting feathering at the disc edge
+      for(let i=0;i<(mob?5:9);i++){
+        const a=Math.PI*(1.15+0.7*rnd());
+        const r0=R*(0.95+rnd()*0.2);
+        g.strokeStyle=`rgba(${INK},0.06)`;
+        brokenArc(g,cx,cy+R*0.1,r0,r0*0.9,0,a,a+0.5+rnd()*0.5,1,rnd);
+      }
+      layers.push({c,t0:2.8,dur:2.4});
+    }
 
-    <!-- Navigation -->
-    <nav class="nav-sidebar">
-        <a href="projects.html" class="nav-btn">Selected Work</a>
-        <a href="resume.html" class="nav-btn">Resume</a>
-        <a href="future.html" class="nav-btn highlight">Thoughts</a>
-        <a href="bookshelf.html" class="nav-btn">Bookshelf</a>
-        <a href="index.html#contact" class="nav-btn">Get in Touch</a>
-    </nav>
+    /* ── amber layer (points drawn live for drift) is not cached ── */
+  }
 
+  function drawFrame(now){
+    ctx.clearRect(0,0,W,H);
+    const u=DPR;
+    const t=reduce?99:(now-born)/1000;
+    for(const L of layers){
+      const a=reduce?1:smooth((t-L.t0)/L.dur);
+      if(a<=0.005)continue;
+      ctx.globalAlpha=a;
+      ctx.drawImage(L.c,0,0);
+    }
+    ctx.globalAlpha=1;
+    // amber registration points (staged first, then steady, with rare drift)
+    for(const p of ambPts){
+      let al=reduce?p.base:p.base*smooth((t-0.5)/0.8);
+      if(drift&&drift.ei===p.ei){
+        const dt=(now-drift.born)/9000;
+        if(dt>=1)drift=null;
+        else al+=0.12*Math.sin(dt*Math.PI);
+      }
+      if(al<=0.01)continue;
+      ctx.fillStyle=`rgba(${AMB},${al})`;
+      ctx.beginPath();ctx.arc(p.x,p.y,1.6*u,0,TAU);ctx.fill();
+    }
+    // one observation arc, occasionally, around one eye
+    if(!reduce&&t>6){
+      if(!sweep&&now>nextSweep){
+        sweep={ei:(now|0)%2,a0:((now/13)|0)%628/100,born:now,
+          span:(20+((now/7|0)%15))*Math.PI/180};
+        nextSweep=now+12000+((now*3)%6000);
+      }
+      if(sweep){
+        const dt=(now-sweep.born)/2600;
+        if(dt>=1)sweep=null;
+        else{
+          const e=eyes[sweep.ei];
+          const rad=Math.abs(eyes[0].x-eyes[1].x)*0.39; // ≈1.1× eye radius
+          const al=0.12*Math.sin(dt*Math.PI);
+          ctx.strokeStyle=`rgba(${INK},${al})`;
+          ctx.lineWidth=1*u;
+          ctx.beginPath();
+          ctx.arc(e.x,e.y,rad,sweep.a0+dt*sweep.span,
+            sweep.a0+dt*sweep.span+0.35);
+          ctx.stroke();
+        }
+      }
+      if(!drift&&now>nextDrift){
+        drift={ei:(now/11|0)%2,born:now};
+        nextDrift=now+20000+((now*5)%8000);
+      }
+    }
+  }
 
+  let running=false,rafId=null;
+  function loop(now){
+    if(!running)return;
+    drawFrame(now);
+    rafId=requestAnimationFrame(loop);
+  }
+  function start(){
+    if(!running){
+      running=true;
+      if(!born)born=performance.now();
+      rafId=requestAnimationFrame(loop);
+    }
+  }
+  function stop(){running=false;if(rafId)cancelAnimationFrame(rafId);}
 
-    <!-- Main Content -->
-    <div class="container">
-        <h1 class="page-title">Thoughts</h1>
-        <p class="coming-soon">Coming Soon</p>
-    </div>
+  let rT=null;
+  addEventListener('resize',()=>{clearTimeout(rT);
+    rT=setTimeout(()=>{build();drawFrame(performance.now());},150);});
 
-    <!-- Footer -->
-    <div id="footer-placeholder"></div>
+  build();
+  if(reduce){drawFrame(performance.now());}
+  else{
+    new IntersectionObserver(es=>{
+      for(const e of es)e.isIntersecting?start():stop();
+    },{threshold:0}).observe(canvas);
+  }
+})();
+</script>
 </body>
 </html>

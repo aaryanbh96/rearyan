@@ -7793,21 +7793,94 @@ a.anchor-link {
     white-space: normal;
   }
 </style>
-<!-- End of mermaid configuration --></head>
+<!-- End of mermaid configuration --><link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/images/favicon.ico" sizes="48x48">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="paper.css">
+<style>
+/* ── re:aryan paper skin over the notebook ── */
+body.jp-Notebook{background:var(--p-bg)!important;padding:0!important}
+:root{
+  --jp-content-font-family:'Newsreader',Georgia,serif;
+  --jp-content-font-color1:#33373E;
+  --jp-content-link-color:#A66A1E;
+  --jp-layout-color0:transparent;
+  --jp-layout-color1:transparent;
+  --jp-cell-editor-background:transparent;
+  --jp-ui-font-family:'JetBrains Mono',monospace;
+}
+.jp-Cell-inputWrapper,.jp-InputPrompt,.jp-OutputPrompt,
+.anchor-link{display:none!important}
+.jp-OutputArea-output[data-mime-type*="stderr"]{display:none!important}
+main,.jp-Notebook .jp-Cell{max-width:56rem;margin-left:auto!important;margin-right:auto!important}
+.jp-Cell{padding:0 1.75rem!important}
+.jp-RenderedMarkdown h1{display:none}
+.jp-RenderedMarkdown h2{
+  font-family:'JetBrains Mono',monospace!important;font-weight:500!important;
+  font-size:.85rem!important;letter-spacing:.16em;text-transform:uppercase;
+  color:#1B1E23!important;border-top:1px solid rgba(20,22,26,.14);
+  border-bottom:0!important;padding-top:2.8rem;margin:3.2rem 0 1rem!important;
+}
+.jp-RenderedMarkdown h3{
+  font-family:'JetBrains Mono',monospace!important;font-weight:500!important;
+  font-size:.68rem!important;letter-spacing:.2em;text-transform:uppercase;
+  color:#5A5E66!important;margin:1.8rem 0 .7rem!important;
+}
+.jp-RenderedMarkdown p,.jp-RenderedMarkdown li{
+  font-family:'Newsreader',Georgia,serif!important;font-weight:300;
+  font-size:1.06rem!important;line-height:1.72!important;color:#33373E!important;
+}
+.jp-RenderedMarkdown code{
+  font-family:'JetBrains Mono',monospace!important;font-size:.82em!important;
+  background:#E4DFD0!important;color:#1B1E23!important;padding:.08em .3em;
+}
+.jp-OutputArea img{
+  background:#fff;border:1px solid rgba(20,22,26,.14);
+  padding:10px;max-width:100%;height:auto;margin:1.1rem 0;
+}
+.jp-OutputArea-output{overflow-x:auto}
+table.dataframe{
+  font-family:'JetBrains Mono',monospace!important;font-size:.66rem!important;
+  color:#2A2E35!important;border-collapse:collapse!important;margin:1rem 0;
+}
+table.dataframe td,table.dataframe th{
+  border:1px solid rgba(20,22,26,.14)!important;padding:.35em .6em!important;
+}
+table.dataframe th{background:#E7E2D4!important;font-weight:500!important}
+table.dataframe tbody tr:hover{background:#F0EDE3!important}
+.jp-OutputArea-output pre{
+  font-family:'JetBrains Mono',monospace!important;font-size:.7rem!important;
+  color:#3E434B!important;background:#F0EDE3!important;
+  border:1px solid rgba(20,22,26,.14);padding:1rem!important;
+  overflow-x:auto;line-height:1.6!important;
+}
+</style>
+</head>
 <body data-x class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<div style="background:#0a0a0a;color:#fff;padding:2.5rem 2rem;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;border-bottom:3px solid #1A5C38;">
-  <div style="max-width:1100px;margin:0 auto;">
-    <div style="font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:0.2em;opacity:0.6;text-transform:uppercase;margin-bottom:0.75rem;">Data Project &middot; Wholesale Analytics</div>
-    <h1 style="font-size:2.2rem;margin:0 0 0.75rem 0;font-weight:700;">Faire Wholesale Channel Analytics</h1>
-    <p style="font-size:1.05rem;line-height:1.6;opacity:0.85;max-width:720px;margin:0 0 1rem 0;">
-      Start-to-finish analysis of a specialty manufacturer's wholesale channel &mdash; basket/co-occurrence analysis, RFM segmentation, cohort retention, and Pareto concentration, turning raw order exports into bundle, re-engagement, and merchandising decisions.
-    </p>
-    <p style="font-size:0.85rem;opacity:0.6;margin:0;">
-      Aryan Bhardwaj &nbsp;&middot;&nbsp; <a href="https://rearyan.com" style="color:#4CAF82;">rearyan.com</a> &nbsp;&middot;&nbsp; <a href="https://github.com/aaryanbh96" style="color:#4CAF82;">GitHub</a><br>
-      <span style="opacity:0.7;">Synthetic data mirroring the real channel's structure; revenue shown as an index (mean = 100). No confidential figures.</span>
-    </p>
+<nav class="paper">
+  <a class="brand" href="index.html">re<span>:</span>aryan</a>
+  <div class="links">
+    <a href="work.html" aria-current="true">Work</a><a href="resume.html">Resume</a><a href="future.html">Thoughts</a><a href="bookshelf.html">Bookshelf</a><a href="index.html#convergence">Contact</a>
   </div>
-</div>
+</nav>
+
+<header class="doc-head">
+  <div class="ch-no">02 / Commerce — Analysis</div>
+  <h1 class="doc-title">Faire wholesale channel analytics.</h1>
+  <p class="doc-lede">Start-to-finish analysis of a specialty manufacturer's
+  wholesale channel — basket/co-occurrence analysis, RFM segmentation, cohort
+  retention, and Pareto concentration — turning raw order exports into bundle,
+  re-engagement, and merchandising decisions.</p>
+  <div class="doc-note">Synthetic data mirroring the real channel's structure
+  · Revenue shown as an index (mean order = 100) · No confidential
+  information</div>
+  <div class="doc-links">
+    <a class="cta-p" href="https://github.com/aaryanbh96/faire-wholesale-analytics" target="_blank" rel="noopener">Code on GitHub ↗</a>
+    <a class="cta-p" href="work.html">← All work</a>
+  </div>
+</header>
+
+
 <div style="max-width:1100px;margin:0 auto;padding:1rem;">
 
 <main>
@@ -11753,5 +11826,20 @@ Name: count, dtype: int64
 </div>
 </div>
 </main>
-</div></body>
+</div>
+<div class="doc-endnav">
+  <a class="cta-p" href="tao-operations.html">← Tao Operations System</a>
+  <a class="cta-p" href="https://github.com/aaryanbh96/faire-wholesale-analytics" target="_blank" rel="noopener">Code on GitHub ↗</a>
+</div>
+
+<footer class="paper">
+  <div class="footer-links">
+    <a href="https://github.com/aaryanbh96" target="_blank" rel="noopener">Github</a><span class="sep">·</span>
+    <a href="https://www.linkedin.com/in/aaryanb/" target="_blank" rel="noopener">LinkedIn</a><span class="sep">·</span>
+    <a href="https://x.com/aryanb_or" target="_blank" rel="noopener">X</a><span class="sep">·</span>
+    <a href="mailto:ab@rearyan.com">Email</a>
+  </div>
+  <div class="colophon">© 2026 · Aryan Bhardwaj · Portland, OR</div>
+</footer>
+</body>
 </html>

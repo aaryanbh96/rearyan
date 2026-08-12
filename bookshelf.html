@@ -1,560 +1,837 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookshelf - Aryan Bhardwaj</title>
-    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <style>
-        /* CSS Reset & Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Bookshelf — re:aryan</title>
+<meta name="description" content="Not a canon. A root system. Books, papers, and fiction organized as a tree of thought.">
+<link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/images/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="brand.css">
+<style>
+  /* ── the root system ─────────────────── */
+  #tree-wrap{position:relative;background:var(--bg)}
+  .tree-stage{position:sticky;top:0;height:100svh;overflow:hidden;z-index:1}
+  #tree{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .tree-content{position:relative;z-index:2;margin-top:-100svh}
 
-        html {
-            scroll-behavior: smooth;
-            height: 100%;
-        }
+  .bs-open{min-height:58svh}
+  .bs-title{padding:0 1.75rem;max-width:var(--w-wide);margin:0 auto 26svh}
+  .bs-title h1{font-family:var(--serif);font-style:italic;font-weight:300;
+    font-size:clamp(2.4rem,5vw,3.6rem);color:var(--ink);margin:1.3rem 0 1.2rem}
+  .bs-line{font-family:var(--serif);font-weight:300;font-size:1.15rem;
+    color:#B9B6AE}
 
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-            background-color: #000000;
-            color: #ffffff;
-            line-height: 1.6;
-            overflow-x: hidden;
-            position: relative;
-            min-height: 100vh;
-        }
+  .domain{padding:0 1.75rem;margin:0 auto 22svh;max-width:var(--w-wide)}
+  .domain>.marker{margin-bottom:3rem}
+  .dcol{max-width:26rem}
+  .side-r .dcol{margin-left:52%}
+  .side-l .dcol{margin-left:4%}
+  .center .dcol{margin-left:auto;margin-right:auto;max-width:28rem}
 
-        /* Video Background - Fixed */
-        .video-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            overflow: hidden;
-        }
+  .work{margin-bottom:3.2rem;position:relative}
+  .work .fmt{font-size:.5625rem;letter-spacing:.26em;color:var(--muted);
+    text-transform:uppercase;display:block;margin-bottom:.5rem}
+  .work h3{font-family:var(--mono);font-weight:500;font-size:.82rem;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+    line-height:1.55;transition:color .3s}
+  .work:hover h3{color:var(--amber)}
+  .work .auth{font-size:.5625rem;letter-spacing:.2em;color:var(--muted);
+    text-transform:uppercase;margin-top:.45rem}
+  .work .note{font-family:var(--serif);font-weight:300;font-style:italic;
+    font-size:1rem;line-height:1.65;color:#A9A6A0;margin-top:.8rem;max-width:24rem}
 
-        .video-background video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100%;
-            height: 100%;
-            transform: translate(-50%, -50%);
-            object-fit: contain;
-        }
+  .worlds .work h3{font-size:clamp(.95rem,1.8vw,1.15rem);letter-spacing:.16em}
+  .worlds .work{margin-bottom:3.8rem}
 
-        /* Fallback for browsers that don't support object-fit */
-        @supports not (object-fit: contain) {
-            .video-background video {
-                width: 100%;
-                height: 100%;
-            }
-        }
+  .bud .fmt{color:var(--amber)}
+  .bud h3{color:var(--muted)}
+  .bud:hover h3{color:var(--ink)}
 
-        .video-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: -1;
-        }
+  .bs-end{min-height:34svh}
 
-        /* Main Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 8rem 2rem 4rem;
-            position: relative;
-            z-index: 1;
-        }
+  @media (max-width:760px){
+    .side-r .dcol,.side-l .dcol{margin-left:34%}
+    .center .dcol{margin-left:34%;margin-right:0}
+    .work .note{max-width:none}
+    .bs-title{margin-bottom:20svh}
+    .domain{margin-bottom:16svh}
+  }
+</style>
+</head>
+<body>
 
-        .page-title {
-            font-size: 3rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 3rem;
-        }
+<nav class="site">
+  <a class="brand" href="index.html">re<span>:</span>aryan</a>
+  <div class="links">
+    <a href="work.html">Work</a><a href="resume.html">Resume</a><a href="future.html">Thoughts</a><a href="bookshelf.html" aria-current="page">Bookshelf</a><a href="index.html#convergence">Contact</a>
+  </div>
+</nav>
 
-        .content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-        }
+<div id="tree-wrap">
+  <div class="tree-stage"><canvas id="tree" aria-hidden="true"></canvas></div>
 
-        .section-title {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            border-bottom: 2px solid #333;
-            padding-bottom: 0.5rem;
-        }
+  <div class="tree-content">
 
-        .item {
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-left: 3px solid #666;
-            transition: all 0.3s ease;
-        }
+    <div class="bs-open"></div>
 
-        .item:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateX(5px);
-        }
+    <header class="bs-title">
+      <div class="ch-no">Index / Reading</div>
+      <h1>Bookshelf</h1>
+      <p class="bs-line">Not a canon. A root system.</p>
+    </header>
 
-        .item-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
+    <section class="domain side-r" id="d-systems" data-domain="systems">
+      <div class="marker">01 / Systems &amp; Operations</div>
+      <div class="dcol">
 
-        .item-author {
-            color: #ccc;
-            font-size: 1rem;
-            margin-bottom: 0.3rem;
-        }
+        <article class="work" data-node="forrester" data-side="l">
+          <span class="fmt">Paper · 1958</span>
+          <h3>Industrial Dynamics</h3>
+          <div class="auth">Forrester, J.W.</div>
+          <p class="note">Where system dynamics began. Everything I believe
+          about feedback loops traces here.</p>
+        </article>
 
-        .item-year {
-            color: #888;
-            font-size: 0.9rem;
-        }
+        <article class="work" data-node="meadows" data-side="l">
+          <span class="fmt">Book</span>
+          <h3>Thinking in Systems</h3>
+          <div class="auth">Donella Meadows</div>
+          <p class="note">The book I hand people when they ask what 'systems
+          thinking' means.</p>
+        </article>
 
-        .item a {
-            color: #64c8ff;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
+        <article class="work" data-node="sterman" data-side="l">
+          <span class="fmt">Book</span>
+          <h3>Business Dynamics</h3>
+          <div class="auth">John Sterman</div>
+          <p class="note">The system dynamics bible. The class that rewired how
+          I see organizations traces to this.</p>
+        </article>
 
-        .item a:hover {
-            color: #ffffff;
-        }
+        <article class="work" data-node="goldratt" data-side="l">
+          <span class="fmt">Book</span>
+          <h3>The Goal</h3>
+          <div class="auth">Eliyahu Goldratt</div>
+          <p class="note">Operations as a novel. I think about constraints and
+          bottlenecks every working day — this is why.</p>
+        </article>
 
-        /* Responsive Design */
-        /* Tablets */
-        @media (max-width: 1024px) {
-            .container {
-                padding: 7rem 1.5rem 3rem;
-            }
+        <article class="work" data-node="bullwhip" data-side="l">
+          <span class="fmt">Paper · 1997</span>
+          <h3>The Bullwhip Effect in Supply Chains</h3>
+          <div class="auth">Lee, Padmanabhan &amp; Whang</div>
+          <p class="note">I watch this happen from inside a warehouse. The
+          paper that explains my day job.</p>
+        </article>
 
-            .page-title {
-                font-size: 2.5rem;
-            }
+        <article class="work" data-node="bainbridge" data-side="l">
+          <span class="fmt">Paper · 1983</span>
+          <h3>Ironies of Automation</h3>
+          <div class="auth">Bainbridge, L.</div>
+          <p class="note">The more you automate, the more the human matters. I
+          build automation for a living — this one keeps me honest.</p>
+        </article>
 
-            .content {
-                gap: 3rem;
-            }
+      </div>
+    </section>
 
-            .section-title {
-                font-size: 1.8rem;
-            }
-        }
+    <section class="domain side-r" id="d-decisions" data-domain="decisions">
+      <div class="marker">02 / Decisions &amp; Judgment</div>
+      <div class="dcol">
 
-        /* Mobile Landscape and Small Tablets */
-        @media (max-width: 768px) {
-            .container {
-                padding: 5rem 1rem 2rem;
-            }
-            
-            .content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            
-            .page-title {
-                font-size: 2rem;
-                margin-bottom: 2rem;
-            }
+        <article class="work" data-node="simon" data-side="l">
+          <span class="fmt">Paper · 1955</span>
+          <h3>A Behavioral Model of Rational Choice</h3>
+          <div class="auth">Simon, H.A.</div>
+          <p class="note">Bounded rationality. People satisfice — systems
+          should be designed for the people we are.</p>
+        </article>
 
-            .section-title {
-                font-size: 1.6rem;
-                margin-bottom: 1.5rem;
-            }
+        <article class="work" data-node="kahneman" data-side="l">
+          <span class="fmt">Book</span>
+          <h3>Thinking, Fast and Slow</h3>
+          <div class="auth">Daniel Kahneman</div>
+          <p class="note">Still the foundation under everything I read about
+          decisions.</p>
+        </article>
 
-            .item {
-                padding: 0.85rem;
-            }
+        <article class="work" data-node="klein" data-side="l">
+          <span class="fmt">Book</span>
+          <h3>Sources of Power</h3>
+          <div class="auth">Gary Klein</div>
+          <p class="note">How people actually decide under pressure — the
+          field-study counterweight to Kahneman's lab.</p>
+        </article>
 
-            .item-title {
-                font-size: 1.1rem;
-            }
+        <article class="work" data-node="chess" data-side="l">
+          <span class="fmt">Paper · 1973</span>
+          <h3>Perception in Chess</h3>
+          <div class="auth">Chase &amp; Simon</div>
+          <p class="note">Why masters see the board differently. I'm studying
+          my own games trying to catch this happening.</p>
+        </article>
 
-            .item-author {
-                font-size: 0.95rem;
-            }
+        <article class="work" data-node="maia" data-side="l">
+          <span class="fmt">Paper · 2020</span>
+          <h3>Aligning Superhuman AI with Human Behavior: Chess as a Model System</h3>
+          <div class="auth">McIlroy-Young et al.</div>
+          <p class="note">Maia — engines that predict human moves instead of
+          best moves. Chess as a lab for human-AI interaction.</p>
+        </article>
 
-            .item-year {
-                font-size: 0.85rem;
-            }
-        }
+      </div>
+    </section>
 
-        /* Small Mobile Phones */
-        @media (max-width: 480px) {
-            .container {
-                padding: 4.5rem 0.75rem 1.5rem;
-            }
+    <section class="domain side-r" id="d-building" data-domain="building">
+      <div class="marker">03 / Building</div>
+      <div class="dcol">
 
-            .page-title {
-                font-size: 1.6rem;
-                margin-bottom: 1.5rem;
-            }
+        <article class="work" data-node="momtest" data-side="l">
+          <span class="fmt">Book</span>
+          <h3>The Mom Test</h3>
+          <div class="auth">Rob Fitzpatrick</div>
+          <p class="note">How to talk to customers without them lying to you.
+          Re-reading as I interview other small wholesalers.</p>
+        </article>
 
-            .section-title {
-                font-size: 1.4rem;
-                margin-bottom: 1.25rem;
-                padding-bottom: 0.4rem;
-            }
+        <article class="work" data-node="horowitz" data-side="l">
+          <span class="fmt">Book</span>
+          <h3>The Hard Thing About Hard Things</h3>
+          <div class="auth">Ben Horowitz</div>
+          <p class="note">For the founder ambition. No recipes, just scar
+          tissue.</p>
+        </article>
 
-            .content {
-                gap: 1.5rem;
-            }
+        <article class="work" data-node="knight" data-side="l">
+          <span class="fmt">Book</span>
+          <h3>Shoe Dog</h3>
+          <div class="auth">Phil Knight</div>
+          <p class="note">A Portland operator story. Building something real is
+          mostly chaos held together by stubbornness.</p>
+        </article>
 
-            .item {
-                padding: 0.75rem;
-                margin-bottom: 1rem;
-            }
+      </div>
+    </section>
 
-            .item-title {
-                font-size: 1rem;
-            }
+    <section class="domain side-l" id="d-history" data-domain="history">
+      <div class="marker">04 / History &amp; Civilizations</div>
+      <div class="dcol">
 
-            .item-author {
-                font-size: 0.9rem;
-            }
+        <article class="work" data-node="durant" data-side="r">
+          <span class="fmt">Book</span>
+          <h3>The Lessons of History</h3>
+          <div class="auth">Will &amp; Ariel Durant</div>
+          <p class="note">A hundred pages distilling civilizations. I'm
+          fascinated by how decisions compound across centuries.</p>
+        </article>
 
-            .item-year {
-                font-size: 0.8rem;
-            }
-        }
+        <article class="work" data-node="okakura" data-side="r">
+          <span class="fmt">Book</span>
+          <h3>The Book of Tea</h3>
+          <div class="auth">Kakuzō Okakura</div>
+          <p class="note">I work at a tea company. This one's required — and it
+          turned out to be a philosophy book in disguise.</p>
+        </article>
 
-        /* Very Small Screens */
-        @media (max-width: 360px) {
-            .page-title {
-                font-size: 1.4rem;
-            }
+      </div>
+    </section>
 
-            .section-title {
-                font-size: 1.2rem;
-            }
+    <section class="domain center worlds" id="d-worlds" data-domain="worlds">
+      <div class="marker">05 / Worlds</div>
+      <div class="dcol">
 
-            .item-title {
-                font-size: 0.95rem;
-            }
-        }
+        <article class="work" data-node="threebody" data-side="l">
+          <span class="fmt">Fiction</span>
+          <h3>The Three-Body Problem</h3>
+          <div class="auth">Liu Cixin</div>
+        </article>
 
-        /* Additional mobile video fixes */
-        @media (max-width: 768px) {
-            .video-background video {
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
-            }
-        }
-    
-    /* Logo & Navigation */
-    .logo {
-        position: fixed;
-        left: 2rem;
-        top: 2rem;
-        z-index: 1000;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 1.5rem;
-        font-weight: 500;
-        color: #ffffff;
-        text-decoration: none;
-        cursor: pointer;
-        transition: all 0.3s ease;
+        <article class="work" data-node="foundation" data-side="l">
+          <span class="fmt">Fiction</span>
+          <h3>Foundation</h3>
+          <div class="auth">Isaac Asimov</div>
+        </article>
+
+        <article class="work" data-node="dune" data-side="l">
+          <span class="fmt">Fiction</span>
+          <h3>Dune</h3>
+          <div class="auth">Frank Herbert</div>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="domain center" id="d-next" data-domain="next">
+      <div class="marker">New Growth</div>
+      <div class="dcol">
+
+        <article class="work bud" data-node="redrising" data-side="l">
+          <span class="fmt">Next</span>
+          <h3>Red Rising</h3>
+          <div class="auth">Pierce Brown</div>
+        </article>
+
+      </div>
+    </section>
+
+    <div class="bs-end"></div>
+
+  </div>
+</div>
+
+<footer class="site">
+  <div class="footer-links">
+    <a href="https://github.com/aaryanbh96" target="_blank" rel="noopener">Github</a><span class="sep">·</span>
+    <a href="https://www.linkedin.com/in/aaryanb/" target="_blank" rel="noopener">LinkedIn</a><span class="sep">·</span>
+    <a href="https://x.com/aryanb_or" target="_blank" rel="noopener">X</a><span class="sep">·</span>
+    <a href="mailto:ab@rearyan.com">Email</a>
+  </div>
+  <div class="colophon">© 2026 · Aryan Bhardwaj · Portland, OR</div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const wrap=document.getElementById('tree-wrap');
+  const canvas=document.getElementById('tree');
+  const ctx=canvas.getContext('2d');
+  const INK='231,228,221',GRY='120,126,136',AMB='214,154,60',BARK='159,131,88';
+  const clamp=(v,a,b)=>v<a?a:v>b?b:v;
+  const smooth=t=>{t=clamp(t,0,1);return t*t*(3-2*t)};
+  const lerp=(a,b,t)=>a+(b-a)*t;
+  function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;
+    let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;
+    return((t^t>>>14)>>>0)/4294967296;}}
+
+  let W=0,H=0,DPR=1,wrapTop=0,wrapH=0,progress=0;
+  let spines=[],masses=[],halos=[],filaments=[],rings=[],
+      works=[],links=[],ticks=[],stars=[],coords=[];
+  let pulse=null,nextPulse=0,active=null;
+
+  function curve(pts,n){
+    const out=[];
+    for(let i=0;i<=n;i++){
+      const t=i/n*(pts.length-1),k=Math.min(Math.floor(t),pts.length-2),u=t-k;
+      const p0=pts[Math.max(k-1,0)],p1=pts[k],p2=pts[k+1],p3=pts[Math.min(k+2,pts.length-1)];
+      const u2=u*u,u3=u2*u;
+      out.push([
+        0.5*((2*p1[0])+(-p0[0]+p2[0])*u+(2*p0[0]-5*p1[0]+4*p2[0]-p3[0])*u2+(-p0[0]+3*p1[0]-3*p2[0]+p3[0])*u3),
+        0.5*((2*p1[1])+(-p0[1]+p2[1])*u+(2*p0[1]-5*p1[1]+4*p2[1]-p3[1])*u2+(-p0[1]+3*p1[1]-3*p2[1]+p3[1])*u3)
+      ]);
+    }
+    return out;
+  }
+  const yRange=pts=>{let a=1e18,b=-1e18;
+    for(const p of pts){if(p[1]<a)a=p[1];if(p[1]>b)b=p[1];}return [a,b];};
+  function yOnSpine(sp,y){
+    let best=0,bd=1e18;
+    for(let i=0;i<sp.pts.length;i++){
+      const d=Math.abs(sp.pts[i][1]-y);
+      if(d<bd){bd=d;best=i;}
+    }
+    return sp.pts[best];
+  }
+  /* thickened silhouette around a spine: closed polygon of both edges */
+  function silhouette(pts,widthFn,rnd){
+    const L=[],R=[];
+    for(let i=0;i<pts.length;i++){
+      const t=i/(pts.length-1);
+      const p=pts[i],q=pts[Math.min(i+1,pts.length-1)],o=pts[Math.max(i-1,0)];
+      let dx=q[0]-o[0],dy=q[1]-o[1];
+      const d=Math.hypot(dx,dy)||1;dx/=d;dy/=d;
+      const w=widthFn(t)*(0.85+rnd()*0.3);
+      L.push([p[0]-dy*w,p[1]+dx*w]);
+      R.push([p[0]+dy*w,p[1]-dx*w]);
+    }
+    return {pts:L.concat(R.reverse()),edgeL:L,edgeR:R};
+  }
+
+  function layout(){
+    DPR=Math.min(devicePixelRatio||1,1.75);
+    W=canvas.clientWidth*DPR;H=canvas.clientHeight*DPR;
+    canvas.width=W;canvas.height=H;
+    const r=wrap.getBoundingClientRect();
+    wrapTop=r.top+scrollY;wrapH=wrap.offsetHeight;
+
+    const sec=id=>{
+      const e=document.getElementById(id),rr=e.getBoundingClientRect();
+      return {top:rr.top+scrollY-wrapTop,h:rr.height,
+              mid:rr.top+scrollY-wrapTop+rr.height/2};
+    };
+    const S={sys:sec('d-systems'),dec:sec('d-decisions'),bld:sec('d-building'),
+             his:sec('d-history'),wor:sec('d-worlds'),nxt:sec('d-next')};
+    const vw=canvas.clientWidth,mob=vw<760,M=mob?0.55:1;
+    const px=f=>f*vw*DPR;
+    const rnd=mulberry32(1958);
+    const j=a=>(rnd()-0.5)*a;
+
+    const xT=mob?0.24:0.37;
+    spines=[];masses=[];halos=[];filaments=[];rings=[];
+    works=[];links=[];ticks=[];stars=[];coords=[];
+
+    /* ─── THE GREAT TRUNK: persists from the roots to the crown base ─── */
+    const rootJ=S.sys.top+S.sys.h*0.95;
+    const crownB=S.wor.top-30;
+    const trunkPts=curve([
+      [px(xT+j(.008)),rootJ+180],
+      [px(xT+j(.015)),rootJ],
+      [px(xT+0.02+j(.015)),(rootJ+S.dec.mid)/2],
+      [px(xT-0.012+j(.012)),S.dec.mid],
+      [px(xT+0.022+j(.012)),S.bld.top],
+      [px(xT-0.006+j(.015)),S.his.mid],
+      [px(xT+0.012),crownB]
+    ],160);
+    const trunkW=t=>lerp(56,22,smooth(t*1.4))*DPR*M;
+    const trunk={id:'trunk',domain:'trunk',type:'trunk',pts:trunkPts,
+      strands:mob?22:40,spread:t=>trunkW(t)*0.62,yr:yRange(trunkPts)};
+    spines.push(trunk);
+    const tSil=silhouette(trunkPts,trunkW,rnd);
+    masses.push({pts:tSil.pts,fill:`rgba(${BARK},0.028)`,domain:'trunk',yr:yRange(tSil.pts)});
+    const tSil2=silhouette(trunkPts,t=>trunkW(t)*0.55,rnd);
+    masses.push({pts:tSil2.pts,fill:`rgba(${INK},0.018)`,domain:'trunk',yr:yRange(tSil2.pts)});
+    masses.push({edge:tSil.edgeL,stroke:`rgba(${INK},0.17)`,domain:'trunk',yr:yRange(tSil.edgeL)});
+    masses.push({edge:tSil.edgeR,stroke:`rgba(${INK},0.17)`,domain:'trunk',yr:yRange(tSil.edgeR)});
+    halos.push({pts:trunkPts,w:150*DPR*M,c:`rgba(${BARK},0.020)`,domain:'trunk',yr:trunk.yr});
+    halos.push({pts:trunkPts,w:90*DPR*M,c:`rgba(${INK},0.016)`,domain:'trunk',yr:trunk.yr});
+
+    /* growth rings: two, crossing the trunk */
+    for(const tt of [0.30,0.62]){
+      const i=Math.floor(tt*(trunkPts.length-1));
+      const p=trunkPts[i],q=trunkPts[Math.min(i+2,trunkPts.length-1)];
+      const ang=Math.atan2(q[1]-p[1],q[0]-p[0]);
+      rings.push({x:p[0],y:p[1],w:trunkW(tt),rot:ang+Math.PI/2,
+        a0:0.7+rnd()*0.5,span:2.2+rnd()*1.2,domain:'trunk'});
     }
 
-    .logo:hover {
-        opacity: 0.7;
-    }
-
-    .logo.scrolled {
-        opacity: 0.1;
-    }
-
-    .nav-sidebar {
-        position: fixed;
-        right: 2rem;
-        top: 2rem;
-        z-index: 1000;
-        display: flex;
-        flex-direction: row;
-        gap: 2rem;
-        align-items: center;
-        transition: all 0.3s ease;
-    }
-
-    .nav-sidebar.scrolled {
-        opacity: 0.1;
-    }
-
-    .nav-btn {
-        background: transparent;
-        border: none;
-        color: #ffffff;
-        padding: 0.75rem 1.5rem;
-        font-family: 'Space Grotesk', sans-serif;
-        font-size: 0.9rem;
-        font-weight: 400;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        display: block;
-        text-align: center;
-        letter-spacing: 0.05em;
-    }
-
-    .nav-btn:visited,
-    .nav-btn:link,
-    .nav-btn:active {
-        color: #ffffff;
-    }
-
-    .nav-btn:hover {
-        color: #cccccc;
-    }
-
-    .nav-btn.highlight {
-        border: 2px solid #ffffff;
-        background: rgba(255, 255, 255, 0.1);
-    }
-
-    .nav-btn.highlight:visited,
-    .nav-btn.highlight:link,
-    .nav-btn.highlight:active {
-        color: #ffffff;
-    }
-
-    
-        .shelf-intro {
-            font-size: 1rem;
-            opacity: 0.7;
-            margin: -1rem 0 2.5rem 0;
-            max-width: 640px;
-            line-height: 1.7;
+    /* ─── ROOTS: primaries → secondaries → filaments, beyond both edges ─── */
+    const nR=mob?5:7;
+    const rootSpines=[];
+    for(let i=0;i<nR;i++){
+      const f=i/(nR-1);
+      const endX=px(lerp(-0.06,1.08,f)+j(.05));
+      const endY=S.sys.top+S.sys.h*lerp(0.25,1.35,rnd());
+      const pr=curve([
+        [px(xT+j(.01)),rootJ+150],
+        [px(lerp(xT,endX/px(1),0.45)+j(.05)),lerp(rootJ+170,endY,0.5)],
+        [endX,endY]],70);
+      const sp={id:'root'+i,domain:'systems',type:'root',pts:pr,
+        strands:mob?3:5,spread:t=>lerp(8,20,t)*DPR*M,yr:yRange(pr)};
+      spines.push(sp);rootSpines.push(sp);
+      const rw=t=>lerp(20,3,t)*DPR*M;
+      const rs=silhouette(pr,rw,rnd);
+      masses.push({pts:rs.pts,fill:`rgba(${BARK},0.020)`,domain:'systems',yr:yRange(rs.pts)});
+      // secondaries
+      const nS=2+(rnd()*3|0);
+      for(let k=0;k<nS;k++){
+        const t0=0.35+rnd()*0.4,i0=Math.floor(t0*(pr.length-1));
+        const base=pr[i0];
+        const ex=base[0]+px(j(.22))+(f<0.5?-1:1)*px(0.05+rnd()*0.12);
+        const ey=base[1]+(60+rnd()*220)*(rnd()>0.3?1:0.4);
+        const sc=curve([base,
+          [lerp(base[0],ex,0.5)+px(j(.04)),lerp(base[1],ey,0.5)],
+          [ex,ey]],36);
+        spines.push({id:'root'+i+'s'+k,domain:'systems',type:'root',pts:sc,
+          strands:2,spread:t=>lerp(3,7,t)*DPR*M,yr:yRange(sc)});
+        // hairline filaments
+        for(let h=0;h<(mob?3:5);h++){
+          const t1=0.4+rnd()*0.55,i1=Math.floor(t1*(sc.length-1));
+          const b2=sc[i1];
+          const fx=b2[0]+px(j(.10)),fy=b2[1]+(20+rnd()*90);
+          filaments.push({pts:curve([b2,
+            [lerp(b2[0],fx,0.5)+px(j(.02)),lerp(b2[1],fy,0.5)],
+            [fx,fy]],14),domain:'systems',a:0.05,yr:[b2[1],fy]});
         }
-        .item-note {
-            font-size: 0.85rem;
-            opacity: 0.55;
-            font-style: italic;
-            margin-top: 0.2rem;
+      }
+    }
+    halos.push({pts:trunkPts.slice(0,30),w:190*DPR*M,c:`rgba(${BARK},0.016)`,
+      domain:'systems',yr:yRange(trunkPts.slice(0,30))});
+
+    /* ─── PRIMARY LIMBS: Building right, History left — off the frame ─── */
+    function limb(id,domain,secTop,secMid,secH,dir){
+      const pts=curve([
+        [px(xT+0.01*dir),secTop-40],
+        [px(xT+0.16*dir+j(.03)),secTop+secH*0.2],
+        [px(xT+0.42*dir+j(.04)),secMid],
+        [px(dir>0?1.08:-0.08),secTop+secH*(0.7+rnd()*0.4)]],90);
+      const sp={id,domain,type:'branch',pts,
+        strands:mob?8:14,spread:t=>lerp(15,5,t)*DPR*M,yr:yRange(pts)};
+      spines.push(sp);
+      const lw=t=>lerp(22,4,t)*DPR*M;
+      const ls=silhouette(pts,lw,rnd);
+      masses.push({pts:ls.pts,fill:`rgba(${BARK},0.024)`,domain,yr:yRange(ls.pts)});
+      masses.push({edge:ls.edgeL,stroke:`rgba(${INK},0.14)`,domain,yr:yRange(ls.edgeL)});
+      halos.push({pts,w:100*DPR*M,c:`rgba(${BARK},0.018)`,domain,yr:sp.yr});
+      // a faint riser feeding the crown
+      const i0=Math.floor(0.45*(pts.length-1)),b=pts[i0];
+      const riser=curve([b,[b[0]+px(0.06*dir),lerp(b[1],crownB,0.5)],
+        [px(xT+0.05*dir),crownB+20]],40);
+      spines.push({id:id+'-riser',domain:'worlds',type:'branch',pts:riser,
+        strands:2,spread:()=>2*DPR,yr:yRange(riser)});
+      return sp;
+    }
+    const limbB=limb('building','building',S.bld.top,S.bld.mid,S.bld.h,+1);
+    const limbH=limb('history','history',S.his.top,S.his.mid,S.his.h,-1);
+
+    /* ─── THE CROWN: seven arms + splits, wider than the world ─── */
+    const crownArms=[];
+    const nA=mob?5:7;
+    for(let i=0;i<nA;i++){
+      const f=i/(nA-1);
+      const ex=px(lerp(-0.05,1.12,f)+j(.05));
+      const ey=S.wor.top+S.wor.h*lerp(-0.05,0.9,rnd());
+      const pts=curve([
+        [px(xT+0.01+j(.01)),crownB+30],
+        [px(xT+j(.06)),S.wor.top+S.wor.h*0.18],
+        [lerp(px(xT),ex,0.6)+px(j(.05)),lerp(S.wor.top+S.wor.h*0.3,ey,0.6)],
+        [ex,ey]],80);
+      const sp={id:'crown'+i,domain:'worlds',type:'crown',pts,
+        strands:mob?4:6,spread:t=>lerp(6,15,t)*DPR*M,yr:yRange(pts)};
+      spines.push(sp);crownArms.push(sp);
+      // splits
+      for(let k=0;k<2;k++){
+        const t0=0.5+rnd()*0.3,i0=Math.floor(t0*(pts.length-1));
+        const b=pts[i0];
+        const sx=b[0]+px(j(.2))+(f<0.5?-1:1)*px(0.06+rnd()*0.1);
+        const sy2=b[1]-(60+rnd()*200);
+        const sc=curve([b,[lerp(b[0],sx,0.5),lerp(b[1],sy2,0.5)+j(30)],[sx,sy2]],30);
+        spines.push({id:'crown'+i+'x'+k,domain:'worlds',type:'crown',pts:sc,
+          strands:2,spread:t=>lerp(2,6,t)*DPR*M,yr:yRange(sc)});
+        for(let h=0;h<(mob?2:4);h++){
+          const b2=sc[Math.floor((0.5+rnd()*0.45)*(sc.length-1))];
+          const fx=b2[0]+px(j(.06)),fy=b2[1]-(15+rnd()*60);
+          filaments.push({pts:curve([b2,[lerp(b2[0],fx,0.5),lerp(b2[1],fy,0.5)],[fx,fy]],10),
+            domain:'worlds',a:0.06,yr:[fy,b2[1]]});
         }
-    </style>
-    <style>
-        /* ═══ UNIFIED MOBILE PATCH (applies last, wins cascade) ═══ */
-        video, .video-overlay, .hero-video {
-            pointer-events: none !important;
-            -webkit-touch-callout: none !important;
-            -webkit-user-select: none !important;
-            user-select: none !important;
+      }
+    }
+    // the arm that carries new growth
+    {
+      const ex=px(mob?0.6:0.62),ey=S.nxt.mid;
+      const pts=curve([
+        [px(xT+0.012),crownB+30],
+        [px(xT+0.1+j(.03)),S.wor.top+S.wor.h*0.4],
+        [px(mob?0.5:0.54),S.wor.top+S.wor.h*0.95],
+        [ex,ey]],70);
+      spines.push({id:'crownNext',domain:'next',type:'crown',pts,
+        strands:3,spread:t=>lerp(4,1.5,t)*DPR*M,yr:yRange(pts)});
+    }
+    // canopy atmosphere: three vast faint arcs
+    const cy=S.wor.top+S.wor.h*0.45;
+    for(let i=0;i<3;i++){
+      const arcPts=[];
+      const rx=px(0.55+i*0.16),ry=(S.wor.h*0.5+i*90);
+      for(let a=Math.PI*1.05;a<=Math.PI*1.95;a+=0.09)
+        arcPts.push([px(xT+0.06)+Math.cos(a)*rx,cy+Math.sin(a)*ry*0.9]);
+      halos.push({pts:arcPts,w:(110-i*22)*DPR*M,
+        c:`rgba(${i===1?INK:BARK},${0.014-i*0.002})`,domain:'worlds',yr:yRange(arcPts)});
+    }
+
+    /* growth ticks / coordinates / stars */
+    for(let i=0;i<26;i++){
+      const t=0.08+0.84*rnd();
+      ticks.push({t,side:rnd()>0.5?1:-1,len:(3+rnd()*4)*DPR});
+    }
+    for(let i=0;i<8;i++){
+      coords.push({x:px(0.05+rnd()*0.6),y:S.sys.top+S.sys.h*rnd(),
+        v:String((rnd()*90|0)).padStart(2,'0')+'.'+String(rnd()*9|0)});
+    }
+    for(let i=0;i<(mob?36:64);i++){
+      stars.push({x:px(-0.02+rnd()*1.06),
+        y:S.wor.top-120+(S.wor.h+S.nxt.h+260)*rnd(),
+        a:0.04+rnd()*0.09,s:(0.6+rnd()*0.8)*DPR});
+    }
+
+    /* works: anchor nodes (unchanged behavior) */
+    const domainSpine={systems:null,decisions:trunk,building:limbB,
+      history:limbH,worlds:crownArms[Math.min(1,crownArms.length-1)],
+      next:spines.find(s=>s.id==='crownNext')};
+    document.querySelectorAll('.work').forEach(el=>{
+      const h=el.querySelector('h3').getBoundingClientRect();
+      const y=h.top+scrollY-wrapTop+h.height/2;
+      const domain=el.closest('.domain').dataset.domain;
+      let sp=domainSpine[domain];
+      if(domain==='systems'){
+        let best=null,bd=1e18;
+        for(const s of rootSpines){
+          const p=yOnSpine(s,y),d=Math.abs(p[1]-y);
+          if(d<bd){bd=d;best=s;}
         }
-        @media (max-width: 768px) {
-            .nav-sidebar {
-                position: fixed !important; top: auto !important;
-                bottom: 0.75rem !important; left: 0.75rem !important; right: 0.75rem !important;
-                transform: none !important;
-                display: flex !important; flex-direction: row !important; flex-wrap: wrap !important;
-                justify-content: center !important; align-items: center !important; gap: 0.25rem !important;
-                background: rgba(10,10,10,0.92) !important;
-                backdrop-filter: blur(10px) !important; -webkit-backdrop-filter: blur(10px) !important;
-                padding: 0.45rem 0.5rem !important;
-                border: 1px solid #2a2a2a !important; border-radius: 6px !important;
-                z-index: 1000 !important;
-            }
-            .nav-btn {
-                padding: 0.35rem 0.55rem !important; font-size: 0.72rem !important;
-                border: none !important; background: transparent !important;
-                white-space: nowrap !important; margin: 0 !important;
-            }
-            .logo { left: 1rem !important; top: 1rem !important; font-size: 1.1rem !important; }
-            body { padding-bottom: 5.5rem !important; }
-            .container { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
-            .page-title { font-size: 2.2rem !important; }
-            .section-title { font-size: 1.6rem !important; }
-            .shelf-intro { font-size: 0.95rem !important; }
+        sp=best;
+      }
+      const side=el.dataset.side;
+      const nx=(side==='l'?h.left-26:h.right+26)*DPR;
+      works.push({id:el.dataset.node,el,y,nx,sp,domain,
+        bud:el.classList.contains('bud'),fiction:domain==='worlds'});
+    });
+    const byId=Object.fromEntries(works.map(w=>[w.id,w]));
+    for(const [a,b] of [['chess','maia'],['bainbridge','kahneman'],
+        ['simon','meadows'],['durant','foundation'],['durant','dune']])
+      if(byId[a]&&byId[b])links.push([byId[a],byId[b]]);
+  }
+
+  const BAND={trunk:[.16,.16],systems:[.06,.16],decisions:[.34,.16],
+    building:[.48,.16],history:[.60,.16],worlds:[.72,.16],next:[.87,.10]};
+  const domA=d=>{
+    if(reduce)return 1;
+    const b=BAND[d]||[0,.2];
+    return smooth((progress-b[0])/b[1]);
+  };
+
+  function strandPoint(sp,i,k){
+    const t=i/(sp.pts.length-1);
+    const [x,y]=sp.pts[i];
+    const s=sp.seeds[k];
+    const off=((k/(sp.strands-1||1))-0.5)*2*sp.spread(t)*s.a
+      +Math.sin(t*9+s.o)*1.4*DPR;
+    return [x+off,y];
+  }
+  // seeds
+  function seedStrands(){
+    const rnd=mulberry32(777);
+    for(const sp of spines){
+      sp.seeds=[];
+      for(let k=0;k<sp.strands;k++)
+        sp.seeds.push({o:rnd()*7,a:0.6+rnd()*0.8,bright:rnd()>0.84});
+    }
+  }
+
+  function pathTo(pts,sy,close){
+    const u=DPR;
+    ctx.beginPath();
+    for(let i=0;i<pts.length;i++){
+      const V=pts[i][1]*u-sy;
+      if(i===0)ctx.moveTo(pts[i][0],V);
+      else ctx.lineTo(pts[i][0],V);
+    }
+    if(close)ctx.closePath();
+  }
+  const inView=(yr,sy,pad)=>{
+    const u=DPR;
+    return yr[1]*u-sy>=-pad&&yr[0]*u-sy<=H+pad;
+  };
+
+  function draw(now){
+    ctx.clearRect(0,0,W,H);
+    const sy=(scrollY-wrapTop)*DPR,u=DPR;
+    const vTop=-80*u,vBot=H+80*u;
+
+    /* LAYER 0a — atmosphere */
+    ctx.lineCap='round';ctx.lineJoin='round';
+    for(const h of halos){
+      const A=domA(h.domain);
+      if(A<=0.02||!inView(h.yr,sy,h.w+200))continue;
+      ctx.strokeStyle=h.c.replace(/[\d.]+\)$/,m2=>(parseFloat(m2)*A)+')');
+      ctx.lineWidth=h.w;
+      pathTo(h.pts,sy,false);ctx.stroke();
+    }
+    /* LAYER 0b — mass and contour */
+    for(const m of masses){
+      const A=domA(m.domain);
+      if(A<=0.02||!inView(m.yr,sy,240))continue;
+      if(m.pts){
+        ctx.fillStyle=m.fill.replace(/[\d.]+\)$/,m2=>(parseFloat(m2)*A)+')');
+        pathTo(m.pts,sy,true);ctx.fill();
+      }else{
+        ctx.strokeStyle=m.stroke.replace(/[\d.]+\)$/,m2=>(parseFloat(m2)*A)+')');
+        ctx.lineWidth=1*u;
+        pathTo(m.edge,sy,false);ctx.stroke();
+      }
+    }
+
+    /* LAYER 1 — bundled strands */
+    ctx.lineWidth=1*u;
+    for(const sp of spines){
+      const A=domA(sp.domain==='trunk'?'trunk':sp.domain);
+      if(A<=0.01||!inView(sp.yr,sy,160))continue;
+      for(let k=0;k<sp.strands;k++){
+        const s=sp.seeds[k];
+        const base=s.bright?0.20:0.10;
+        ctx.strokeStyle=sp.type==='crown'
+          ?`rgba(${INK},${base*A})`
+          :(k%5===0?`rgba(${BARK},${base*0.9*A})`:`rgba(${INK},${base*A})`);
+        ctx.beginPath();
+        let started=false;
+        for(let i=0;i<sp.pts.length;i++){
+          const [x,y]=strandPoint(sp,i,k);
+          const V=y*u-sy;
+          if(V<vTop||V>vBot){
+            if(started){ctx.stroke();ctx.beginPath();started=false;}
+            continue;
+          }
+          if(!started){ctx.moveTo(x,V);started=true;}
+          else ctx.lineTo(x,V);
         }
-    </style>
+        if(started)ctx.stroke();
+      }
+    }
+    /* filaments */
+    for(const f of filaments){
+      const A=domA(f.domain);
+      if(A<=0.02||!inView(f.yr,sy,60))continue;
+      ctx.strokeStyle=`rgba(${INK},${f.a*A})`;
+      ctx.lineWidth=1*u;
+      pathTo(f.pts,sy,false);ctx.stroke();
+    }
+    /* growth rings */
+    for(const g of rings){
+      const A=domA(g.domain);
+      if(A<=0.02)continue;
+      const V=g.y*u-sy;
+      if(V<vTop||V>vBot)continue;
+      ctx.strokeStyle=`rgba(${INK},${0.13*A})`;
+      ctx.lineWidth=1*u;
+      for(let i2=0;i2<3;i2++){
+        ctx.beginPath();
+        ctx.ellipse(g.x,V,g.w*(0.55+i2*0.28),g.w*(0.55+i2*0.28)*0.26,
+          g.rot,g.a0,g.a0+g.span);
+        ctx.stroke();
+      }
+    }
+    /* trunk ticks, root coordinates, crown stars */
+    {
+      const A=domA('trunk');
+      if(A>0.02){
+        const tr=spines[0];
+        ctx.strokeStyle=`rgba(${INK},${0.15*A})`;
+        for(const t of ticks){
+          const i=Math.floor(t.t*(tr.pts.length-1));
+          const [x,y]=tr.pts[i];
+          const V=y*u-sy;
+          if(V<vTop||V>vBot)continue;
+          const ox=(tr.spread(t.t)+8*u)*t.side;
+          ctx.beginPath();
+          ctx.moveTo(x+ox,V);ctx.lineTo(x+ox+t.len*t.side,V);
+          ctx.stroke();
+        }
+      }
+    }
+    {
+      const A=domA('systems');
+      if(A>0.02){
+        ctx.font=`300 ${7.5*u}px "JetBrains Mono",monospace`;
+        ctx.fillStyle=`rgba(${INK},${0.08*A})`;
+        ctx.textAlign='left';
+        for(const c of coords){
+          const V=c.y*u-sy;
+          if(V<vTop||V>vBot)continue;
+          ctx.fillText(c.v,c.x,V);
+        }
+      }
+    }
+    {
+      const A=Math.max(domA('worlds'),domA('next'));
+      if(A>0.02){
+        for(const st of stars){
+          const V=st.y*u-sy;
+          if(V<vTop||V>vBot)continue;
+          ctx.fillStyle=`rgba(${INK},${st.a*A})`;
+          ctx.fillRect(st.x,V,st.s,st.s);
+        }
+      }
+    }
 
+    /* LAYER 2 — knowledge topology */
+    for(const [a,b] of links){
+      const A=Math.min(domA(a.domain),domA(b.domain));
+      if(A<=0.02)continue;
+      const hot=active&&(active===a.id||active===b.id);
+      const pa=yOnSpine(a.sp,a.y),pb=yOnSpine(b.sp,b.y);
+      const ya=pa[1]*u-sy,yb=pb[1]*u-sy;
+      if(Math.max(ya,yb)<vTop||Math.min(ya,yb)>vBot)continue;
+      ctx.strokeStyle=`rgba(${GRY},${(hot?0.3:0.06)*A})`;
+      ctx.lineWidth=1*u;
+      ctx.beginPath();
+      ctx.moveTo(pa[0],ya);
+      ctx.bezierCurveTo(pa[0]+(pb[0]-pa[0])*0.2,ya+(yb-ya)*0.6,
+                        pa[0]+(pb[0]-pa[0])*0.8,ya+(yb-ya)*0.4,pb[0],yb);
+      ctx.stroke();
+    }
+    for(const w of works){
+      const A=domA(w.domain);
+      if(A<=0.02)continue;
+      const V=w.y*u-sy;
+      if(V<vTop||V>vBot)continue;
+      const hot=active===w.id;
+      const bp=yOnSpine(w.sp,w.y);
+      const bx=bp[0],by=bp[1]*u-sy;
+      ctx.strokeStyle=`rgba(${INK},${(hot?0.6:0.24)*A})`;
+      ctx.lineWidth=1*u;
+      ctx.beginPath();
+      ctx.moveTo(bx,by);
+      ctx.bezierCurveTo(bx+(w.nx-bx)*0.4,by,w.nx-(w.nx-bx)*0.15,V,w.nx,V);
+      ctx.stroke();
+      const s=(w.fiction?3.2:2.4)*u;
+      if(w.bud){
+        ctx.strokeStyle=`rgba(${INK},${0.55*A})`;
+        ctx.beginPath();ctx.arc(w.nx,V,3.4*u,0,7);ctx.stroke();
+        ctx.fillStyle=`rgba(${AMB},${0.9*A})`;
+        ctx.beginPath();ctx.arc(w.nx,V,1.3*u,0,7);ctx.fill();
+      }else{
+        ctx.strokeStyle=hot?`rgba(${AMB},0.9)`:`rgba(${INK},${0.6*A})`;
+        ctx.strokeRect(w.nx-s,V-s,s*2,s*2);
+        if(hot){ctx.fillStyle=`rgba(${AMB},0.25)`;
+          ctx.fillRect(w.nx-s,V-s,s*2,s*2);}
+      }
+    }
 
-        <!-- Logo -->
-    <a href="index.html" class="logo">re:aryan</a>
+    /* LAYER 3 — one idea climbing */
+    if(!reduce){
+      if(!pulse&&now>nextPulse&&progress>0.12){
+        const rs=spines.filter(s=>s.type==='root'&&!s.id.includes('s'));
+        const r=rs[(now|0)%rs.length];
+        const up=spines.filter(s=>(s.type==='branch'||s.type==='crown')&&s.strands>2);
+        const o=up[(now/7|0)%up.length];
+        pulse={path:r.pts.slice().reverse().concat(spines[0].pts).concat(o.pts),i:0};
+        nextPulse=now+12000+((now*7)%6000);
+      }
+      if(pulse){
+        pulse.i+=2.2;
+        if(pulse.i>=pulse.path.length-1)pulse=null;
+        else{
+          const [x,y]=pulse.path[Math.floor(pulse.i)];
+          const V=y*u-sy;
+          if(V>vTop&&V<vBot){
+            ctx.fillStyle=`rgba(${AMB},0.7)`;
+            ctx.beginPath();ctx.arc(x,V,1.8*u,0,7);ctx.fill();
+          }
+        }
+      }
+    }
+  }
 
-    <!-- Navigation -->
-    <nav class="nav-sidebar">
-        <a href="projects.html" class="nav-btn">Selected Work</a>
-        <a href="resume.html" class="nav-btn">Resume</a>
-        <a href="future.html" class="nav-btn">Thoughts</a>
-        <a href="bookshelf.html" class="nav-btn highlight">Bookshelf</a>
-        <a href="index.html#contact" class="nav-btn">Get in Touch</a>
-    </nav>
+  function onScroll(){
+    progress=clamp((scrollY-wrapTop)/Math.max(wrapH-innerHeight,1),0,1);
+  }
+  let running=false;
+  function loop(now){if(!running)return;draw(now);requestAnimationFrame(loop);}
+  function start(){if(!running){running=true;requestAnimationFrame(loop);}}
+  function stop(){running=false;}
 
+  document.querySelectorAll('.work').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{active=el.dataset.node;});
+    el.addEventListener('mouseleave',()=>{active=null;});
+    el.addEventListener('focusin',()=>{active=el.dataset.node;});
+    el.addEventListener('focusout',()=>{active=null;});
+  });
 
+  let rT=null;
+  addEventListener('resize',()=>{clearTimeout(rT);
+    rT=setTimeout(()=>{layout();seedStrands();onScroll();
+      if(!running)draw(performance.now());},150);});
+  addEventListener('scroll',onScroll,{passive:true});
 
-    <!-- Video Background -->
-    <div class="video-background">
-        <video autoplay muted loop playsinline>
-            <source src="assets/videos/background_lib.mp4" type="video/mp4">
-        </video>
-    </div>
-    <div class="video-overlay"></div>
-
-    <!-- Main Content -->
-    <div class="container">
-        <h1 class="page-title">Bookshelf</h1>
-        
-        <div class="content">
-            <p class="shelf-intro">Not a canon — a fingerprint. Systems, decisions, operations, chess, emergence, and a little tea. The annotations are why each one’s here.</p>
-
-            <!-- Papers Section -->
-            <div class="papers-section">
-                <h2 class="section-title">Papers</h2>
-
-                <div class="item">
-                    <div class="item-title">Industrial Dynamics: A Major Breakthrough for Decision Makers</div>
-                    <div class="item-author">Forrester, J.W.</div>
-                    <div class="item-year">1958</div>
-                    <div class="item-note">Where system dynamics began. Everything I believe about feedback loops traces here.</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title">The Bullwhip Effect in Supply Chains</div>
-                    <div class="item-author">Lee, H., Padmanabhan, V., & Whang, S.</div>
-                    <div class="item-year">1997</div>
-                    <div class="item-note">I watch this happen from inside a warehouse. The paper that explains my day job.</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title">Ironies of Automation</div>
-                    <div class="item-author">Bainbridge, L.</div>
-                    <div class="item-year">1983</div>
-                    <div class="item-note">The more you automate, the more the human matters. I build automation for a living — this one keeps me honest.</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title">A Behavioral Model of Rational Choice</div>
-                    <div class="item-author">Simon, H.A.</div>
-                    <div class="item-year">1955</div>
-                    <div class="item-note">Bounded rationality. People satisfice — systems should be designed for the people we are.</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title">Perception in Chess</div>
-                    <div class="item-author">Chase, W.G., & Simon, H.A.</div>
-                    <div class="item-year">1973</div>
-                    <div class="item-note">Why masters see the board differently. I’m studying my own games trying to catch this happening.</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title"><a href="https://arxiv.org/abs/2006.01855" target="_blank">Aligning Superhuman AI with Human Behavior: Chess as a Model System</a></div>
-                    <div class="item-author">McIlroy-Young, R., et al.</div>
-                    <div class="item-year">2020</div>
-                    <div class="item-note">Maia — engines that predict human moves instead of best moves. Chess as a lab for human-AI interaction.</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title"><a href="https://arxiv.org/abs/2304.03442" target="_blank">Generative Agents: Interactive Simulacra of Human Behavior</a></div>
-                    <div class="item-author">Park, J.S., et al.</div>
-                    <div class="item-year">2023</div>
-                    <div class="item-note">25 LLM agents in a sim town spontaneously threw a party. Emergence is having a moment.</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title"><a href="https://arxiv.org/abs/1706.03762" target="_blank">Attention Is All You Need</a></div>
-                    <div class="item-author">Vaswani, A., et al.</div>
-                    <div class="item-year">2017</div>
-                    <div class="item-note">The one everyone lists. Kept because it earned it.</div>
-                </div>
-
-            </div>
-
-            <!-- Books Section -->
-            <div class="books-section">
-                <h2 class="section-title">Books</h2>
-
-                <div class="item">
-                    <div class="item-title">Thinking in Systems</div>
-                    <div class="item-author">Donella Meadows</div>
-                    <div class="item-note">The book I hand people when they ask what ‘systems thinking’ means.</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title">Business Dynamics</div>
-                    <div class="item-author">John Sterman</div>
-                    <div class="item-note">The system dynamics bible. The class that rewired how I see organizations traces to this.</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title">The Goal</div>
-                    <div class="item-author">Eliyahu Goldratt</div>
-                    <div class="item-note">Operations as a novel. I think about constraints and bottlenecks every working day — this is why.</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title">Thinking, Fast and Slow</div>
-                    <div class="item-author">Daniel Kahneman</div>
-                    <div class="item-note">Still the foundation under everything I read about decisions.</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title">Sources of Power</div>
-                    <div class="item-author">Gary Klein</div>
-                    <div class="item-note">How people actually decide under pressure — the field-study counterweight to Kahneman’s lab.</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title">Micromotives and Macrobehavior</div>
-                    <div class="item-author">Thomas Schelling</div>
-                    <div class="item-note">Small individual choices, huge collective consequences. Emergence before it had a hashtag.</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title">Shoe Dog</div>
-                    <div class="item-author">Phil Knight</div>
-                    <div class="item-note">A Portland operator story. Building something real is mostly chaos held together by stubbornness.</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title">The Mom Test</div>
-                    <div class="item-author">Rob Fitzpatrick</div>
-                    <div class="item-note">How to talk to customers without them lying to you. Re-reading as I interview other small wholesalers.</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title">The Hard Thing About Hard Things</div>
-                    <div class="item-author">Ben Horowitz</div>
-                    <div class="item-note">For the founder ambition. No recipes, just scar tissue.</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title">The Lessons of History</div>
-                    <div class="item-author">Will & Ariel Durant</div>
-                    <div class="item-note">A hundred pages distilling civilizations. I’m fascinated by how decisions compound across centuries.</div>
-                </div>
-
-                <div class="item">
-                    <div class="item-title">The Book of Tea</div>
-                    <div class="item-author">Kakuzō Okakura</div>
-                    <div class="item-note">I work at a tea company. This one’s required — and it turned out to be a philosophy book in disguise.</div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <div id="footer-placeholder"></div>
+  layout();seedStrands();onScroll();
+  if(reduce){draw(performance.now());}
+  else{
+    new IntersectionObserver(es=>{
+      for(const e of es)e.isIntersecting?start():stop();
+    },{threshold:0}).observe(wrap);
+  }
+})();
+</script>
 </body>
 </html>

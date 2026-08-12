@@ -2,125 +2,148 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tao of Tea Catalog &amp; Inventory System — Aryan Bhardwaj</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --paper:#f6f1e7; --ink:#2a2620; --faded:#6b6255;
-    --tea:#1a5c38; --line:#d9d0bf; --card:#fffdf7;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{
-    background:var(--paper); color:var(--ink);
-    font-family:'Space Grotesk',sans-serif;
-    line-height:1.75; font-size:1.05rem;
-  }
-  .wrap{max-width:760px;margin:0 auto;padding:4rem 1.5rem 5rem;}
-  .kicker{
-    font-family:'JetBrains Mono',monospace; font-size:.75rem;
-    letter-spacing:.25em; text-transform:uppercase; color:var(--tea);
-    margin-bottom:1rem;
-  }
-  h1{font-size:2.3rem;line-height:1.2;font-weight:700;margin-bottom:.75rem;}
-  .sub{color:var(--faded);font-size:1.1rem;margin-bottom:2.5rem;}
-  h2{
-    font-size:1.35rem;font-weight:600;margin:3rem 0 1rem;
-    padding-top:2rem;border-top:1px solid var(--line);
-  }
-  p{margin-bottom:1.1rem;}
-  .mono{font-family:'JetBrains Mono',monospace;font-size:.9em;}
-  .accent{color:var(--tea);font-weight:600;}
-  .decision{
-    background:var(--card); border:1px solid var(--line); border-left:3px solid var(--tea);
-    padding:1.25rem 1.4rem; margin:1.25rem 0; border-radius:2px;
-  }
-  .decision h3{font-size:1.05rem;font-weight:600;margin-bottom:.4rem;}
-  .decision p{margin-bottom:.5rem;font-size:.98rem;}
-  .decision p:last-child{margin-bottom:0;}
-  .strike{
-    font-family:'JetBrains Mono',monospace;
-    background:#efe7d6;padding:.1em .35em;border-radius:2px;
-  }
-  .stack{
-    font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--faded);
-    margin-top:.5rem;
-  }
-  .footer{
-    margin-top:4rem;padding-top:2rem;border-top:1px solid var(--line);
-    font-size:.9rem;color:var(--faded);
-    display:flex;justify-content:space-between;flex-wrap:wrap;gap:.75rem;
-  }
-  a{color:var(--tea);text-decoration:none;border-bottom:1px solid rgba(26,92,56,.3);}
-  a:hover{border-bottom-color:var(--tea);}
-  blockquote{
-    border-left:3px solid var(--line); padding:.25rem 0 .25rem 1.25rem;
-    color:var(--faded); font-style:italic; margin:1.5rem 0;
-  }
-  @media (max-width:600px){
-    h1{font-size:1.8rem;}
-    .wrap{padding:2.5rem 1.25rem 4rem;}
-  }
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Rebuilding the Website Catalog — re:aryan</title>
+<meta name="description" content="SYS.06 case study: moving The Tao of Tea's catalog from a shared spreadsheet to a cloud inventory system designed to stay correct without constant vigilance.">
+<link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/images/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="paper.css">
 </head>
 <body>
-<div class="wrap">
 
-  <div class="kicker">Case Study · Production System № 6</div>
-  <h1>Rebuilding the Website Catalog</h1>
-  <p class="sub">Moving The Tao of Tea’s website catalog from a shared spreadsheet to a cloud inventory system — one designed to stay correct without constant vigilance.</p>
+<nav class="paper">
+  <a class="brand" href="index.html">re<span>:</span>aryan</a>
+  <div class="links">
+    <a href="work.html" aria-current="true">Work</a><a href="resume.html">Resume</a><a href="future.html">Thoughts</a><a href="bookshelf.html">Bookshelf</a><a href="index.html#convergence">Contact</a>
+  </div>
+</nav>
+
+<header class="doc-head">
+  <div class="ch-no">SYS.06 / Master Data — Case Study</div>
+  <h1 class="doc-title">Rebuilding the website catalog.</h1>
+  <p class="doc-lede">Moving The Tao of Tea's website catalog from a shared
+  spreadsheet to a cloud inventory system — one designed to stay correct
+  without constant vigilance.</p>
+  <div class="doc-links">
+    <a class="cta-p" href="tao-operations.html">← Tao Operations System</a>
+  </div>
+</header>
+
+<main class="doc">
 
   <h2>The starting point</h2>
-  <p>The Tao of Tea's website catalog — roughly <span class="accent">280 products</span>, each with tins, bags, refills, and multi-pack variants — lived in a shared spreadsheet. It mostly worked, but it had the usual spreadsheet problems: anyone could edit anything, prices drifted between copies, and inventory status was whatever the last person typed — including entries like <span class="strike">out of stcok</span>, which a spreadsheet accepts without complaint.</p>
-  <p>Other systems I'd built at Tao depended on this data being right, so it seemed worth putting on firmer ground. This became the sixth system — quieter than the others, but foundational.</p>
+  <p>The Tao of Tea's website catalog — roughly <span class="accent">280
+  products</span>, each with tins, bags, refills, and multi-pack variants —
+  lived in a shared spreadsheet. It mostly worked, but it had the usual
+  spreadsheet problems: anyone could edit anything, prices drifted between
+  copies, and inventory status was whatever the last person typed — including
+  entries like <span class="strike">out of stcok</span>, which a spreadsheet
+  accepts without complaint.</p>
+  <p>Other systems I'd built at Tao depended on this data being right, so it
+  seemed worth putting on firmer ground. This became the sixth system — quieter
+  than the others, but foundational.</p>
 
   <h2>Seeding the data</h2>
-  <p>The cleanest existing record of the full catalog was, ironically, the public website. I scraped it — about <span class="mono">34&nbsp;MB</span> of pages — and parsed products, variants, sizes, and descriptions into structured records, then reconciled that against the spreadsheet's tribal knowledge. Tedious, unglamorous, and the single most valuable step: a database is only as good as its first import.</p>
+  <p>The cleanest existing record of the full catalog was, ironically, the
+  public website. I scraped it — about <span class="mono">34&nbsp;MB</span> of
+  pages — and parsed products, variants, sizes, and descriptions into
+  structured records, then reconciled that against the spreadsheet's tribal
+  knowledge. Tedious, unglamorous, and the single most valuable step: a
+  database is only as good as its first import.</p>
 
   <h2>The decisions</h2>
 
   <div class="decision">
     <h3>One gatekeeper, no exceptions</h3>
-    <p>A small <span class="mono">Rust / axum</span> service is the <em>only</em> thing that talks to the database. Every read and write — from the desktop app, from future tools, from anything — goes through it. No side doors, no direct connections, no "quick manual fix" in a DB console that quietly breaks consistency.</p>
-    <p>If the service doesn't allow it, it doesn't happen. Most of the system's reliability comes from that one constraint.</p>
+    <p>A small <span class="mono">Rust / axum</span> service is the
+    <em>only</em> thing that talks to the database. Every read and write — from
+    the desktop app, from future tools, from anything — goes through it. No
+    side doors, no direct connections, no "quick manual fix" in a DB console
+    that quietly breaks consistency.</p>
+    <p>If the service doesn't allow it, it doesn't happen. Most of the system's
+    reliability comes from that one constraint.</p>
   </div>
 
   <div class="decision">
     <h3>Integrity lives in the database, not in discipline</h3>
-    <p>PostgreSQL enforces the rules at the door: valid statuses are an enum, so <span class="strike">out of stcok</span> is rejected the moment someone types it, not discovered weeks later. Prices are constrained to sane ranges. Variants must belong to a real product. Relationships are foreign keys, not vibes.</p>
-    <p>The spreadsheet depended on everyone being careful, always. The database just enforces the rules, which is a more realistic plan.</p>
+    <p>PostgreSQL enforces the rules at the door: valid statuses are an enum,
+    so <span class="strike">out of stcok</span> is rejected the moment someone
+    types it, not discovered weeks later. Prices are constrained to sane
+    ranges. Variants must belong to a real product. Relationships are foreign
+    keys, not vibes.</p>
+    <p>The spreadsheet depended on everyone being careful, always. The database
+    just enforces the rules, which is a more realistic plan.</p>
   </div>
 
   <div class="decision">
     <h3>Cloud, not the office machine</h3>
-    <p>The cheap answer was a PC in the office — I'd built desktop-local systems before, and for those it was the right call. This one isn't: catalog data needs to survive power cuts and hardware changes, and be reachable beyond one machine. Managed Postgres in the cloud, automated backups, access controlled by the service.</p>
+    <p>The cheap answer was a PC in the office — I'd built desktop-local
+    systems before, and for those it was the right call. This one isn't:
+    catalog data needs to survive power cuts and hardware changes, and be
+    reachable beyond one machine. Managed Postgres in the cloud, automated
+    backups, access controlled by the service.</p>
   </div>
 
   <div class="decision">
     <h3>A desktop app that stays out of the way</h3>
-    <p>The interface is a <span class="mono">Tauri</span> desktop app — one icon, opens fast, search, edit, done. It's used by non-technical staff, so the bar was simple: it has to be easier than the spreadsheet, or people will reasonably keep using the spreadsheet.</p>
+    <p>The interface is a <span class="mono">Tauri</span> desktop app — one
+    icon, opens fast, search, edit, done. It's used by non-technical staff, so
+    the bar was simple: it has to be easier than the spreadsheet, or people
+    will reasonably keep using the spreadsheet.</p>
   </div>
 
   <div class="decision">
     <h3>Built to outlive me</h3>
-    <p>Same principle as the systems before it: nothing hardcoded that staff might need to change, statuses and categories editable through the app, and documentation written so someone else can run it without calling me. That last part is the real test of whether a system is finished.</p>
+    <p>Same principle as the systems before it: nothing hardcoded that staff
+    might need to change, statuses and categories editable through the app, and
+    documentation written so someone else can run it without calling me. That
+    last part is the real test of whether a system is finished.</p>
   </div>
 
   <h2>Hard problems, honestly</h2>
-  <p><span class="accent">The connection bug that wasn't in my code.</span> Mid-build, the service started failing to reach the database — intermittently, the worst kind. The actual error message pointed at the network layer: the host resolved to <span class="mono">IPv6</span>, which my environment couldn't route, while the connection pooler expected otherwise. The fix was routing connections through the pooler's IPv4 endpoint — found by reading the error the machine actually gave rather than the one I assumed it gave. Most of the debugging time went to exactly that.</p>
-  <p><span class="accent">Modeling identity.</span> The same tea exists as a tin, a pound bag, an eco-refill, and a "Pack of 2" on Amazon — one product, many skins. Getting the product-versus-variant model right mattered more than any line of code, because every other system consumes this answer.</p>
-  <p><span class="accent">Migration without a pause.</span> The spreadsheet couldn't stop being used while its replacement was born. Old and new ran side by side until the numbers agreed and the habit switched — the same parallel-run pattern as the QuickBooks migration, because it works.</p>
+  <p><span class="accent">The connection bug that wasn't in my code.</span>
+  Mid-build, the service started failing to reach the database —
+  intermittently, the worst kind. The actual error message pointed at the
+  network layer: the host resolved to <span class="mono">IPv6</span>, which my
+  environment couldn't route, while the connection pooler expected otherwise.
+  The fix was routing connections through the pooler's IPv4 endpoint — found by
+  reading the error the machine actually gave rather than the one I assumed it
+  gave. Most of the debugging time went to exactly that.</p>
+  <p><span class="accent">Modeling identity.</span> The same tea exists as a
+  tin, a pound bag, an eco-refill, and a "Pack of 2" on Amazon — one product,
+  many skins. Getting the product-versus-variant model right mattered more than
+  any line of code, because every other system consumes this answer.</p>
+  <p><span class="accent">Migration without a pause.</span> The spreadsheet
+  couldn't stop being used while its replacement was born. Old and new ran side
+  by side until the numbers agreed and the habit switched — the same
+  parallel-run pattern as the QuickBooks migration, because it works.</p>
 
   <h2>Outcome</h2>
-  <p>The catalog now has a proper source of truth — a service that enforces the rules and a database that rejects bad data at the door. Non-technical staff work with it through the desktop app, and the spreadsheet is on its way to becoming a backup rather than the system of record. Migrations of habit take longer than migrations of data; that's fine. The foundation is in place.</p>
-  <p class="stack">Rust · axum · PostgreSQL · Tauri · deployed to managed cloud infrastructure</p>
+  <p>The catalog now has a proper source of truth — a service that enforces the
+  rules and a database that rejects bad data at the door. Non-technical staff
+  work with it through the desktop app, and the spreadsheet is on its way to
+  becoming a backup rather than the system of record. Migrations of habit take
+  longer than migrations of data; that's fine. The foundation is in place.</p>
+  <p class="stack">Rust · axum · PostgreSQL · Tauri · Deployed to managed cloud infrastructure</p>
 
-  <div class="footer">
-    <span>Built by <a href="index.html">Aryan Bhardwaj</a> — operator who builds.</span>
-    <span><a href="projects.html">← All projects</a></span>
-  </div>
+</main>
 
+<div class="doc-endnav">
+  <a class="cta-p" href="tao-operations.html">← Tao Operations System</a>
+  <a class="cta-p" href="work.html">All work →</a>
 </div>
+
+<footer class="paper">
+  <div class="footer-links">
+    <a href="https://github.com/aaryanbh96" target="_blank" rel="noopener">Github</a><span class="sep">·</span>
+    <a href="https://www.linkedin.com/in/aaryanb/" target="_blank" rel="noopener">LinkedIn</a><span class="sep">·</span>
+    <a href="https://x.com/aryanb_or" target="_blank" rel="noopener">X</a><span class="sep">·</span>
+    <a href="mailto:ab@rearyan.com">Email</a>
+  </div>
+  <div class="colophon">© 2026 · Aryan Bhardwaj · Portland, OR</div>
+</footer>
+
 </body>
 </html>

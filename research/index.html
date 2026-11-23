@@ -175,7 +175,7 @@
 
   <h2>Where it came from</h2>
   <p>Since early 2025 I have worked as a Data &amp; Growth Consultant for a specialty tea manufacturer in Portland that sells into retail. I built six production systems because we had operational problems: purchase orders took forty minutes to check by hand, cartons were planned from memory, the product catalog lived in spreadsheets. The systems worked. What interested me was what happened after they did.</p>
-  <p>Routine checks moved from people into software, and the people moved from performing the checks to supervising the systems that performed them. Separately, I caught a single wrong product identifier that had propagated, unnoticed, through retailer compliance systems into thousands of dollars of deductions. Putting the two side by side, I could not say whether moving checks into software changes anyone's attention, whether the habit of looking erodes, or how I would know. That is the question: when routine judgment moves into systems, what happens to the judgment, the coordination, and the errors that remain for people to catch, and under what conditions?</p>
+  <p>Routine checks moved from people into software, and the people moved from performing the checks to supervising the systems that performed them. Separately, I traced years of unexplained deductions to one identifier error repeated across several products, which had passed unnoticed through a retailer's compliance process. Putting the two side by side, I could not say whether moving checks into software changes anyone's attention, whether the habit of looking erodes, or how I would know. That is the question: when routine judgment moves into systems, what happens to the judgment, the coordination, and the errors that remain for people to catch, and under what conditions?</p>
   <p>Before this I spent five years as a human-in-the-loop evaluator for large-scale machine-learning systems, rating outputs against detailed guidelines. That is the same question from the other side: what human judgment looks like when it is a component inside an automated pipeline.</p>
   <p>These observations connect to long-standing questions about the ironies of automation (Bainbridge, 1983), appropriate reliance on automation (Lee &amp; See, 2004), distributed cognition (Hutchins, 1995), and how technologies and organizational routines reshape one another (Leonardi, 2011). I am particularly interested in whether moving routine verification into software changes how workers detect and recover from errors. One approach would combine field observation and interviews with operational trace data, comparing verification practices across workflows. Whether any change reflects reduced vigilance, shifted responsibility, or simply better task allocation is an open question that needs systematic evidence.</p>
 
@@ -190,9 +190,9 @@
     </thead>
     <tbody>
       <tr>
-        <td>Purchase-order verification</td>
-        <td data-col="Replaced">About forty minutes of line-by-line checking per order against the product master and retailer rules. A language model extracts the fields; deterministic code does the matching, arithmetic, and rule checks. On a real 71-line order: 71 lines extracted, 69 matched, 2 absent products flagged rather than guessed.</td>
-        <td data-col="Observed">Checking takes under two minutes. Staff review flagged exceptions instead of reading every line.</td>
+        <td>Purchase-order processing</td>
+        <td data-col="Replaced">About forty minutes of line-by-line checking per order against the product master and retailer rules. Rule-based parsers read each retailer's order format, and every line is cross-referenced against a product master that staff maintain themselves.</td>
+        <td data-col="Observed">Checking takes under two minutes. Staff review exceptions instead of reading every line.</td>
       </tr>
       <tr>
         <td>Demand planning</td>
@@ -227,6 +227,7 @@
   <ul class="evidence">
     <li>Graduate research assistantship, Willamette University, 2023–24<span>Built a dataset of corporate CSR/ESG disclosures for faculty research, coding all 1,305 multinational firms in a 16-country sample on a 17-variable schema. Wrote the scripts to collect the reports, verified them by hand, and documented coding rules for ambiguous cases.</span></li>
     <li><a href="https://rearyan.com/faire-analysis.html">Empirical analysis of wholesale ordering behavior</a><span>Basket co-occurrence, RFM segmentation, cohort retention, and Pareto analysis on 35 wholesale accounts. The findings were implemented as merchandising decisions and their effects observed.</span></li>
+    <li>Purchase-order verification prototype (separate project)<span>The same task built around a language model: the model only extracts the fields, and deterministic code does the matching, arithmetic, and rule checks. On a real 71-line order: 71 lines extracted, 69 matched, 2 absent products flagged rather than guessed.</span></li>
     <li>Reanalysis of a 380-account churn study<span>The first result looked alarming. Tracing it back found a missing customer tag before leadership acted on it. The lesson I keep: an apparently convincing number deserves the same scrutiny as a surprising one.</span></li>
     <li><a href="https://wc2026.rearyan.com">Forecast calibration under uncertainty</a><span>A self-updating tournament model: Elo-with-momentum ratings, 20,000-run Monte Carlo simulation, predictions frozen server-side and publicly scored with Brier calibration. A live experiment in forecast honesty.</span></li>
   </ul>
